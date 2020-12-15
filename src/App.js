@@ -1,7 +1,5 @@
 import "./App.css";
 import "antd/dist/antd.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
 import { Layout } from "antd";
@@ -15,6 +13,7 @@ const AntLayout = styled(Layout)`
 `;
 
 function App() {
+  console.log("render app");
   return (
     <Router>
       <AntLayout>
