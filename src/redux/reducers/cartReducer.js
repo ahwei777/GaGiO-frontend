@@ -10,11 +10,12 @@ export const cartSlice = createSlice({
   },
   reducers: {
     setList: (state, action) => {
-      const id = action.payload;
+      const { key } = action.payload;
       let isAdded = false;
       state.list.forEach((el, i)=>{
-        if (el.id === id) {
+        if (el.key === key) {
           isAdded = true;
+          return
         }
       })
       if (!isAdded) {
