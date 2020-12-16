@@ -4,18 +4,23 @@ import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import Me from "../Pages/Me";
 //  引入各分頁
+import Cart from '../components/Cart'
+import CourseList from '../components/CourseList'
 
 function Routes() {
   return (
     <Switch>
       <Route exact path="/">
         {/* 首頁(課程列表) */}
+        <CourseList/>
       </Route>
-      <Route exact path="/">
+      <Route exact path="/courseList">
         {/* 課程列表 */}
+        <CourseList/>
       </Route>
-      <Route exact path="/">
+      <Route exact path="/cart">
         {/* 購物車 */}
+        <Cart/>
       </Route>
       <Route exact path="/">
         {/* 我的課程 */}
@@ -33,6 +38,7 @@ function Routes() {
       </Route>
       <Route path="/login">
         <Login />
+
         {/* 登入 */}
       </Route>
     </Switch>

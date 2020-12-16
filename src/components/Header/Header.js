@@ -1,70 +1,133 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import {
-  Nav,
-  Navbar,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-  Spinner,
-} from 'react-bootstrap';
+  MEDIA_QUERY_MOBILE_M,
+  MEDIA_QUERY_MOBILE_L,
+  MEDIA_QUERY_TABLET,
+} from '../../constants/breakpoint';
 
-const PrimaryNavbar = styled(Navbar)`
+const HeaderContainer = styled.div`
+  position: sticky;
+  z-index: 1;
+  top: 0;
+`;
+const NavBarContainer = styled.div`
+  text-align: center;
   background: ${(props) => props.theme.colors.primary.main};
   color: ${(props) => props.theme.colors.primary.text};
+  display: flex;
+  padding: 5px 20px;
+  ${MEDIA_QUERY_MOBILE_M} {
+    flex-direction: column;
+  }
+  ${MEDIA_QUERY_MOBILE_L} {
+    flex-direction: row;
+  }
 `;
-const SecondaryButton = styled(Button)`
-  background: ${(props) => props.theme.colors.secondary.main};
-  color: ${(props) => props.theme.colors.secondary.text};
-  border: ${(props) => props.theme.colors.secondary.main};
+const Brand = styled(Link)`
+  font-weight: bold;
+  margin: 10px auto;
+  color: ${(props) => props.theme.colors.primary.text};
   :hover {
-    background: ${(props) => props.theme.colors.secondary.dark};
-    color: ${(props) => props.theme.colors.secondary.text};
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.primary.light};
+  }
+  ${MEDIA_QUERY_MOBILE_M} {
+    font-size: 24px;
+  }
+  ${MEDIA_QUERY_MOBILE_L} {
+    width: 150px;
+    font-size: 24px;
+    margin: auto 10px;
+  }
+  ${MEDIA_QUERY_TABLET} {
+    width: 350px;
+    font-size: 34px;
+  }
+`;
+const NavbarListContainer = styled.div`
+  ${MEDIA_QUERY_MOBILE_M} {
+    width: 100%;
+    & + & {
+      margin-top: 6px;
+    }
+  }
+  ${MEDIA_QUERY_MOBILE_L} {
+    margin: auto 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+const NavbarList = styled.div`
+  display: flex;
+  ${MEDIA_QUERY_MOBILE_M} {
+    font-size: 24px;
+    flex-direction: column;
+    align-items: center;
+    & + & {
+      margin-top: 6px;
+    }
+  }
+  ${MEDIA_QUERY_MOBILE_L} {
+    font-size: 18px;
+    flex-direction: row;
+    & + & {
+      margin-top: 0px;
+    }
+  }
+`;
+const Nav = styled(Link)`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.primary.light};
+  }
+  ${MEDIA_QUERY_MOBILE_M} {
+    width: 100%;
+    & + & {
+      margin-top: 6px;
+    }
+  }
+  ${MEDIA_QUERY_MOBILE_L} {
+    padding: 5px 10px;
+    width: auto;
+    & + & {
+      margin-top: 0px;
+      margin-left: 6px;
+    }
   }
 `;
 
 export default function Header() {
   return (
-    <>
-      <PrimaryNavbar collapseOnSelect expand="lg" sticky="top">
-        <Navbar.Brand href="courseList">Teach Table</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="courseList">課程列表</Nav.Link>
-            <Form inline>
-              <FormControl
-                type="text"
-                placeholder="找課程嗎?"
-                className="mr-sm-2"
-              />
-              <SecondaryButton>搜尋</SecondaryButton>
-            </Form>
-          </Nav>
-          <Nav>
-            <Nav.Link href="cart">購物車</Nav.Link>
-            <Nav.Link href="myCourse">#我的課程</Nav.Link>
-            <NavDropdown title="#我的帳號" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#">帳號設定</NavDropdown.Item>
-              <NavDropdown.Item href="#">個人檔案</NavDropdown.Item>
-              <NavDropdown.Item href="#">訂單紀錄</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#">登出</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title="#管理後台" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#">課程管理</NavDropdown.Item>
-              <NavDropdown.Item href="#">會員管理</NavDropdown.Item>
-              <NavDropdown.Item href="#">Q&A管理</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#">登出</NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link href="#">註冊</Nav.Link>
-            <Nav.Link href="#">登入</Nav.Link>
-            <Spinner animation="border" variant="info" />
-          </Nav>
-        </Navbar.Collapse>
-      </PrimaryNavbar>
-    </>
+    <HeaderContainer>
+      <NavBarContainer>
+        <Brand to="/courseList">Teach Table</Brand>
+        <NavbarListContainer>
+          <NavbarList>
+            <Nav to="/">搜尋課程</Nav>
+          </NavbarList>
+          <NavbarList>
+            <Nav to="/cart">購物車</Nav>
+            <Nav to="/">我的課程</Nav>
+            <Nav to="/">帳號設定</Nav>
+            <Nav to="/">管理後台</Nav>
+            <Nav to="/">註冊</Nav>
+            <Nav to="/">登入</Nav>
+            <Nav to="/">登出</Nav>
+          </NavbarList>
+        </NavbarListContainer>
+      </NavBarContainer>
+    </HeaderContainer>
   );
 }
