@@ -1,5 +1,23 @@
 # Learning Platform Frontend
 
+## 資料夾結構
+
+```
+├── src/
+│  ├── containers/              # 放置與 Redux 連接的相關元件
+│  ├── components/              # 放置與 Redux 無關的相關元件
+│  ├── redux/                   # 放置 Redux store & reducers
+│  ├── constants/               # 放置不會頻繁改動的設定如 theme, breakpoints
+│  ├── styles/                  # 放置樣式檔
+│  ├── index.js                 # 程式入口
+│  ├── serviceWorker.js
+│  └── setupTests.js            # 測試相關設定
+├── public/img                  # 放置靜態檔如圖片
+├── package-lock.json
+├── package.json                # module 設定檔
+└── README.md
+```
+
 ## Design System
 
 [Figma](https://www.figma.com/file/4nUkuhNTToWoDDrTcVG1Xh/Lidemy-Final-Project-%E8%A8%8E%E8%AB%96?node-id=109%3A10039)
