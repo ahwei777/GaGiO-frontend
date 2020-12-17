@@ -1,4 +1,3 @@
-import "./App.css";
 import "antd/dist/antd.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
