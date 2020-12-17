@@ -18,7 +18,7 @@ function App() {
     <Router>
       <AntLayout>
         <Header />
-        <Content className="site-layout" style={{ padding: "20px 50px" }}>
+        <Content className="site-layout">
           {/* Routes */}
           <Routes />
         </Content>

@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 import {
   MEDIA_QUERY_MOBILE_M,
   MEDIA_QUERY_MOBILE_L,
   MEDIA_QUERY_TABLET,
-} from '../../constants/breakpoint';
+} from "../../constants/breakpoint";
 
 const HeaderContainer = styled.div`
   position: sticky;
@@ -121,7 +121,7 @@ export default function Header() {
             <Nav to="/cart">購物車</Nav>
             <Nav to="/">我的課程</Nav>
             <Nav to="/">帳號設定</Nav>
-            <Nav to="/">管理後台</Nav>
+            <Nav to="/console">管理後台</Nav>
             <Nav to="/">註冊</Nav>
             <Nav to="/">登入</Nav>
             <Nav to="/">登出</Nav>
