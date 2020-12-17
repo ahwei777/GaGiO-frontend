@@ -1,4 +1,3 @@
-import "./App.css";
 import "antd/dist/antd.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
@@ -18,7 +17,7 @@ function App() {
     <Router>
       <AntLayout>
         <Header />
-        <Content className="site-layout" style={{ padding: "20px 50px" }}>
+        <Content className="site-layout">
           {/* Routes */}
           <Routes />
         </Content>
