@@ -6,6 +6,8 @@ import Me from "../Pages/Me";
 //  引入各分頁
 import Cart from '../components/Cart'
 import CourseList from '../components/CourseList'
+import Console from "../components/Console";
+
 
 function Routes() {
   return (
@@ -29,8 +31,9 @@ function Routes() {
         <Me />
         {/* 我的帳號 */}
       </Route>
-      <Route exact path="/">
+      <Route path="/console">
         {/* 管理後台 */}
+        <Console />
       </Route>
       <Route exact path="/register">
         <Register />
