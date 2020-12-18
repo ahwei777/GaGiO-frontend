@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Layout, Menu, Breadcrumb, Button } from "antd";
 import { BookOutlined, ContactsOutlined } from "@ant-design/icons";
@@ -8,9 +8,7 @@ import {
   MEDIA_QUERY_MOBILE_L,
   MEDIA_QUERY_TABLET,
 } from "../../constants/breakpoint";
-import ConsoleCourseList from "../ConsoleCourseList";
-import NewCourse from "../NewCourse";
-import ConsoleMemberList from "../ConsoleMemberList";
+import ConsoleRoutes from "../../containers/ConsoleRoutes";
 const { Content, Sider } = Layout;
 
 const ConsoleContainer = styled(Layout)`
@@ -27,18 +25,7 @@ const StyledMenu = styled(Menu)`
   border-right: 0;
 `;
 
-const InfoHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const TableContainer = styled(Content)`
-  padding: 24px;
-  background-color: ${(props) => props.theme.colors.white};
-`;
-
-export default function Console() {
+export default function ConsolePage() {
   const location = useLocation();
   const history = useHistory();
 
@@ -55,22 +42,12 @@ export default function Console() {
             <Link to="/console/courses">課程列表</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<ContactsOutlined />}>
-            <Link to="/console/member">會員列表</Link>
+            <Link to="/console/members">會員列表</Link>
           </Menu.Item>
         </StyledMenu>
       </Sidebar>
       <Layout style={{ padding: "0 24px 24px" }}>
-        <Switch>
-          <Route exact path="/console/courses">
-            <ConsoleCourseList />
-          </Route>
-          <Route exact path="/console/courses/new-course">
-            <NewCourse />
-          </Route>
-          <Route exact path="/console/member">
-            <ConsoleMemberList />
-          </Route>
-        </Switch>
+        <ConsoleRoutes />
       </Layout>
     </ConsoleContainer>
   );
