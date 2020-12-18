@@ -35,13 +35,12 @@ function Routes() {
         <ConsolePage />
       </Route>
       <Route exact path="/register">
-        <Register />
         {/* 註冊 */}
+        <Register />
       </Route>
       <Route path="/login">
-        <Login />
-
         {/* 登入 */}
+        <Login />
       </Route>
     </Switch>
   );
