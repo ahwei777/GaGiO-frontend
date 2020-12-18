@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import Login from "../Pages/Login";
-import Register from "../Pages/Register";
-import Me from "../Pages/Me";
+import Login from "../pages/LoginPage";
+import Register from "../pages/RegisterPage";
+import Me from "../pages/MePage";
 //  引入各分頁
 
 function Routes() {

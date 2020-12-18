@@ -11,6 +11,7 @@ import Routes from "./containers/Routes";
 const { Content } = Layout;
 const AntLayout = styled(Layout)`
   min-height: 100vh;
+  font-family: Noto Sans TC, Roboto, arial, sans-serif;
 `;
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
     <Router>
       <AntLayout>
         <Header />
-        <Content className="site-layout" style={{ padding: "20px 50px" }}>
+        <Content className="site-layout">
           {/* Routes */}
           <Routes />
         </Content>
