@@ -9,6 +9,7 @@ import Routes from "./containers/Routes";
 const { Content } = Layout;
 const AntLayout = styled(Layout)`
   min-height: 100vh;
+  font-family: Noto Sans TC, Roboto, arial, sans-serif;
 `;
 
 function App() {

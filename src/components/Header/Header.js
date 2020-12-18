@@ -120,11 +120,11 @@ export default function Header() {
           <NavbarList>
             <Nav to="/cart">購物車</Nav>
             <Nav to="/">我的課程</Nav>
-            <Nav to="/">帳號設定</Nav>
+            <Nav to="/me">帳號設定</Nav>
             <Nav to="/console">管理後台</Nav>
-            <Nav to="/">註冊</Nav>
-            <Nav to="/">登入</Nav>
-            <Nav to="/">登出</Nav>
+            <Nav to="/register">註冊</Nav>
+            <Nav to="/login">登入</Nav>
+            <Nav to="/logout">登出</Nav>
           </NavbarList>
         </NavbarListContainer>
       </NavBarContainer>
