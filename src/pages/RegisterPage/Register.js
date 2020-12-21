@@ -28,6 +28,11 @@ const SubmitButton = styled(Button)`
     border: 1px solid ${(props) => props.theme.colors.primary.main};
   }
 `;
+const InputRule = styled.div`
+  font-size: 12;
+  text-align: left;
+  color: #7b7b7b;
+`;
 
 export default function Register() {
   const layout = {
@@ -89,6 +94,7 @@ export default function Register() {
             ]}
           >
             <Input.Password />
+            <InputRule>至少一個數字、一個大寫以及一個小寫字母</InputRule>
           </Form.Item>
           <Form.Item
             name="confirm"
@@ -114,6 +120,7 @@ export default function Register() {
             ]}
           >
             <Input.Password />
+            <InputRule>請再輸入一次密碼</InputRule>
           </Form.Item>
           <Form.Item
             label="Nickname"
