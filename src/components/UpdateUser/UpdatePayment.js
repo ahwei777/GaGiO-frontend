@@ -1,15 +1,12 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectUser } from "../../redux/reducers/userReducer";
-import { useHistory } from "react-router-dom";
 
-const LoginPageWrapper = styled.div`
+const PageWrapper = styled.div`
   justify-content: center;
   font-family: Noto Sans TC, Roboto, arial, sans-serif;
 `;
-const LoginBox = styled.div`
+const Box = styled.div`
   padding-top: 24px;
   margin: 100px auto;
   align-items: center;
@@ -37,7 +34,7 @@ const SubmitButton = styled(Button)`
   }
 `;
 
-export default function Login() {
+export default function UpdatePayment() {
   const layout = {
     labelCol: {
       span: 8,
@@ -55,48 +52,30 @@ export default function Login() {
   };
   const validateMessages = {
     required: "${label} is required",
-    types: {
-      email: "Please enter an email",
-    },
   };
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-  const handleFinish = (value) => {
-    console.log("register");
-    const { email, password } = value;
-    dispatch(login(email, password));
-    if (user) return history.push("/");
-  };
+  const handleFinish = (value) => {};
   return (
-    <LoginPageWrapper>
-      <LoginBox>
-        <FormTitle>登入</FormTitle>
+    <PageWrapper>
+      <Box>
+        <FormTitle>變更付款方式</FormTitle>
         <Form
           {...layout}
-          name="login"
+          name="updatePayment"
           onFinish={handleFinish}
           validateMessages={validateMessages}
         >
           <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, type: "email" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
+            label="卡號"
+            name="cardNumber"
             rules={[{ required: true }]}
           >
-            <Input.Password />
+            <Input />
           </Form.Item>
           <Form.Item {...tailLayout}>
             <SubmitButton htmlType="submit">Submit</SubmitButton>
           </Form.Item>
         </Form>
-      </LoginBox>
-    </LoginPageWrapper>
+      </Box>
+    </PageWrapper>
   );
 }

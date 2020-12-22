@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Me from "../pages/Me";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
+import MePage from "../pages/MePage";
 import ConsolePage from "../pages/ConsolePage";
 //  引入各分頁
 import Cart from "../components/Cart";
@@ -26,8 +26,8 @@ function Routes() {
       <Route exact path="/">
         {/* 我的課程 */}
       </Route>
-      <Route exact path="/me">
-        <Me />
+      <Route path="/me">
+        <MePage />
         {/* 我的帳號 */}
       </Route>
       <Route path="/console">
@@ -36,11 +36,11 @@ function Routes() {
       </Route>
       <Route exact path="/register">
         {/* 註冊 */}
-        <Register />
+        <RegisterPage />
       </Route>
       <Route path="/login">
         {/* 登入 */}
-        <Login />
+        <LoginPage />
       </Route>
     </Switch>
   );
