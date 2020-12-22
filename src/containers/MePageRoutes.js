@@ -13,19 +13,19 @@ export default function MePageRoutes() {
       <Route exact path={`/me`}>
         <Me />
       </Route>
-      <Route exact path={`/me/update/name`}>
+      <Route path={`/me/update/name`}>
         <UpdateName />
       </Route>
-      <Route exact path={`/me/update/nickname`}>
+      <Route path={`/me/update/nickname`}>
         <UpdateNickname />
       </Route>
-      <Route exact path={`/me/update/phone-number`}>
+      <Route path={`/me/update/phone-number`}>
         <UpdatePhone />
       </Route>
-      <Route exact path={`/me/update/email`}>
+      <Route path={`/me/update/email`}>
         <UpdateEmail />
       </Route>
-      <Route exact path={`/me/update/payment`}>
+      <Route path={`/me/update/payment`}>
         <UpdatePayment />
       </Route>
     </Switch>

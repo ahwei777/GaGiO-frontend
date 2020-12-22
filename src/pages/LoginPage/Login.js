@@ -1,7 +1,9 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import { login } from "../../WebApi";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { login, selectUser } from "../../redux/reducers/userReducer";
+import { useHistory } from "react-router-dom";
 
 const LoginPageWrapper = styled.div`
   justify-content: center;
@@ -57,11 +59,14 @@ export default function Login() {
       email: "Please enter an email",
     },
   };
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
   const handleFinish = (value) => {
+    console.log("register");
     const { email, password } = value;
-    login(email, password).then((res) => {
-      console.log(res);
-    });
+    dispatch(login(email, password));
+    if (user) return history.push("/");
   };
   return (
     <LoginPageWrapper>
@@ -69,7 +74,7 @@ export default function Login() {
         <FormTitle>登入</FormTitle>
         <Form
           {...layout}
-          name="register"
+          name="login"
           onFinish={handleFinish}
           validateMessages={validateMessages}
         >

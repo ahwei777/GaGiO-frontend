@@ -26,7 +26,7 @@ function Routes() {
       <Route exact path="/">
         {/* 我的課程 */}
       </Route>
-      <Route exact path="/me">
+      <Route path="/me">
         <MePage />
         {/* 我的帳號 */}
       </Route>

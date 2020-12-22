@@ -6,6 +6,8 @@ import {
   MEDIA_QUERY_MOBILE_L,
   MEDIA_QUERY_TABLET,
 } from "../../constants/breakpoint";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../redux/reducers/userReducer";
 
 const HeaderContainer = styled.div`
   position: sticky;
@@ -107,8 +109,48 @@ const Nav = styled(Link)`
     }
   }
 `;
+const Button = styled.input`
+  background-color: ${(props) => props.theme.colors.primary.main};
+  border: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+    color: ${(props) => props.theme.colors.primary.light};
+  }
+  :active {
+    border: 0;
+  }
+
+  ${MEDIA_QUERY_MOBILE_M} {
+    width: 100%;
+    & + & {
+      margin-top: 6px;
+    }
+  }
+  ${MEDIA_QUERY_MOBILE_L} {
+    padding: 5px 10px;
+    width: auto;
+    & + & {
+      margin-top: 0px;
+      margin-left: 6px;
+    }
+  }
+`;
 
 export default function Header() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <HeaderContainer>
       <NavBarContainer>
@@ -122,9 +164,11 @@ export default function Header() {
             <Nav to="/">我的課程</Nav>
             <Nav to="/me">帳號設定</Nav>
             <Nav to="/console">管理後台</Nav>
-            <Nav to="/register">註冊</Nav>
-            <Nav to="/login">登入</Nav>
-            <Nav to="/">登出</Nav>
+            {!user.email && <Nav to="/register">註冊</Nav>}
+            {!user.email && <Nav to="/login">登入</Nav>}
+            {user.email && (
+              <Button type="button" value="登出" onClick={handleLogout} />
+            )}
           </NavbarList>
         </NavbarListContainer>
       </NavBarContainer>

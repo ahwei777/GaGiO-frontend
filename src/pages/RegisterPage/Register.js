@@ -1,6 +1,13 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  register,
+  selectUser,
+  selectErrorMessage,
+} from "../../redux/reducers/userReducer";
+import { useHistory } from "react-router-dom";
 
 const RegisterPageWrapper = styled.div`
   justify-content: center;
@@ -28,10 +35,10 @@ const SubmitButton = styled(Button)`
     border: 1px solid ${(props) => props.theme.colors.primary.main};
   }
 `;
-const InputRule = styled.div`
+const ErrorMessage = styled.div`
   font-size: 12;
   text-align: left;
-  color: #7b7b7b;
+  color: #ff0000;
 `;
 
 export default function Register() {
@@ -56,8 +63,14 @@ export default function Register() {
       email: "Please enter an email",
     },
   };
-  const handleFinish = (values) => {
-    console.log(values);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const errorMessage = useSelector(selectErrorMessage);
+  const handleFinish = (value) => {
+    const { email, password, confirm, nickname } = value;
+    dispatch(register(email, password, confirm, nickname));
+    if (user) history.push("/");
   };
   return (
     <RegisterPageWrapper>
@@ -74,9 +87,8 @@ export default function Register() {
             name="email"
             rules={[
               {
-                type: "password",
+                type: "email",
                 required: true,
-                message: "Please enter your email !",
               },
             ]}
           >
@@ -85,42 +97,37 @@ export default function Register() {
           <Form.Item
             label="Password"
             name="password"
-            hasFeedback
             rules={[
               {
                 required: true,
-                message: "Please enter your password !",
               },
             ]}
+            extra="至少一個數字、一個大寫以及一個小寫字母"
           >
             <Input.Password />
-            <InputRule>至少一個數字、一個大寫以及一個小寫字母</InputRule>
           </Form.Item>
           <Form.Item
-            name="confirm"
             label="Confirm Password"
+            name="confirm"
             dependencies={["password"]}
-            hasFeedback
             rules={[
               {
                 required: true,
-                message: "Please confirm your password!",
               },
               ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (!value || getFieldValue("password") === value) {
+                validator(_, inputValue) {
+                  if (!inputValue || getFieldValue("password") === inputValue) {
                     return Promise.resolve();
                   }
-
                   return Promise.reject(
                     "The two passwords that you entered do not match!"
                   );
                 },
               }),
             ]}
+            extra="請再輸入一次密碼"
           >
             <Input.Password />
-            <InputRule>請再輸入一次密碼</InputRule>
           </Form.Item>
           <Form.Item
             label="Nickname"
@@ -128,7 +135,6 @@ export default function Register() {
             rules={[
               {
                 required: true,
-                message: "Please enter your nickname !",
               },
             ]}
           >
