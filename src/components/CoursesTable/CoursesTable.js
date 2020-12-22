@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Space, Table } from "antd";
 import { dummyData as data } from "./dummyData";
 
@@ -7,12 +8,12 @@ export const columns = [
     title: "Id",
     dataIndex: "id",
     key: "id",
-    render: (text) => <a>{text}</a>,
   },
   {
     title: "課程名稱",
     dataIndex: "name",
     key: "name",
+    render: (text) => <a>{text}</a>,
   },
   {
     title: "更新於",
@@ -24,7 +25,7 @@ export const columns = [
     key: "action",
     render: (text, record) => (
       <Space size="middle">
-        <a>Edit</a>
+        <Link to={`/console/courses/${record.id}`}>編輯</Link>
       </Space>
     ),
   },
