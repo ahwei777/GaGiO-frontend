@@ -1,13 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { Badge } from 'antd';
 import {
   MEDIA_QUERY_MOBILE_M,
   MEDIA_QUERY_MOBILE_L,
   MEDIA_QUERY_TABLET,
-} from "../../constants/breakpoint";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../redux/reducers/userReducer";
+} from '../../constants/breakpoint';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from '../../redux/reducers/userReducer';
+import { selectCartList, getCartList } from '../../redux/reducers/cartReducer';
 
 const HeaderContainer = styled.div`
   position: sticky;
@@ -147,21 +149,32 @@ const Button = styled.input`
 
 export default function Header() {
   const user = useSelector(selectUser);
+  const cartList = useSelector(selectCartList);
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  // component mount 時執行(初始化)
+  useEffect(() => {
+    dispatch(getCartList());
+    // unmount 時先 clean up 避免下次回來時因為仍有舊資料而短暫顯示
+    return () => {};
+  }, [dispatch]);
+
   return (
     <HeaderContainer>
       <NavBarContainer>
         <Brand to="/courseList">Teach Table</Brand>
         <NavbarListContainer>
           <NavbarList>
-            <Nav to="/">搜尋課程</Nav>
+            <Nav to="/searchCourse">搜尋課程</Nav>
           </NavbarList>
           <NavbarList>
-            <Nav to="/cart">購物車</Nav>
-            <Nav to="/">我的課程</Nav>
+            <Badge count={cartList.length}>
+              <Nav to="/cartList">購物車</Nav>
+            </Badge>
+            <Nav to="/myCourse">我的課程</Nav>
             <Nav to="/me">帳號設定</Nav>
             <Nav to="/console">管理後台</Nav>
             {!user.email && <Nav to="/register">註冊</Nav>}
