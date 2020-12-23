@@ -4,8 +4,9 @@
 
 ```
 ├── src/
-│  ├── containers/              # 放置與 Redux 連接的相關元件
-│  ├── components/              # 放置與 Redux 無關的相關元件
+│  ├── containers/              # [暫時]放置各 Routes
+│  ├── pages/                   # 放置各完整功能頁面
+│  ├── components/              # 放置跨頁面共用元件
 │  ├── redux/                   # 放置 Redux store & reducers
 │  ├── constants/               # 放置不會頻繁改動的設定如 theme, breakpoints
 │  ├── styles/                  # 放置樣式檔
@@ -13,6 +14,8 @@
 │  ├── serviceWorker.js
 │  └── setupTests.js            # 測試相關設定
 ├── public/img                  # 放置靜態檔如圖片
+├── WebApi.js                   # 串接後端 API
+├── utils.js                    # 放置功能或跨元件使用函式
 ├── package-lock.json
 ├── package.json                # module 設定檔
 └── README.md
