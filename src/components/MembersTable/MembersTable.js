@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Space, Table } from "antd";
 import { dummyData as data } from "./dummyData";
 
@@ -29,7 +30,7 @@ export const columns = [
     key: "action",
     render: (text, record) => (
       <Space size="middle">
-        <a>more</a>
+        <Link to={`/console/members/${record.id}`}>more</Link>
       </Space>
     ),
   },
