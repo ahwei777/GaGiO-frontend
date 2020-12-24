@@ -109,13 +109,3 @@
 | Large             | lg          | ≥992px     |
 | Extra large       | xl          | ≥1200px    |
 | Extra extra large | xxl         | ≥1400px    |
-
----
-
-## 開發者（按照 ID 字首排序）
-
-- [ahwei777 (ahwei)](https://github.com/ahwei777)
-- [SimonOneNineEight](https://github.com/SimonOneNineEight)
-- [YSKuo (Arsene Kuo)](https://github.com/YSKuo)
-
-### 詳細分工
