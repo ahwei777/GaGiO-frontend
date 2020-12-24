@@ -1,5 +1,37 @@
 # Learning Platform Frontend
 
+## 簡介
+
+[後端 repo](https://github.com/SimonOneNineEight/learning-platform-backend)
+
+### 開發者（按照 ID 字首排序）
+
+- [ahwei777 (ahwei)](https://github.com/ahwei777)
+- [SimonOneNineEight](https://github.com/SimonOneNineEight)
+- [YSKuo (Arsene Kuo)](https://github.com/YSKuo)
+
+#### 詳細分工
+
+### Tool
+
+---
+
+## 網頁結構
+
+```
+├── Homepage
+│  └── 後台管理(ConsolePage)                      # 管理功能的源頭
+│     ├── 課程列表(ConsoleCoursesPage)            # 列出該使用者目前所有課程
+│     │  ├── 新增課程(NewCoursePage)              # 在此頁面新增課程
+│     │  └── 課程管理(ManageCoursePage)           # 特定課程的管理頁面
+│     │     ├── 課程設定(CourseSettingPage)       # 編輯課程名稱、金額、狀態等等
+│     │     └── 編輯單元(EditUnitPage)            # 特定單元的管理頁面
+│     └── 會員管理(ConsoleMemberPage)             # 列出所有網站所有會員
+│        └── 會員資料(MemberDetailPage)           # 特定會員的詳細資料
+
+
+```
+
 ## 資料夾結構
 
 ```
@@ -21,9 +53,17 @@
 └── README.md
 ```
 
+---
+
 ## Design System
 
 [Figma](https://www.figma.com/file/4nUkuhNTToWoDDrTcVG1Xh/Lidemy-Final-Project-%E8%A8%8E%E8%AB%96?node-id=109%3A10039)
+
+---
+
+### UI library
+
+[Ant Design - The world's second most popular React UI framework](https://ant.design/)
 
 ---
 
@@ -43,11 +83,6 @@
 ---
 
 ### Typography
-
-#### Type scale
-
-參考 Google 的 Material Design
-![](https://lh3.googleusercontent.com/GhGMLbfqPXdUgmnflT52VWNSned4U5jLOpTIXZWEDQfwvZGZC2EI0iO0wKxptigoYW79v2PhIdmjTjWDgfdHF8TzcldhSc9pA4BBLhE=w1064-v0)
 
 #### Fonts
 
@@ -77,6 +112,10 @@
 
 ---
 
-### Icon
+## 開發者（按照 ID 字首排序）
 
-[Icons - Material Design](https://material.io/resources/icons/?style=baseline)
+- [ahwei777 (ahwei)](https://github.com/ahwei777)
+- [SimonOneNineEight](https://github.com/SimonOneNineEight)
+- [YSKuo (Arsene Kuo)](https://github.com/YSKuo)
+
+### 詳細分工

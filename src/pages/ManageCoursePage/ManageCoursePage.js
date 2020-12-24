@@ -33,7 +33,9 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export default function CourseManagementPage() {
+const id = 1;
+
+export default function ManageCoursePage() {
   const dispatch = useDispatch();
 
   const [courseContent, setCourseContent] = useState(dummyData);
@@ -64,11 +66,13 @@ export default function CourseManagementPage() {
           <Breadcrumb.Item>
             <Link to="/console/courses">課程列表</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>課程名稱</Breadcrumb.Item>
+          <Breadcrumb.Item>課程管理</Breadcrumb.Item>
         </Breadcrumb>
         <Space>
           <Button type="primary">新增章節</Button>
-          <Button type="primary">課程設定</Button>
+          <Link to={`/console/courses/${id}/course-setting`}>
+            <Button type="primary">課程設定</Button>
+          </Link>
         </Space>
       </InfoHeader>
       <DragDropContext>

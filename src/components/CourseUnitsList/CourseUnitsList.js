@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { Button, List, Typography, Space, Tooltip } from "antd";
@@ -37,6 +38,9 @@ const UnitText = styled.span`
   line-height: 24px;
 `;
 
+const id = 1;
+const unitId = 1;
+
 function Section({ sectionName }) {
   return (
     <ListHeader>
@@ -69,7 +73,9 @@ function Unit({ item, index }) {
       </Space>
       <Space>
         <Tooltip title="編輯">
-          <Button icon={<EditOutlined />} />
+          <Link to={`/console/courses/${id}/unit/${unitId}`}>
+            <Button icon={<EditOutlined />}></Button>
+          </Link>
         </Tooltip>
         <Tooltip title="刪除">
           <Button icon={<DeleteOutlined />} />
