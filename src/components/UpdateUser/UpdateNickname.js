@@ -12,7 +12,7 @@ const Box = styled.div`
   align-items: center;
   border: 1px solid ${(props) => props.theme.colors.primary.light};
   border-radius: 8px;
-  max-width: 600px;
+  max-width: 750px;
   text-align: center;
 `;
 const FormTitle = styled.div`

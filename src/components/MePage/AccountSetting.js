@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Divider, Row, Col } from "antd";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/reducers/userReducer";
 
 const AboutMeWrapper = styled.div`
   align-items: center;
@@ -41,16 +43,9 @@ const UpdateButton = styled(Link)`
 export default function AccountSetting() {
   const titles = [
     { title: "email", label: "Email" },
-    { title: "payment", label: "付款資訊" },
+    { title: "nickname", label: "暱稱" },
   ];
-  const [user, setUser] = useState({
-    email: "test@gmail.com",
-    nickname: "test",
-    phone_number: null,
-    name: "測試姓名",
-    AuthTypeId: 1,
-    payment: null,
-  });
+  const user = useSelector(selectUser);
   return (
     <AboutMeWrapper>
       <PageTitle>帳號設定</PageTitle>
@@ -63,12 +58,19 @@ export default function AccountSetting() {
             </InfoTitle>
             <InfoDetail span={6}>{user[info.title]}</InfoDetail>
             <Update span={4}>
-              <UpdateButton to={`/me/update/${info.title}`}>
+              <UpdateButton to={`/me/update/${info.title}/${user.id}`}>
                 {user[info.title] ? `變更${info.label}` : `新增${info.label}`}
               </UpdateButton>
             </Update>
           </Info>
         ))}
+        <Info gutter={16}>
+          <Update offset={15} span={4}>
+            <UpdateButton to={`/me/update/password/${user.id}`}>
+              變更密碼
+            </UpdateButton>
+          </Update>
+        </Info>
       </MeInfo>
     </AboutMeWrapper>
   );

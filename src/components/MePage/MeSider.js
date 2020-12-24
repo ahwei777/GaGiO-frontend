@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/reducers/userReducer";
 import { UserOutlined } from "@ant-design/icons";
 import { Layout, Anchor, Avatar, Divider } from "antd";
 const { Sider } = Layout;
@@ -24,17 +26,17 @@ const SideDivider = styled(Divider)`
 `;
 
 export default function MeSider() {
+  const user = useSelector(selectUser);
   return (
     <MeSiderWrapper theme="light" width="20%">
       <UserInfoSide>
         <AvatarDiv>
           <Avatar size={100} icon={<UserOutlined />} />
         </AvatarDiv>
-        <UserTitle>ChengWei Huang</UserTitle>
+        <UserTitle>{user.nickname}</UserTitle>
       </UserInfoSide>
       <SideDivider />
-      <Anchor>
-        <Link href="#aboutMe" title="個人檔案" />
+      <Anchor affix={false}>
         <Link href="#accountSetting" title="帳號設定" />
         <Link href="#orderHistory" title="訂單記錄" />
       </Anchor>

@@ -1,25 +1,23 @@
-import React from "react";
-import AboutMe from "./AboutMe";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import AccountSetting from "./AccountSetting";
 import OrderHistory from "./OrderHistory";
 import MeSider from "./MeSider";
-import styled from "styled-components";
-import { Layout, Divider } from "antd";
+import { selectUser } from "../../redux/reducers/userReducer";
+import { Layout } from "antd";
 const { Content } = Layout;
 
-const SideDivider = styled(Divider)`
-  margin: 0;
-`;
-
 export default function Me() {
+  const user = useSelector(selectUser);
+  const history = useHistory();
+  useEffect(() => {
+    if (!user) return history.push("/");
+  }, [history, user]);
   return (
     <>
       <MeSider />
       <Content>
-        <div id="aboutMe">
-          <AboutMe />
-        </div>
-        <SideDivider />
         <div id="accountSetting">
           <AccountSetting />
         </div>

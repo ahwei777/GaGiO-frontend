@@ -148,9 +148,9 @@ const Button = styled.input`
 `;
 
 export default function Header() {
-  const user = useSelector(selectUser);
-  const cartList = useSelector(selectCartList);
   const dispatch = useDispatch();
+  const cartList = useSelector(selectCartList);
+  const user = useSelector(selectUser);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -174,9 +174,10 @@ export default function Header() {
             <Badge count={cartList.length}>
               <Nav to="/cartList">購物車</Nav>
             </Badge>
-            <Nav to="/myCourse">我的課程</Nav>
-            <Nav to="/me">帳號設定</Nav>
-            <Nav to="/console">管理後台</Nav>
+            {user.email && <Nav to="/">我的課程</Nav>}
+            {user.email && <Nav to="/me">帳號設定</Nav>}
+            {user.email && <Nav to="/console">管理後台</Nav>}
+
             {!user.email && <Nav to="/register">註冊</Nav>}
             {!user.email && <Nav to="/login">登入</Nav>}
             {user.email && (

@@ -19,7 +19,7 @@ const RegisterBox = styled.div`
   align-items: center;
   border: 1px solid ${(props) => props.theme.colors.primary.light};
   border-radius: 8px;
-  max-width: 600px;
+  max-width: 750px;
   text-align: center;
 `;
 const FormTitle = styled.div`
@@ -102,7 +102,7 @@ export default function Register() {
                 required: true,
               },
             ]}
-            extra="至少一個數字、一個大寫以及一個小寫字母"
+            extra="8～20個字，至少一個數字、一個大寫以及一個小寫字母"
           >
             <Input.Password />
           </Form.Item>

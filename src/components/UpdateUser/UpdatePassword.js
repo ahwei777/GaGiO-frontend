@@ -1,7 +1,9 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
-
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateUserPassword } from "../../redux/reducers/userReducer";
 const PageWrapper = styled.div`
   justify-content: center;
   font-family: Noto Sans TC, Roboto, arial, sans-serif;
@@ -12,7 +14,7 @@ const Box = styled.div`
   align-items: center;
   border: 1px solid ${(props) => props.theme.colors.primary.light};
   border-radius: 8px;
-  max-width: 600px;
+  max-width: 750px;
   text-align: center;
 `;
 const FormTitle = styled.div`
@@ -53,23 +55,48 @@ export default function UpdatePhone() {
   const validateMessages = {
     required: "${label} is required",
   };
-  const handleFinish = (value) => {};
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const handleFinish = (value) => {
+    const { password, confirm } = value;
+    dispatch(id, password, confirm);
+  };
   return (
     <PageWrapper>
       <Box>
-        <FormTitle>變更電話</FormTitle>
+        <FormTitle>變更密碼</FormTitle>
         <Form
           {...layout}
-          name="updatePhone"
+          name="updatePassword"
           onFinish={handleFinish}
           validateMessages={validateMessages}
         >
           <Form.Item
-            label="新電話"
-            name="newPhone"
+            label="新密碼"
+            name="newPassword"
             rules={[{ required: true }]}
+            extra="8～20個字，至少一個數字、一個大寫以及一個小寫字母"
           >
-            <Input />
+            <Input.Password />
+          </Form.Item>
+          <Form.Item
+            label="確認密碼"
+            name="confirm"
+            dependencies={["password"]}
+            rules={[
+              { required: true },
+              ({ getFieldValue }) => ({
+                validator(_, inputValue) {
+                  if (!inputValue || getFieldValue("password") === inputValue) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject("密碼和確認密碼不相同!");
+                },
+              }),
+            ]}
+            extra="請再輸入一次密碼"
+          >
+            <Input.Password />
           </Form.Item>
           <Form.Item {...tailLayout}>
             <SubmitButton htmlType="submit">Submit</SubmitButton>
