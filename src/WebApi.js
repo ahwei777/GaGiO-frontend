@@ -1,5 +1,5 @@
 const BASE_URL = "http://localhost:3001/v1";
-const token = localStorage.getItem("token");
+const token = localStorage.getItem("token") || null;
 
 export const registerAPI = (email, password, confirm, nickname) => {
   return fetch(`${BASE_URL}/user`, {
@@ -37,7 +37,6 @@ export const loginAPI = (email, password) => {
 
 
 export const getMeAPI = () => {
-  if (!token) return { ok: 0, errorMessage: "Didn't login" };
   return fetch(`${BASE_URL}/me`, {
     headers: {
       Accept: "application/json",
