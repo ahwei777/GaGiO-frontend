@@ -11,7 +11,7 @@ import {
 
 export const userSlice = createSlice({
   name: "user",
-  initialState: { user: {}, errorMessage: "" },
+  initialState: { user: null, errorMessage: "" },
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
@@ -27,7 +27,7 @@ export const { setUser, setErrorMessage } = userSlice.actions;
 
 // redux thunk function
 export const getMe = () => (dispatch) => {
-  dispatch(setUser({}));
+  dispatch(setUser(null));
   dispatch(setErrorMessage(""));
   getMeAPI().then((res) => {
     if (!res || res.ok === 0)
@@ -60,7 +60,7 @@ export const register = (email, password, confirm, nickname) => (dispatch) => {
   });
 };
 export const logout = () => (dispatch) => {
-  dispatch(setUser({}));
+  dispatch(setUser(null));
   localStorage.setItem("token", null);
 };
 export const updateUserInfo = (id, email, nickname, authType) => (dispatch) => {

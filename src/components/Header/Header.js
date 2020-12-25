@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Badge } from 'antd';
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Badge } from "antd";
 import {
   MEDIA_QUERY_MOBILE_M,
   MEDIA_QUERY_MOBILE_L,
   MEDIA_QUERY_TABLET,
-} from '../../constants/breakpoint';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout, selectUser } from '../../redux/reducers/userReducer';
-import { selectCartList, getCartList } from '../../redux/reducers/cartReducer';
+} from "../../constants/breakpoint";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../redux/reducers/userReducer";
+import { selectCartList, getCartList } from "../../redux/reducers/cartReducer";
 
 const HeaderContainer = styled.div`
   position: sticky;
@@ -174,13 +174,13 @@ export default function Header() {
             <Badge count={cartList.length}>
               <Nav to="/cartList">購物車</Nav>
             </Badge>
-            {user.email && <Nav to="/">我的課程</Nav>}
-            {user.email && <Nav to="/me">帳號設定</Nav>}
-            {user.email && <Nav to="/console">管理後台</Nav>}
+            {user && <Nav to="/">我的課程</Nav>}
+            {user && <Nav to="/me">帳號設定</Nav>}
+            {user && <Nav to="/console">管理後台</Nav>}
 
-            {!user.email && <Nav to="/register">註冊</Nav>}
-            {!user.email && <Nav to="/login">登入</Nav>}
-            {user.email && (
+            {!user && <Nav to="/register">註冊</Nav>}
+            {!user && <Nav to="/login">登入</Nav>}
+            {user && (
               <Button type="button" value="登出" onClick={handleLogout} />
             )}
           </NavbarList>
