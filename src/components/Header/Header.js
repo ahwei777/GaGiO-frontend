@@ -174,13 +174,13 @@ export default function Header() {
             <Badge count={cartList.length}>
               <Nav to="/cartList">購物車</Nav>
             </Badge>
-            {user.email && <Nav to="/">我的課程</Nav>}
-            {user.email && <Nav to="/me">帳號設定</Nav>}
-            {user.email && <Nav to="/console">管理後台</Nav>}
+            {user && <Nav to="/">我的課程</Nav>}
+            {user && <Nav to="/me">帳號設定</Nav>}
+            {user && <Nav to="/console">管理後台</Nav>}
 
-            {!user.email && <Nav to="/register">註冊</Nav>}
-            {!user.email && <Nav to="/login">登入</Nav>}
-            {user.email && (
+            {!user && <Nav to="/register">註冊</Nav>}
+            {!user && <Nav to="/login">登入</Nav>}
+            {user && (
               <Button type="button" value="登出" onClick={handleLogout} />
             )}
           </NavbarList>

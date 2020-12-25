@@ -2,9 +2,10 @@ import React from 'react';
 import { Card, Avatar, Progress, Button } from 'antd';
 import { StarOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCartItem, selectCartList } from '../../redux/reducers/cartReducer';
+import { selectUser } from '../../redux/reducers/userReducer'
 import { toCurrency } from '../../utils';
 const { Meta } = Card;
 
@@ -16,7 +17,9 @@ const CourseInfoLinkWrapper = styled.div`
 
 export default function CourseCard({ course }) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const cartList = useSelector(selectCartList);
+  const user = useSelector(selectUser);
   const checkIsAlreadyInCart = () => {
     for (let i = 0; i < cartList.length; i += 1) {
       if (cartList[i].CourseId === course.id) {
@@ -27,6 +30,9 @@ export default function CourseCard({ course }) {
     return false;
   };
   const handleClickAddToCart = () => {
+    if (!user) {
+      history.push('/cartList')
+    }
     if (!checkIsAlreadyInCart()) {
       dispatch(addCartItem(course.id));
     }
