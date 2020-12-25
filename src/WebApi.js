@@ -1,5 +1,4 @@
 const BASE_URL = "http://localhost:3001/v1";
-const token = localStorage.getItem("token") || null;
 
 export const registerAPI = (email, password, confirm, nickname) => {
   return fetch(`${BASE_URL}/user`, {
@@ -35,8 +34,8 @@ export const loginAPI = (email, password) => {
     .catch((error) => console.log(error));
 };
 
-
 export const getMeAPI = () => {
+  const token = localStorage.getItem("token") || null;
   return fetch(`${BASE_URL}/me`, {
     headers: {
       Accept: "application/json",
@@ -49,6 +48,7 @@ export const getMeAPI = () => {
 };
 
 export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
+  const token = localStorage.getItem("token");
   fetch(`${BASE_URL}/user/${id}`, {
     headers: {
       Accept: "application/json",
@@ -65,6 +65,7 @@ export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
 };
 
 export const updateUserPasswordAPI = (id, password) => {
+  const token = localStorage.getItem("token");
   fetch(`${BASE_URL}/user/${id}`, {
     headers: {
       Accept: "application/json",
@@ -136,4 +137,3 @@ export const getTeacherListAPI = () =>
 //  getTeacher
 export const getTeacherAPI = (id) =>
   fetch(`${BASE_URL}/teachers/${id}`).then((res) => res.json());
-
