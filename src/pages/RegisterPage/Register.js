@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -72,6 +72,14 @@ export default function Register() {
     dispatch(register(email, password, confirm, nickname));
     if (user) history.push("/");
   };
+
+  useEffect(() => {
+    if (user) {
+      console.log(user)
+      return history.push("/");
+    }
+  }, [user, history]);
+
   return (
     <RegisterPageWrapper>
       <RegisterBox>

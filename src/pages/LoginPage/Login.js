@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,8 +66,15 @@ export default function Login() {
     console.log("register");
     const { email, password } = value;
     dispatch(login(email, password));
-    if (user) return history.push("/");
   };
+
+  useEffect(() => {
+    if (user) {
+      console.log(user)
+      return history.push("/");
+    }
+  }, [user, history]);
+
   return (
     <LoginPageWrapper>
       <LoginBox>
