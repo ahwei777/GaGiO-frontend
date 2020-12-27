@@ -29,7 +29,6 @@ const UnitText = styled.span`
 `;
 
 const id = 1;
-const unitId = 1;
 
 function Unit({ item, dragHandleProps, handleDelete }) {
   return (
@@ -42,7 +41,7 @@ function Unit({ item, dragHandleProps, handleDelete }) {
       </Space>
       <Space>
         <Tooltip title="編輯">
-          <Link to={`/console/courses/${id}/unit/${unitId}`}>
+          <Link to={`/console/courses/${id}/unit/${item.id}`}>
             <Button icon={<EditOutlined />}></Button>
           </Link>
         </Tooltip>
