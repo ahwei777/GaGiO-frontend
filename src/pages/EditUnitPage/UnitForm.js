@@ -34,7 +34,7 @@ export default function CourseSettingForm() {
       </Form.Item>
       <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 2 }}>
         <Button type="primary" htmlType="submit">
-          確認
+          儲存
         </Button>
       </Form.Item>
     </Form>

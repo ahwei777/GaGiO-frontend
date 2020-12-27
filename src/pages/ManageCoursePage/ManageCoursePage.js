@@ -3,16 +3,19 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { nanoid } from "nanoid";
 import { Layout, Breadcrumb, Button, Typography, Divider, Space } from "antd";
 import {
   MEDIA_QUERY_MOBILE_M,
   MEDIA_QUERY_MOBILE_L,
   MEDIA_QUERY_TABLET,
 } from "../../constants/breakpoint";
-import CourseUnitsList from "../../components/CourseUnitsList";
-import { dummyData } from "../../components/CourseUnitsList/dummyData";
+import CourseUnitsList from "./CourseUnitsList";
+import { dummyData } from "./CourseUnitsList/dummyData";
 const { Content } = Layout;
 const { Title } = Typography;
+
+const id = 1;
 
 const InfoHeader = styled.div`
   display: flex;
@@ -33,31 +36,37 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const id = 1;
-
 export default function ManageCoursePage() {
   const dispatch = useDispatch();
 
   const [courseContent, setCourseContent] = useState(dummyData);
-  // function handleOnDragEnd(result) {
-  //   console.log(result);
-  //   if (!result) return;
 
-  //   if (
-  //     destination.droppableId === SourceBuffer.droppableId &&
-  //     destination.index === SourceBuffer.index
-  //   ) {
-  //     return;
-  //   }
+  function handleOnDragEnd(result) {
+    if (!result) return;
 
-  // const column = courseContent[SourceBuffer.droppableId];
+    if (result.destination.index === result.source.index) {
+      return;
+    }
 
-  // const items = Array.from(courseContent);
-  // const [reorderedItem] = items.splice(result.source.index, 1);
-  // items.splice(result.destination.index, 0, reorderedItem);
+    const units = reorder(
+      courseContent,
+      result.source.index,
+      result.destination.index
+    );
 
-  // setCourseContent(items);
-  // }
+    setCourseContent(units);
+  }
+
+  const handleOnClick = (e) => {
+    const unitId = nanoid();
+    const unit = { id: unitId, unitTitle: "新課程" };
+    setCourseContent([...courseContent, unit]);
+  };
+
+  const handleDelete = (id) => {
+    const newCourseContent = courseContent.filter((item) => item.id !== id);
+    setCourseContent(newCourseContent);
+  };
 
   return (
     <>
@@ -69,25 +78,28 @@ export default function ManageCoursePage() {
           <Breadcrumb.Item>課程管理</Breadcrumb.Item>
         </Breadcrumb>
         <Space>
-          <Button type="primary">新增章節</Button>
+          <Button type="primary">儲存變更</Button>
           <Link to={`/console/courses/${id}/course-setting`}>
             <Button type="primary">課程設定</Button>
           </Link>
         </Space>
       </InfoHeader>
-      <DragDropContext>
-        <Droppable droppableId="courseSections">
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              <CourseContent>
-                {courseContent.map((section) => (
-                  <CourseUnitsList section={section} provided={provided} />
-                ))}
-              </CourseContent>
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <CourseContent>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="courseContent">
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <CourseUnitsList
+                  content={courseContent}
+                  placeholder={provided.placeholder}
+                  handleOnClick={handleOnClick}
+                  handleDelete={handleDelete}
+                />
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </CourseContent>
     </>
   );
 }

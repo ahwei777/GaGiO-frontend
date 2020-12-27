@@ -1,8 +1,23 @@
-# Learning Platform Frontend
+# Learning Platform Frontend （開發中）
 
 ## 簡介
 
-[後端 repo](https://github.com/SimonOneNineEight/learning-platform-backend)
+此專案的主題為線上教育平台
+
+使用者可以：
+
+- 註冊及登入
+- 修改會員資料
+- 課程加入購物車
+- 購買課程
+- 觀看購買課程
+
+管理員可以：
+
+- 製作課程
+- 改變使用者權限
+
+此為前端 repo，後端部分請見 [後端 repo](https://github.com/SimonOneNineEight/learning-platform-backend)。
 
 ### 開發者（按照 ID 字首排序）
 
@@ -10,9 +25,16 @@
 - [SimonOneNineEight](https://github.com/SimonOneNineEight)
 - [YSKuo (Arsene Kuo)](https://github.com/YSKuo)
 
-#### 詳細分工
-
 ### Tool
+
+- React
+- React-Router
+- Redux
+- styled-components
+- nanoid
+- react-beautiful-dnd
+- ant design
+- prettier
 
 ---
 
@@ -28,7 +50,6 @@
 │     │     └── 編輯單元(EditUnitPage)            # 特定單元的管理頁面
 │     └── 會員管理(ConsoleMemberPage)             # 列出所有網站所有會員
 │        └── 會員資料(MemberDetailPage)           # 特定會員的詳細資料
-
 
 ```
 
@@ -53,19 +74,13 @@
 └── README.md
 ```
 
----
-
 ## Design System
 
 [Figma](https://www.figma.com/file/4nUkuhNTToWoDDrTcVG1Xh/Lidemy-Final-Project-%E8%A8%8E%E8%AB%96?node-id=109%3A10039)
 
----
-
 ### UI library
 
 [Ant Design - The world's second most popular React UI framework](https://ant.design/)
-
----
 
 ### Color
 
@@ -80,8 +95,6 @@
   - dark: #cbc26d
   - text: #000000
 
----
-
 ### Typography
 
 #### Fonts
@@ -92,8 +105,6 @@
   - Roboto
 
 `font-family: Noto Sans TC, Roboto, arial, sans-serif`
-
----
 
 ### Layout
 
