@@ -12,6 +12,7 @@ import {
 import { toCurrency } from '../../utils';
 import Loading from '../../components/Loading';
 import { selectCartList, addCartItem } from '../../redux/reducers/cartReducer';
+import { selectUser } from '../../redux/reducers/userReducer';
 
 const CourseWrapper = styled.div`
   max-width: 760px;
@@ -28,6 +29,8 @@ const CourseTitle = styled.div`
 
 export default function CourseInfoPage() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const user = useSelector(selectUser);
   const course = useSelector(selectCourse);
   const cartList = useSelector(selectCartList);
   const isGettingCourse = useSelector(selectIsGettingCourse);
@@ -43,6 +46,9 @@ export default function CourseInfoPage() {
   };
 
   const handleClickAddToCart = () => {
+    if (!user) {
+      history.push('/cartList')
+    }
     if (!checkIsAlreadyInCart()) {
       dispatch(addCartItem(course.id));
     }

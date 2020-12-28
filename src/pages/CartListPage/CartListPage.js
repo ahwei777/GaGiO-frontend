@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   selectCartList,
   deleteCartItem,
 } from '../../redux/reducers/cartReducer';
+import { selectUser } from '../../redux/reducers/userReducer';
 import { Table, Button } from 'antd';
 import { StarOutlined, DeleteOutlined } from '@ant-design/icons';
 
@@ -32,6 +33,7 @@ const RightContainerInner = styled.div`
 
 export default function CartListPage({ padding }) {
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
   const cartList = useSelector(selectCartList);
   let sumPrice = 0;
   if (cartList.length > 0) {
@@ -93,33 +95,45 @@ export default function CartListPage({ padding }) {
 
   return (
     <PageWrapper padding={padding}>
-      <LeftContainer>
-        <h1>購物車清單</h1>
-        <h3>共有{cartList.length}堂課</h3>
-        <hr />
-        {cartList.length === 0 && (
-          <>
-            <center>
-              <h1>購物車是空的，看看課程？</h1>
-              <h1>
-                <Link to="/">探索課程</Link>
-              </h1>
-            </center>
-          </>
-        )}
-        {cartList.length > 0 && (
-          <Table
-            columns={columns}
-            expandable={{
-              expandedRowRender: (record) => (
-                <p style={{ margin: 0 }}>{record.Course.description}</p>
-              ),
-              rowExpandable: (record) => record.name !== 'Not Expandable',
-            }}
-            dataSource={data}
-          />
-        )}
-      </LeftContainer>
+      {!user && (
+          <center>
+            <h1>請先註冊或登入後使用購物車</h1>
+            <h1>
+              <Link to="/login">登入</Link>
+              <br/>
+              <Link to="/register">註冊</Link>
+            </h1>
+          </center>
+      )}
+      {user && (
+        <LeftContainer>
+          <h1>購物車清單</h1>
+          <h3>共有{cartList.length}堂課</h3>
+          <hr />
+          {cartList.length === 0 && (
+            <>
+              <center>
+                <h1>購物車是空的，看看課程？</h1>
+                <h1>
+                  <Link to="/">探索課程</Link>
+                </h1>
+              </center>
+            </>
+          )}
+          {cartList.length > 0 && (
+            <Table
+              columns={columns}
+              expandable={{
+                expandedRowRender: (record) => (
+                  <p style={{ margin: 0 }}>{record.Course.description}</p>
+                ),
+                rowExpandable: (record) => record.name !== 'Not Expandable',
+              }}
+              dataSource={data}
+            />
+          )}
+        </LeftContainer>
+      )}
       <RightContainerOuter>
         <RightContainerInner>
           <h5>訂單明細</h5>
