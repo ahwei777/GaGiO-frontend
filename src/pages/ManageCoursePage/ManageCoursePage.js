@@ -10,8 +10,8 @@ import {
   MEDIA_QUERY_MOBILE_L,
   MEDIA_QUERY_TABLET,
 } from "../../constants/breakpoint";
-import CourseUnitsList from "./CourseUnitsList";
-import { dummyData } from "./CourseUnitsList/dummyData";
+import CourseUnitsList from "../../components/CourseUnitsList";
+import { dummyData } from "../../components/CourseUnitsList/dummyData";
 const { Content } = Layout;
 const { Title } = Typography;
 

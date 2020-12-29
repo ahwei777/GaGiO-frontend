@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
-import { createSlice } from '@reduxjs/toolkit';
-import { getCourseListAPI, getCourseAPI } from '../../WebApi' 
+import { createSlice } from "@reduxjs/toolkit";
+import { getCourseListAPI, getCourseAPI, addCourseAPI } from "../../WebApi";
 
 export const courseSlice = createSlice({
-  name: 'course',
+  name: "course",
   initialState: {
     courseList: [],
     isGettingCourseList: false,
@@ -34,7 +34,6 @@ export const courseSlice = createSlice({
     setGetCourseError: (state, action) => {
       state.getCourseError = action.payload;
     },
-
   },
 });
 
@@ -45,48 +44,65 @@ export const {
   setGetCourseListError,
   setCourse,
   setIsGettingCourse,
-  setGetCourseError
+  setGetCourseError,
 } = courseSlice.actions;
 
 // redux thunk function
 export const getCourseList = () => (dispatch) => {
   dispatch(setIsGettingCourseList(true));
-  getCourseListAPI().then((json) => {
-    if (json.ok === 0) {
-      dispatch(setGetCourseListError(json.errorMessage));
+  getCourseListAPI()
+    .then((json) => {
+      if (json.ok === 0) {
+        dispatch(setGetCourseListError(json.errorMessage));
+        dispatch(setIsGettingCourseList(false));
+        return;
+      }
+      // success
+      dispatch(setCourseList(json.data.courseList));
       dispatch(setIsGettingCourseList(false));
-      return;
-    }
-    // success
-    dispatch(setCourseList(json.data.courseList));
-    dispatch(setIsGettingCourseList(false));
-  })
-  .catch((err) => {
-    console.log('err: ', err);
-  });
-}
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
 export const getCourse = (id) => (dispatch) => {
   dispatch(setIsGettingCourse(true));
-  getCourseAPI(id).then((json) => {
-    if (json.ok === 0) {
-      dispatch(setGetCourseError(json.errorMessage));
+  getCourseAPI(id)
+    .then((json) => {
+      if (json.ok === 0) {
+        dispatch(setGetCourseError(json.errorMessage));
+        dispatch(setIsGettingCourse(false));
+        return;
+      }
+      // success
+      dispatch(setCourse(json.data.course));
       dispatch(setIsGettingCourse(false));
-      return;
-    }
-    // success
-    dispatch(setCourse(json.data.course));
-    dispatch(setIsGettingCourse(false));
-  })
-  .catch((err) => {
-    console.log('err: ', err);
-  });
-}
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
+export const addCourse = ({ title, price, description }) => (dispatch) => {
+  if (!title || !price) return;
+  addCourseAPI(title, price, description)
+    .then((json) => {
+      if (json.ok === 0) {
+        console.log(json);
+        return;
+      }
+      // success
+      console.log("新增成功");
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
 
 // selector
 export const selectCourseList = (store) => store.course.courseList;
-export const selectIsGettingCourseList = (store) => store.course.isGettingCourseList;
+export const selectIsGettingCourseList = (store) =>
+  store.course.isGettingCourseList;
 export const selectCourse = (store) => store.course.course;
 export const selectIsGettingCourse = (store) => store.course.isGettingCourse;
-
 
 export default courseSlice.reducer;

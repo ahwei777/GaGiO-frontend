@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getMemberList,
+  selectMemberList,
+  selectIsGettingMemberList,
+} from "../../redux/reducers/memberReducer";
 import { Space, Table } from "antd";
-import { dummyData as data } from "./dummyData";
+import Loading from "../../components/Loading";
+import { translateAuth } from "../../utils";
 
 export const columns = [
   {
     title: "Id",
     dataIndex: "id",
     key: "id",
-    render: (text) => <a>{text}</a>,
   },
   {
     title: "信箱",
@@ -21,9 +27,9 @@ export const columns = [
     key: "auth",
   },
   {
-    title: "最近一次上線於",
-    dataIndex: "latestLogin",
-    key: "latestLogin",
+    title: "更新於",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
   },
   {
     title: "Action",
@@ -37,5 +43,34 @@ export const columns = [
 ];
 
 export default function MembersTable() {
-  return <Table columns={columns} dataSource={data} />;
+  const dispatch = useDispatch();
+  const members = useSelector(selectMemberList);
+  const isGettingMemberList = useSelector(selectIsGettingMemberList);
+  // console.log(members);
+
+  useEffect(() => {
+    dispatch(getMemberList());
+
+    return () => {};
+  }, [dispatch]);
+
+  return (
+    <>
+      {isGettingMemberList && <Loading />}
+      {!isGettingMemberList && (
+        <Table
+          columns={columns}
+          dataSource={
+            members &&
+            members.map((item) => ({
+              ...item,
+              key: item.id,
+              // updatedAt: item.updatedAt.slice(0, 10),
+              auth: translateAuth(item.auth_type),
+            }))
+          }
+        />
+      )}
+    </>
+  );
 }

@@ -45,6 +45,23 @@ export const getMeAPI = () => {
     .catch((error) => console.log(error));
 };
 
+//  getMembers
+export const getMemberListAPI = () =>
+  fetch(`${BASE_URL}/user`, {
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+    },
+  }).then((res) => res.json());
+
+//  getMember
+export const getMemberAPI = (id) =>
+  fetch(`${BASE_URL}/user/${id}`, {
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+      "content-type": "application/json",
+    },
+  }).then((res) => res.json());
+
 export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
   fetch(`${BASE_URL}/user/${id}`, {
     headers: {
@@ -83,14 +100,19 @@ export const getCourseAPI = (id) =>
   fetch(`${BASE_URL}/courses/${id}`).then((res) => res.json());
 
 //  addCourse
-export const addCourseAPI = (data) => {
+export const addCourseAPI = (title, price, description) => {
   // 權限驗證
   return fetch(`${BASE_URL}/courses`, {
     method: "POST",
     headers: {
+      Authorization: getAuthToken(),
       "content-type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      title,
+      price,
+      description,
+    }),
   }).then((res) => res.json());
 };
 
