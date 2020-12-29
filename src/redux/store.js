@@ -4,6 +4,7 @@ import courseReducer from "./reducers/courseReducer";
 import teacherReducer from "./reducers/teacherReducer";
 import userReducer from "./reducers/userReducer";
 import memberReducer from "./reducers/memberReducer";
+import unitReducer from "./reducers/unitReducer";
 
 export default configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export default configureStore({
     teacher: teacherReducer,
     user: userReducer,
     member: memberReducer,
+    unit: unitReducer,
   },
 });

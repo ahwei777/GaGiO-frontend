@@ -1,5 +1,4 @@
 const BASE_URL = "http://localhost:3001/v1";
-const getAuthToken = () => localStorage.getItem("token");
 
 export const registerAPI = (email, password, confirm, nickname) => {
   return fetch(`${BASE_URL}/user`, {
@@ -36,9 +35,10 @@ export const loginAPI = (email, password) => {
 };
 
 export const getMeAPI = () => {
+  const token = localStorage.getItem("token");
   return fetch(`${BASE_URL}/me`, {
     headers: {
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
     },
   })
     .then((res) => res.json())
@@ -63,11 +63,12 @@ export const getMemberAPI = (id) =>
   }).then((res) => res.json());
 
 export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
-  fetch(`${BASE_URL}/user/${id}`, {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/user/${id}`, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
     },
     method: "PATCH",
     body: JSON.stringify({
@@ -79,11 +80,12 @@ export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
 };
 
 export const updateUserPasswordAPI = (id, password) => {
+  const token = localStorage.getItem("token");
   fetch(`${BASE_URL}/user/${id}`, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
     },
     method: "PATCH",
     body: JSON.stringify({
@@ -118,49 +120,57 @@ export const addCourseAPI = (title, price, description) => {
 
 //  deleteCourse
 export const deleteCourseAPI = (id) => {
+  const token = localStorage.getItem("token");
   // 權限驗證
   return fetch(`${BASE_URL}/courses/${id}`, {
     method: "DELETE",
     headers: {
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());
 };
 
 //  updateCourse
 export const updateCourseAPI = (id, data) => {
+  const token = localStorage.getItem("token");
   // 權限驗證
   return fetch(`${BASE_URL}/courses/${id}`, {
     method: "PATCH",
     headers: {
       "content-type": "application/json",
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   }).then((res) => res.json());
 };
 
 //  cart
-export const getCartListAPI = () =>
-  fetch(`${BASE_URL}/cartList`, {
+export const getCartListAPI = () => {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/cartList`, {
     headers: {
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());
-export const addCartItemAPI = (id) =>
-  fetch(`${BASE_URL}/cart-item/${id}`, {
+};
+export const addCartItemAPI = (id) => {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/cart-item/${id}`, {
     method: "POST",
     headers: {
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());
-export const deleteCartItemAPI = (id) =>
-  fetch(`${BASE_URL}/cart-item/${id}`, {
+};
+export const deleteCartItemAPI = (id) => {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/cart-item/${id}`, {
     method: "DELETE",
     headers: {
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());
+};
 
 //  getTeacherList
 export const getTeacherListAPI = () =>

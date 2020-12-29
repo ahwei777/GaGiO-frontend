@@ -8,14 +8,14 @@ import {
   updateUserInfoAPI,
   updateUserPasswordAPI,
 } from "../../WebApi";
-import { getCartList, setCartList } from './cartReducer'
+import { getCartList, setCartList } from "./cartReducer";
 
 export const userSlice = createSlice({
   name: "user",
   initialState: { user: null, errorMessage: "" },
   reducers: {
     setUser: (state, action) => {
-      console.log('payload', action.payload)
+      console.log("payload", action.payload);
       state.user = action.payload;
     },
     setErrorMessage: (state, action) => {
@@ -47,7 +47,7 @@ export const login = (email, password) => (dispatch) => {
     if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
     const token = res.data.user.token;
     localStorage.setItem("token", token);
-    dispatch(getCartList())
+    dispatch(getCartList());
     dispatch(setUser(res.data.user));
   });
 };
@@ -64,7 +64,7 @@ export const register = (email, password, confirm, nickname) => (dispatch) => {
 };
 export const logout = () => (dispatch) => {
   dispatch(setUser(null));
-  dispatch(setCartList([]))
+  dispatch(setCartList([]));
   localStorage.setItem("token", null);
 };
 export const updateUserInfo = (id, email, nickname, authType) => (dispatch) => {
