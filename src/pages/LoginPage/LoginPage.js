@@ -70,7 +70,7 @@ export default function Login() {
 
   useEffect(() => {
     if (user) {
-      console.log(user)
+      console.log(user);
       return history.push("/");
     }
   }, [user, history]);

@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Badge } from 'antd';
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Badge } from "antd";
 import {
   MEDIA_QUERY_MOBILE_M,
   MEDIA_QUERY_MOBILE_L,
   MEDIA_QUERY_TABLET,
-} from '../../constants/breakpoint';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout, selectUser } from '../../redux/reducers/userReducer';
-import { selectCartList, getCartList } from '../../redux/reducers/cartReducer';
+} from "../../constants/breakpoint";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../redux/reducers/userReducer";
+import { selectCartList, getCartList } from "../../redux/reducers/cartReducer";
 
 const HeaderContainer = styled.div`
   position: sticky;
