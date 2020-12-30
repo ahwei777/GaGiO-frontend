@@ -1,82 +1,50 @@
 import React from 'react';
-import { Card, Avatar, Progress, Button } from 'antd';
-import { StarOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Card, Avatar, Progress } from 'antd';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { addCartItem, selectCartList } from '../../redux/reducers/cartReducer';
-import { selectUser } from '../../redux/reducers/userReducer'
+import { Link } from 'react-router-dom';
 import { toCurrency } from '../../utils';
 const { Meta } = Card;
 
-const CourseInfoLinkWrapper = styled.div`
+const CardWrapper = styled.div`
   :hover {
-    background-color: ${(props) => props.theme.colors.secondary.light};
+    opacity: 0.7;
+    border: transparent 1px solid;
+  }
+`;
+
+const TeacherLink = styled(Link)`
+  position: absolute;
+  left: 5%;
+  top: 5%;
+  transition: all 0.5s;
+  :hover {
+    transform: scale(1.3);
   }
 `;
 
 export default function CourseCard({ course }) {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const cartList = useSelector(selectCartList);
-  const user = useSelector(selectUser);
-  const checkIsAlreadyInCart = () => {
-    for (let i = 0; i < cartList.length; i += 1) {
-      if (cartList[i].CourseId === course.id) {
-        // 當前課程已在 cartList 內
-        return true;
-      }
-    }
-    return false;
-  };
-  const handleClickAddToCart = () => {
-    if (!user) {
-      history.push('/cartList')
-    }
-    if (!checkIsAlreadyInCart()) {
-      dispatch(addCartItem(course.id));
-    }
-  };
-
-  let actionsArray = [];
-  if (course.Teacher) {
-    actionsArray.push(
-      <Link to={`/teacherInfo/${course.TeacherId}`}>
-        <Avatar src={course.Teacher.avatarUrl} />
-      </Link>
-    );
-  }
-  actionsArray.push(
-    <StarOutlined key="star" />,
-    checkIsAlreadyInCart() ? (
-      <Link to="/cartList">
-        <Button type="primary" size="large" danger>
-          前進購物車
-        </Button>
-      </Link>
-    ) : (
-      <ShoppingCartOutlined key="shopping" onClick={handleClickAddToCart} />
-    )
-  );
-
   return (
-    <Card
-      cover={<img alt="unavailable" src={course.imgUrl} />}
-      actions={actionsArray}
-    >
-      <Progress percent={20} />
-      <CourseInfoLinkWrapper>
-        <Link to={`/courseInfo/${course.id}`}>
-          <Meta
-            title={course.title}
-            description={course.description}
-            style={{ marginTop: 16 }}
-          />
-          <h3 align="right">{toCurrency(course.price)}</h3>
-          <div>課程時間</div>
-          <div>學生人數</div>
-        </Link>
-      </CourseInfoLinkWrapper>
-    </Card>
+    <>
+      <Link to={`/courseInfo/${course.id}`}>
+        <CardWrapper>
+          <Card cover={<img alt="unavailable" src={course.imgUrl} />}>
+            <Progress percent={20} />
+            <Meta
+              title={course.title}
+              description={course.description}
+              style={{ marginTop: 16 }}
+            />
+            <h3 align="right">{toCurrency(course.price)}</h3>
+            <div>課程時間</div>
+            <div>學生人數</div>
+          </Card>
+        </CardWrapper>
+      </Link>
+      {course.Teacher && (
+        <TeacherLink to={`/teacherInfo/${course.TeacherId}`}>
+          <Avatar size={'large'} src={course.Teacher.avatarUrl} />
+        </TeacherLink>
+      )}
+    </>
   );
 }

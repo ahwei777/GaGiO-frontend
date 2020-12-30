@@ -1,191 +1,225 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { Badge } from "antd";
-import {
-  MEDIA_QUERY_MOBILE_M,
-  MEDIA_QUERY_MOBILE_L,
-  MEDIA_QUERY_TABLET,
-} from "../../constants/breakpoint";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../redux/reducers/userReducer";
-import { selectCartList, getCartList } from "../../redux/reducers/cartReducer";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { Badge, Button, Menu as AntMenu, Drawer, Grid } from 'antd';
+import { MEDIA_QUERY_TABLET } from '../../constants/breakpoint';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from '../../redux/reducers/userReducer';
+import { selectCartList, getCartList } from '../../redux/reducers/cartReducer';
+import { ShoppingCartOutlined } from '@ant-design/icons';
+
+const { useBreakpoint } = Grid;
+
+const Menu = styled(AntMenu)`
+  font-size: 18px;
+  background: transparent;
+  border: none;
+`;
 
 const HeaderContainer = styled.div`
+  background: ${(props) => props.theme.colors.primary.main};
+  color: ${(props) => props.theme.colors.primary.text};
+  padding: 0 20px;
+  border-bottom: solid 1px #e8e8e8;
+  box-shadow: 0 0 30px #f3f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: sticky;
   z-index: 1;
   top: 0;
 `;
-const NavBarContainer = styled.div`
-  text-align: center;
-  background: ${(props) => props.theme.colors.primary.main};
-  color: ${(props) => props.theme.colors.primary.text};
-  display: flex;
-  padding: 5px 20px;
-  ${MEDIA_QUERY_MOBILE_M} {
-    flex-direction: column;
-  }
-  ${MEDIA_QUERY_MOBILE_L} {
-    flex-direction: row;
-  }
-`;
-const Brand = styled(Link)`
-  font-weight: bold;
-  margin: 10px auto;
-  color: ${(props) => props.theme.colors.primary.text};
-  :hover {
-    text-decoration: none;
-    color: ${(props) => props.theme.colors.primary.light};
-  }
-  ${MEDIA_QUERY_MOBILE_M} {
-    font-size: 24px;
-  }
-  ${MEDIA_QUERY_MOBILE_L} {
-    width: 150px;
-    font-size: 24px;
-    margin: auto 10px;
-  }
-  ${MEDIA_QUERY_TABLET} {
-    width: 350px;
-    font-size: 34px;
-  }
-`;
-const NavbarListContainer = styled.div`
-  ${MEDIA_QUERY_MOBILE_M} {
-    width: 100%;
-    & + & {
-      margin-top: 6px;
-    }
-  }
-  ${MEDIA_QUERY_MOBILE_L} {
-    margin: auto 10px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-const NavbarList = styled.div`
-  display: flex;
-  ${MEDIA_QUERY_MOBILE_M} {
-    font-size: 24px;
-    flex-direction: column;
-    align-items: center;
-    & + & {
-      margin-top: 6px;
-    }
-  }
-  ${MEDIA_QUERY_MOBILE_L} {
-    font-size: 18px;
-    flex-direction: row;
-    & + & {
-      margin-top: 0px;
-    }
-  }
-`;
-const Nav = styled(Link)`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  color: black;
-  text-decoration: none;
-  :hover {
-    text-decoration: none;
-    color: ${(props) => props.theme.colors.primary.light};
-  }
-  ${MEDIA_QUERY_MOBILE_M} {
-    width: 100%;
-    & + & {
-      margin-top: 6px;
-    }
-  }
-  ${MEDIA_QUERY_MOBILE_L} {
-    padding: 5px 10px;
-    width: auto;
-    & + & {
-      margin-top: 0px;
-      margin-left: 6px;
-    }
-  }
-`;
-const Button = styled.input`
-  background-color: ${(props) => props.theme.colors.primary.main};
-  border: 0;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  color: black;
-  text-decoration: none;
-  :hover {
-    text-decoration: none;
-    color: ${(props) => props.theme.colors.primary.light};
-  }
-  :active {
-    border: 0;
-  }
 
-  ${MEDIA_QUERY_MOBILE_M} {
-    width: 100%;
-    & + & {
-      margin-top: 6px;
-    }
+const Logo = styled(Link)`
+  color: ${(props) => props.theme.colors.primary.text};
+  :hover {
+    color: ${(props) => props.theme.colors.primary.text};
   }
-  ${MEDIA_QUERY_MOBILE_L} {
-    padding: 5px 10px;
-    width: auto;
-    & + & {
-      margin-top: 0px;
-      margin-left: 6px;
-    }
+  font-size: 32px;
+  width: 180px;
+  text-align: center;
+`;
+
+const NavContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  ${MEDIA_QUERY_TABLET} {
+    flex: 1;
   }
 `;
+
+const NavToggleGroup = styled.div`
+  display: none;
+  ${MEDIA_QUERY_TABLET} {
+    display: block;
+  }
+`;
+const NavRightPart = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const NavToggler = styled(Button)`
+  height: 32px;
+  padding: 6px;
+  display: inline-block;
+  background: none;
+  margin-left: 30px;
+  ${MEDIA_QUERY_TABLET} {
+    display: none;
+  }
+`;
+const NavTogglerBody = styled.div`
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: ${(props) => props.theme.colors.primary.light};
+  position: relative;
+  ::after,
+  ::before {
+    content: attr(x);
+    width: 20px;
+    position: absolute;
+    top: -6px;
+    left: 0;
+    height: 2px;
+    background: ${(props) => props.theme.colors.primary.light};
+  }
+  ::after {
+    top: auto;
+    bottom: -6px;
+  }
+`;
+
+const CartIcon = styled(ShoppingCartOutlined)`
+  color: ${(props) => props.theme.colors.primary.text};
+  font-size: 24px;
+  :hover {
+    color: ${(props) => props.theme.colors.primary.light};
+  }
+`;
+
+const LeftMenu = () => {
+  const { md } = useBreakpoint();
+  return (
+    <Menu mode={md ? 'horizontal' : 'inline'}>
+      <Menu.Item key="searchCourse">
+        <Link to="/searchCourse">搜尋課程</Link>
+      </Menu.Item>
+    </Menu>
+  );
+};
+
+const RightMenu = ({ user, handleLogout, handleClose }) => {
+  const { md } = useBreakpoint();
+  return (
+    <Menu mode={md ? 'horizontal' : 'inline'} onClick={handleClose}>
+      {user && (
+        <>
+          <Menu.Item key="myCourse">
+            <Link to="/myCourse">我的課程</Link>
+          </Menu.Item>
+          <Menu.Item key="myAccount">
+            <Link to="/me">帳號設定</Link>
+          </Menu.Item>
+          {user.auth_type === 3 && (
+            <Menu.Item key="console">
+              <Link to="/console">管理後台</Link>
+            </Menu.Item>
+          )}
+          <Menu.Item key="logout" onClick={handleLogout}>
+            <Link to="/">登出</Link>
+          </Menu.Item>
+        </>
+      )}
+      {!user && (
+        <>
+          <Menu.Item key="mail">
+            <Link to="/register">註冊</Link>
+          </Menu.Item>
+          <Menu.Item key="app">
+            <Link to="/login">登入</Link>
+          </Menu.Item>
+        </>
+      )}
+    </Menu>
+  );
+};
 
 export default function Header() {
   const dispatch = useDispatch();
   const cartList = useSelector(selectCartList);
   const user = useSelector(selectUser);
-  const handleLogout = () => {
-    dispatch(logout());
-  };
 
   // component mount 時執行(初始化)
   useEffect(() => {
-    dispatch(getCartList());
+    if (user) {
+      dispatch(getCartList());
+    }
     // unmount 時先 clean up 避免下次回來時因為仍有舊資料而短暫顯示
     return () => {};
-  }, [dispatch]);
+  }, [user, dispatch]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+  console.log('render header');
+  // component mount 時執行(初始化)
+
+  const [state, setState] = useState({ visible: false });
+
+  const handleClick = () => {
+    setState({
+      visible: true,
+    });
+  };
+  const handleClose = () => {
+    setState({
+      visible: false,
+    });
+  };
 
   return (
     <HeaderContainer>
-      <NavBarContainer>
-        <Brand to="/courseList">Teach Table</Brand>
-        <NavbarListContainer>
-          <NavbarList>
-            <Nav to="/searchCourse">搜尋課程</Nav>
-          </NavbarList>
-          <NavbarList>
-            <Badge count={cartList.length}>
-              <Nav to="/cartList">購物車</Nav>
-            </Badge>
-            {user && <Nav to="/">我的課程</Nav>}
-            {user && <Nav to="/me">帳號設定</Nav>}
-            {user && <Nav to="/console">管理後台</Nav>}
-
-            {!user && <Nav to="/register">註冊</Nav>}
-            {!user && <Nav to="/login">登入</Nav>}
-            {user && (
-              <Button type="button" value="登出" onClick={handleLogout} />
-            )}
-          </NavbarList>
-        </NavbarListContainer>
-      </NavBarContainer>
+      <Logo to="/courseList">Teach Table</Logo>
+      <NavContainer>
+        <NavToggleGroup>
+          <LeftMenu />
+        </NavToggleGroup>
+        <NavRightPart>
+          <Badge count={cartList.length} size="small" offset={[10]}>
+            <Link to="/cartList">
+              <CartIcon />
+            </Link>
+          </Badge>
+          <NavToggleGroup>
+            <RightMenu
+              user={user}
+              cartList={cartList}
+              handleLogout={handleLogout}
+            />
+          </NavToggleGroup>
+        </NavRightPart>
+        <NavToggler onClick={handleClick}>
+          <NavTogglerBody />
+        </NavToggler>
+        <Drawer
+          title="Teach Table"
+          placement="top"
+          closable={false}
+          onClose={handleClose}
+          visible={state.visible}
+        >
+          <LeftMenu />
+          <RightMenu
+            user={user}
+            cartList={cartList}
+            handleLogout={handleLogout}
+            handleClose={handleClose}
+          />
+        </Drawer>
+      </NavContainer>
     </HeaderContainer>
   );
 }
