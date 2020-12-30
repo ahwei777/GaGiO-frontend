@@ -8,7 +8,7 @@ import {
   selectIsGettingCourseList,
 } from "../../redux/reducers/courseReducer";
 import Loading from "../../components/Loading";
-import { dummyData as data } from "./dummyData";
+// import { dummyData as data } from "./dummyData";
 
 export const columns = [
   {
@@ -57,7 +57,7 @@ export default function CoursesTable() {
 
   useEffect(() => {
     dispatch(getCourseList());
-    console.log(courses);
+    // console.log(courses);
 
     return () => {};
   }, [dispatch]);
