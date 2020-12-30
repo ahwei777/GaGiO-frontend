@@ -68,6 +68,14 @@ export default function Login() {
     dispatch(login(email, password));
   };
 
+  // 測試用
+  const handleTestAdmin = (value) => {
+    dispatch(login('test@gmail.com', 'Aa123456'));
+  };
+  const handleTestUser = (value) => {
+    dispatch(login('user@gmail.com', 'Aa123456'));
+  };
+
   useEffect(() => {
     if (user) {
       console.log(user);
@@ -103,6 +111,10 @@ export default function Login() {
             <SubmitButton htmlType="submit">Submit</SubmitButton>
           </Form.Item>
         </Form>
+        {/* 測試用 */}
+          <Button danger onClick={handleTestAdmin}>管理員快速通道(test@gmail.com)</Button>
+          <Button onClick={handleTestUser}>一般會員快速通道(user@gmail.com)</Button>
+        {/* 測試用 */}
       </LoginBox>
     </LoginPageWrapper>
   );

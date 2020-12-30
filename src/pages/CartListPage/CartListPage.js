@@ -8,7 +8,8 @@ import {
 } from '../../redux/reducers/cartReducer';
 import { selectUser } from '../../redux/reducers/userReducer';
 import { Table, Button } from 'antd';
-import { StarOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
+import { toCurrency } from '../../utils';
 
 const PageWrapper = styled.div`
   padding: ${(props) => props.padding}px;
@@ -26,7 +27,7 @@ const RightContainerOuter = styled.div`
 const RightContainerInner = styled.div`
   width: 250px;
   position: fixed;
-  right: 20px;
+  right: 30px;
   padding: 24px 12px;
   background: ${(props) => props.theme.colors.secondary.main};
 `;
@@ -42,52 +43,47 @@ export default function CartListPage({ padding }) {
     });
   }
 
-  const handleAddToFavorite = (id) => {
-    console.log('handleAddToFavorite id', id);
-  };
-
   const handleDeleteCartItem = (id) => {
     dispatch(deleteCartItem(id));
   };
 
   // 加入 react 需要的 key
-  const data = [];
+  let data = [];
   for (let i = 0; i < cartList.length; i += 1) {
     data.push({
-      key: cartList[i].id,
-      ...cartList[i],
+      key: cartList[i].CourseId,
+      id: cartList[i].CourseId,
+      title: cartList[i].Course.title,
+      price: toCurrency(cartList[i].Course.price),
     });
   }
 
   const columns = [
-    { title: '課程ID', dataIndex: ['Course', 'id'], key: 'id' },
+    { title: '課程ID', dataIndex: ['id'], key: 'id' },
     {
       title: '課程名稱',
-      dataIndex: ['Course', 'title'],
+      dataIndex: ['title'],
       key: 'title',
       render: (text, record) => (
-        <Link to={`courseInfo/${record.CourseId}`}>{text}</Link>
+        <Link to={`courseInfo/${record.id}`}>{text}</Link>
       ),
     },
-    { title: '售價', dataIndex: ['Course', 'price'], key: 'price' },
+    { title: '售價', dataIndex: ['price'], key: 'price' },
     {
-      title: '操作',
+      title: '動作',
       dataIndex: '',
       key: 'x',
       render: (data) => (
         <>
-          <div>
-            <Button>購買單堂</Button>
-          </div>
-          <StarOutlined
-            style={{ fontSize: '28px' }}
-            onClick={() => handleAddToFavorite(data.CourseId)}
-          />
-          ,
-          <DeleteOutlined
-            style={{ fontSize: '28px' }}
-            onClick={() => handleDeleteCartItem(data.CourseId)}
-          />
+          <Button>購買單堂</Button>
+          {" "}
+          <Button
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDeleteCartItem(data.id)}
+          >
+            刪除
+          </Button>
         </>
       ),
     },
@@ -96,14 +92,14 @@ export default function CartListPage({ padding }) {
   return (
     <PageWrapper padding={padding}>
       {!user && (
-          <center>
-            <h1>請先註冊或登入後使用購物車</h1>
-            <h1>
-              <Link to="/login">登入</Link>
-              <br/>
-              <Link to="/register">註冊</Link>
-            </h1>
-          </center>
+        <center>
+          <h1>請先註冊或登入後使用購物車</h1>
+          <h1>
+            <Link to="/login">登入</Link>
+            <br />
+            <Link to="/register">註冊</Link>
+          </h1>
+        </center>
       )}
       {user && (
         <LeftContainer>
@@ -120,25 +116,14 @@ export default function CartListPage({ padding }) {
               </center>
             </>
           )}
-          {cartList.length > 0 && (
-            <Table
-              columns={columns}
-              expandable={{
-                expandedRowRender: (record) => (
-                  <p style={{ margin: 0 }}>{record.Course.description}</p>
-                ),
-                rowExpandable: (record) => record.name !== 'Not Expandable',
-              }}
-              dataSource={data}
-            />
-          )}
+          {cartList.length > 0 && <Table columns={columns} dataSource={data} />}
         </LeftContainer>
       )}
       <RightContainerOuter>
         <RightContainerInner>
           <h5>訂單明細</h5>
           <hr />
-          <div>小計 NT$ {sumPrice}</div>
+          <div>小計 {toCurrency(sumPrice)}</div>
           <br></br>
           <Button size="lg" block>
             結帳

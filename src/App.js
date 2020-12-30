@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "antd/dist/antd.css";
+import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
 import { Layout } from "antd";

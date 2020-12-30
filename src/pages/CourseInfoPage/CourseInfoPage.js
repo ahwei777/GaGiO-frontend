@@ -77,9 +77,6 @@ export default function CourseInfoPage() {
             {course.Teacher.name}
           </p>
           <div align="right" >
-            <Link to={`/addFavorite/${course.id}`}>
-              <StarOutlined key="star" style={{ fontSize: '28px' }} />
-            </Link>
             <Button type="primary" size="large">
               立即購買
             </Button>
