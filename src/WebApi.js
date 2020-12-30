@@ -46,21 +46,25 @@ export const getMeAPI = () => {
 };
 
 //  getMembers
-export const getMemberListAPI = () =>
-  fetch(`${BASE_URL}/user`, {
+export const getMemberListAPI = () => {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/user`, {
     headers: {
-      Authorization: `Bearer ${getAuthToken()}`,
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());
+};
 
 //  getMember
-export const getMemberAPI = (id) =>
-  fetch(`${BASE_URL}/user/${id}`, {
+export const getMemberAPI = (id) => {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/user/${id}`, {
     headers: {
-      Authorization: `Bearer ${getAuthToken()}`,
+      Authorization: `Bearer ${token}`,
       "content-type": "application/json",
     },
   }).then((res) => res.json());
+};
 
 export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
   const token = localStorage.getItem("token");
@@ -95,8 +99,14 @@ export const updateUserPasswordAPI = (id, password) => {
 };
 
 //  getCourseList
-export const getCourseListAPI = () =>
-  fetch(`${BASE_URL}/courses`).then((res) => res.json());
+export const getCourseListAPI = () => {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/courses`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => res.json());
+};
 //  getCourse
 export const getCourseAPI = (id) =>
   fetch(`${BASE_URL}/courses/${id}`).then((res) => res.json());
@@ -104,10 +114,11 @@ export const getCourseAPI = (id) =>
 //  addCourse
 export const addCourseAPI = (title, price, description) => {
   // 權限驗證
+  const token = localStorage.getItem("token");
   return fetch(`${BASE_URL}/courses`, {
     method: "POST",
     headers: {
-      Authorization: getAuthToken(),
+      Authorization: `Bearer ${token}`,
       "content-type": "application/json",
     },
     body: JSON.stringify({

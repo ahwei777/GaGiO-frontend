@@ -25,6 +25,16 @@ export const columns = [
     ),
   },
   {
+    title: "金額（台幣）",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "是否公開",
+    dataIndex: "isPublic",
+    key: "isPublic",
+  },
+  {
     title: "更新於",
     dataIndex: "updatedAt",
     key: "updatedAt",
@@ -63,6 +73,7 @@ export default function CoursesTable() {
             courses.map((item) => ({
               ...item,
               key: item.id,
+              isPublic: item.isPublic ? "是" : "否",
               updatedAt: item.updatedAt.slice(0, 10),
             }))
           }
