@@ -1,0 +1,22 @@
+@import "antd/dist/antd.css";
+
+/* header 樣式修正 (選擇器等級過高無法直接以 styled component 蓋過) */
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item {
+  margin: 0;
+  margin-left: 20px;
+}
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+  margin: 0;
+}
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected {
+  border-bottom: 2px solid#99d066;
+}
+
+.ant-menu-horizontal > .ant-menu-item a:hover,
+.ant-menu-submenu-title:hover,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected,
+.ant-menu-horizontal > .ant-menu-item-selected a {
+  color: #99d066;
+}
