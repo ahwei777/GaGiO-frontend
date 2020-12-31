@@ -56,7 +56,7 @@ export default function CourseSettingPage() {
     const input = { ...values, isPublic: course.isPublic };
     console.log("input", input);
     dispatch(updateCourse(input));
-    history.push(`/console/courses/${id}`); // 把頁面導向課程列表
+    // history.push(`/console/courses/${id}`); // 把頁面導向課程列表
   };
 
   return (
