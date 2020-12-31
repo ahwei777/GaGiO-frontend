@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
@@ -14,8 +14,6 @@ import CourseUnitsList from "../../components/CourseUnitsList";
 import { dummyData } from "../../components/CourseUnitsList/dummyData";
 const { Content } = Layout;
 const { Title } = Typography;
-
-const id = 1;
 
 const InfoHeader = styled.div`
   display: flex;
@@ -37,6 +35,7 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 export default function ManageCoursePage() {
+  const { id } = useParams();
   const dispatch = useDispatch();
 
   const [courseContent, setCourseContent] = useState(dummyData);

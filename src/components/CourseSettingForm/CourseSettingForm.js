@@ -16,9 +16,14 @@ const validateMessages = {
   },
 };
 
-export default function CourseSettingForm({ onFinish }) {
+export default function CourseSettingForm({ course, onFinish }) {
   return (
-    <Form {...layout} onFinish={onFinish} validateMessages={validateMessages}>
+    <Form
+      {...layout}
+      onFinish={onFinish}
+      validateMessages={validateMessages}
+      initialValues={course}
+    >
       <Form.Item name="title" label="課程名稱" rules={[{ required: true }]}>
         <Input />
       </Form.Item>

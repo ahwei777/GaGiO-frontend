@@ -117,7 +117,6 @@ export const getCourseAPI = (id) =>
 //  addCourse
 export const addCourseAPI = (title, price, description) => {
   // 權限驗證
-
   return fetch(`${BASE_URL}/courses`, {
     method: "POST",
     headers: {
@@ -144,14 +143,19 @@ export const deleteCourseAPI = (id) => {
 };
 
 //  updateCourse
-export const updateCourseAPI = (id, data) => {
+export const updateCourseAPI = (id, title, price, description, isPublic) => {
   return fetch(`${BASE_URL}/courses/${id}`, {
     method: "PATCH",
     headers: {
       "content-type": "application/json",
       Authorization: `Bearer ${getAuthToken()}`,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      title,
+      price,
+      description,
+      isPublic,
+    }),
   }).then((res) => res.json());
 };
 

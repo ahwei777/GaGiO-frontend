@@ -1,7 +1,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from "@reduxjs/toolkit";
-import { getCourseListAPI, getCourseAPI, addCourseAPI } from "../../WebApi";
+import {
+  getCourseListAPI,
+  getCourseAPI,
+  addCourseAPI,
+  updateCourseAPI,
+} from "../../WebApi";
 
 export const courseSlice = createSlice({
   name: "course",
@@ -83,8 +88,25 @@ export const getCourse = (id) => (dispatch) => {
     });
 };
 export const addCourse = ({ title, price, description }) => (dispatch) => {
-  if (!title || !price) return;
+  if (!title || price <= 0) return;
   addCourseAPI(title, price, description)
+    .then((json) => {
+      if (json.ok === 0) {
+        console.log(json);
+        return;
+      }
+      // success
+      console.log("新增成功");
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
+export const updateCourse = ({ id, title, price, description, isPublic }) => (
+  dispatch
+) => {
+  if (!title || price <= 0) return;
+  updateCourseAPI(id, title, price, description, isPublic)
     .then((json) => {
       if (json.ok === 0) {
         console.log(json);
