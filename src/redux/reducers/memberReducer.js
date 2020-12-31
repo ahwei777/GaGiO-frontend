@@ -1,0 +1,122 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-unresolved */
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  getMemberListAPI,
+  getMemberAPI,
+
+  // updateUserInfoAPI,
+  // updateUserPasswordAPI,
+} from "../../WebApi";
+// import { getCartList, setCartList } from "./cartReducer";
+
+export const memberSlice = createSlice({
+  name: "member",
+  initialState: {
+    memberList: [],
+    member: null,
+    errorMessage: "",
+    isGettingMemberList: false,
+    isGettingMember: false,
+  },
+  reducers: {
+    setMemberList: (state, action) => {
+      // console.log("payload", action.payload);
+      state.memberList = action.payload;
+    },
+    setMember: (state, action) => {
+      // console.log("payload", action.payload);
+      state.member = action.payload;
+    },
+    setErrorMessage: (state, action) => {
+      state.errorMessage = action.payload;
+    },
+    setIsGettingMemberList: (state, action) => {
+      state.isGettingMemberList = action.payload;
+    },
+    setIsGettingMember: (state, action) => {
+      state.isGettingMember = action.payload;
+    },
+  },
+});
+
+// action
+export const {
+  setMemberList,
+  setMember,
+  setErrorMessage,
+  setIsGettingMemberList,
+  setIsGettingMember,
+} = memberSlice.actions;
+
+// redux thunk function
+
+export const getMemberList = () => (dispatch) => {
+  dispatch(setMemberList(null));
+  dispatch(setIsGettingMemberList(true));
+  dispatch(setErrorMessage(""));
+
+  getMemberListAPI()
+    .then((res) => {
+      if (!res || res.ok === 0) {
+        dispatch(setErrorMessage(res ? res.errorMessage : "something wrong"));
+        dispatch(setIsGettingMemberList(false));
+        return;
+      }
+      // success
+      dispatch(setMemberList(res.data.users));
+      dispatch(setIsGettingMemberList(false));
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
+
+export const getMember = (id) => (dispatch) => {
+  dispatch(setMember(null));
+  dispatch(setIsGettingMember(true));
+  dispatch(setErrorMessage(""));
+
+  getMemberAPI(id)
+    .then((res) => {
+      if (!res || res.ok === 0) {
+        dispatch(setErrorMessage(res ? res.errorMessage : "something wrong"));
+        dispatch(setIsGettingMember(false));
+        return;
+      }
+      // success
+      dispatch(setMember(res.data.user));
+      dispatch(setIsGettingMember(false));
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
+
+// export const updateUserInfo = (id, email, nickname, authType) => (dispatch) => {
+//   dispatch(setErrorMessage(""));
+//   const token = localStorage.getItem("token");
+//   if (token !== id) return dispatch(setErrorMessage("Unauthorized"));
+//   updateUserInfoAPI(id, email, nickname, authType).then((res) => {
+//     if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
+//     dispatch(setMember(res.data.user));
+//   });
+// };
+// export const updateUserPassword = (id, password, confirm) => (dispatch) => {
+//   dispatch(setErrorMessage(""));
+//   const token = localStorage.getItem("token");
+//   if (token !== id) return dispatch(setErrorMessage("Unauthorized"));
+//   updateUserPasswordAPI(id, password).then((res) => {
+//     if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
+//     dispatch(setMember(res.data.user));
+//   });
+// };
+
+// selector
+export const selectMember = (store) => store.member.member;
+export const selectMemberList = (store) => store.member.memberList;
+export const selectIsGettingMemberList = (store) =>
+  store.member.isGettingMemberList;
+export const selectIsGettingMember = (store) => store.member.isGettingMember;
+
+export default memberSlice.reducer;

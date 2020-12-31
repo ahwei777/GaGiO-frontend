@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addCourse } from "../../redux/reducers/courseReducer";
 import styled from "styled-components";
 import { Layout, Breadcrumb, Button, Table, Tag, Space } from "antd";
 import {
@@ -18,15 +19,18 @@ const InfoHeader = styled.div`
 `;
 
 const FormContainer = styled(Content)`
-  ${"" /* display: flex; */}
-  ${"" /* justify-content: center; */}
-
   padding: 24px;
   background-color: ${(props) => props.theme.colors.white};
 `;
 
 export default function NewCoursePage() {
+  const history = useHistory();
   const dispatch = useDispatch();
+
+  const onFinish = (values) => {
+    dispatch(addCourse(values));
+    history.push("/console/courses"); // 把頁面導向課程列表
+  };
 
   return (
     <>
@@ -39,7 +43,7 @@ export default function NewCoursePage() {
         </Breadcrumb>
       </InfoHeader>
       <FormContainer>
-        <CourseSettingForm />
+        <CourseSettingForm onFinish={onFinish} />
       </FormContainer>
     </>
   );

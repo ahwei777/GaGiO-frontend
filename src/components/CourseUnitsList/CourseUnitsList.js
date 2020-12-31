@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { Button, List, Typography, Space, Tooltip } from "antd";
@@ -28,9 +28,9 @@ const UnitText = styled.span`
   line-height: 24px;
 `;
 
-const id = 1;
-
 function Unit({ item, dragHandleProps, handleDelete }) {
+  const { id } = useParams();
+
   return (
     <ListContent>
       <Space align="center" size={10}>
