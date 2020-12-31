@@ -1,14 +1,15 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import LoginPage from '../pages/LoginPage';
-import RegisterPage from '../pages/RegisterPage';
-import MePage from '../pages/MePage';
-import ConsolePage from '../pages/ConsolePage';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
+import MePage from "../pages/MePage";
+import ConsolePage from "../pages/ConsolePage";
 //  引入各分頁
-import CartListPage from '../pages/CartListPage';
-import CourseListPage from '../pages/CourseListPage';
-import CourseInfoPage from '../pages/CourseInfoPage';
-import TeacherInfoPage from '../pages/TeacherInfoPage';
+import CartListPage from "../pages/CartListPage";
+import CourseListPage from "../pages/CourseListPage";
+import CourseInfoPage from "../pages/CourseInfoPage";
+import TeacherInfoPage from "../pages/TeacherInfoPage";
+import UnitPage from "../pages/UnitPage";
 
 const padding = 32;
 
@@ -37,6 +38,10 @@ function Routes() {
       </Route>
       <Route exact path="/myCourse">
         {/* 我的課程 */}
+      </Route>
+      <Route path="/unit/:id">
+        {/* 登入 */}
+        <UnitPage />
       </Route>
       <Route path="/me">
         <MePage />
