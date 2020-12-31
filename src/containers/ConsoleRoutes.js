@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import ConsoleCoursesPage from "../pages/ConsoleCoursesPage";
 import NewCoursePage from "../pages//NewCoursePage";
 import ConsoleMembersPage from "../pages//ConsoleMembersPage";
-import ManageCoursePage from "../pages/ManageCoursePage";
+import SpecificCoursePage from "../pages/SpecificCoursePage";
 import CourseSettingPage from "../pages/CourseSettingPage";
 import MemberDetailPage from "../pages//MemberDetailPage";
 import EditUnitPage from "../pages//EditUnitPage";
@@ -18,7 +18,7 @@ export default function ConsoleRoutes() {
         <NewCoursePage />
       </Route>
       <Route exact path="/console/courses/:id">
-        <ManageCoursePage />
+        <SpecificCoursePage />
       </Route>
       <Route exact path="/console/courses/:id/course-setting">
         <CourseSettingPage />

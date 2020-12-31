@@ -34,7 +34,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-export default function ManageCoursePage() {
+export default function SpecificCoursePage() {
   const { id } = useParams();
   const dispatch = useDispatch();
 

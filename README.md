@@ -45,7 +45,7 @@
 │  └── 後台管理(ConsolePage)                      # 管理功能的源頭
 │     ├── 課程列表(ConsoleCoursesPage)            # 列出該使用者目前所有課程
 │     │  ├── 新增課程(NewCoursePage)              # 在此頁面新增課程
-│     │  └── 課程管理(ManageCoursePage)           # 特定課程的管理頁面
+│     │  └── 課程管理(SpecificCoursePage)         # 特定課程的管理頁面
 │     │     ├── 課程設定(CourseSettingPage)       # 編輯課程名稱、金額、狀態等等
 │     │     └── 編輯單元(EditUnitPage)            # 特定單元的管理頁面
 │     └── 會員管理(ConsoleMemberPage)             # 列出所有網站所有會員
