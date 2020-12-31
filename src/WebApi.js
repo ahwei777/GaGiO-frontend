@@ -156,3 +156,15 @@ export const getTeacherListAPI = () =>
 //  getTeacher
 export const getTeacherAPI = (id) =>
   fetch(`${BASE_URL}/teachers/${id}`).then((res) => res.json());
+
+export const getUnitListAPI = (courseId) => {
+  console.log("webapi");
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/unit?courseId=${courseId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .catch((error) => error.json());
+};
