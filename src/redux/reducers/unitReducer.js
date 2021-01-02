@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from "@reduxjs/toolkit";
-import { getUnitListAPI } from "../../WebApi";
+import { getUnitListAPI, updateUnitListAPI } from "../../WebApi";
 
 export const unitSlice = createSlice({
   name: "unit",
   initialState: {
     unit: null,
+    unitList: null,
     course: null,
     isLoading: false,
     errorMessage: "",
@@ -17,6 +18,9 @@ export const unitSlice = createSlice({
     },
     setUnit: (state, action) => {
       state.unit = action.payload;
+    },
+    setUnitList: (state, action) => {
+      state.unitList = action.payload;
     },
     setErrorMessage: (state, action) => {
       state.errorMessage = action.payload;
@@ -31,6 +35,7 @@ export const unitSlice = createSlice({
 export const {
   setCourse,
   setUnit,
+  setUnitList,
   setErrorMessage,
   setIsLoading,
 } = unitSlice.actions;
@@ -40,23 +45,54 @@ export const getUnitListByCourse = (courseId) => (dispatch) => {
   dispatch(setIsLoading(true));
   dispatch(setCourse(null));
   dispatch(setUnit(null));
+  dispatch(setUnitList(null));
   dispatch(setErrorMessage(""));
   console.log("reducer");
-  getUnitListAPI(courseId).then((course) => {
-    if (course.ok === 0) return dispatch(setErrorMessage("cannot find course"));
-    dispatch(setUnit(course.data.unit_list[0]));
-    dispatch(setCourse(course.data));
-    dispatch(setIsLoading(false));
-  });
+  getUnitListAPI(courseId)
+    .then((course) => {
+      if (course.ok === 0) {
+        dispatch(setErrorMessage("cannot find course"));
+        dispatch(setIsLoading(false));
+        return;
+      }
+      // success
+      dispatch(setUnit(course.data.unit_list[0]));
+      dispatch(setUnitList(course.data.unit_list));
+      dispatch(setCourse(course.data));
+      dispatch(setIsLoading(false));
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
 };
 export const getUnitByUnitId = (course, unitId) => (dispatch) => {
   dispatch(setIsLoading(true));
   dispatch(setUnit(course.unit_list[unitId]));
   dispatch(setIsLoading(false));
 };
-// selector
+export const updateLocalUnitList = (unitList) => (dispatch) => {
+  dispatch(setUnitList(unitList));
+};
+export const updateUnitList = (courseId, unitList) => (dispatch) => {
+  if (!courseId || !unitList) return console.log("no required info");
+  updateUnitListAPI(courseId, unitList)
+    .then((json) => {
+      console.log(json);
+      if (json.ok === 0) {
+        console.log(json);
+        return;
+      }
+      // success
+      console.log("更新成功");
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
 
+// selector
 export const selectUnit = (store) => store.unit.unit;
+export const selectUnitList = (store) => store.unit.unitList;
 export const selectCourse = (store) => store.unit.course;
 export const selectErrorMessage = (store) => store.unit.errorMessage;
 export const selectIsLoading = (store) => store.unit.isLoading;

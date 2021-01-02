@@ -72,7 +72,7 @@ export default function CourseSettingPage() {
               <Breadcrumb.Item>
                 <Link to={`/console/courses/${id}`}>課程管理</Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item>課程設定</Breadcrumb.Item>
+              <Breadcrumb.Item>課程設定({course.title})</Breadcrumb.Item>
             </Breadcrumb>
             <Space size="large">
               <div>

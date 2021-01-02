@@ -37,7 +37,7 @@ function Unit({ item, dragHandleProps, handleDelete }) {
         <Tooltip title="拖拉">
           <MenuOutlined style={{ color: "#999" }} {...dragHandleProps} />
         </Tooltip>
-        <UnitText>{item.unitTitle}</UnitText>
+        <UnitText>{item.title}</UnitText>
       </Space>
       <Space>
         <Tooltip title="編輯">
@@ -57,15 +57,15 @@ function Unit({ item, dragHandleProps, handleDelete }) {
 }
 
 export default function CourseUnitsList({
-  content,
+  unitList,
   placeholder,
-  handleOnClick,
+  handleAddUnit,
   handleDelete,
 }) {
   return (
     <ListContainer>
       <List size="large" bordered>
-        {content.map((item, index) => (
+        {unitList.map((item, index) => (
           <Draggable key={item.id} draggableId={`id: ${item.id}`} index={index}>
             {(provided) => (
               <div ref={provided.innerRef} {...provided.draggableProps}>
@@ -84,7 +84,7 @@ export default function CourseUnitsList({
             align="center"
             size={10}
             style={{ cursor: "pointer" }}
-            onClick={handleOnClick}
+            onClick={handleAddUnit}
           >
             <PlusOutlined />
             <UnitText>新增課程</UnitText>
