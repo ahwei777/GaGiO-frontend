@@ -1,6 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  getUnitListByCourse,
+  updateLocalUnitList,
+  updateUnitList,
+  selectUnit,
+  selectUnitList,
+  selectCourse,
+  selectIsLoading,
+} from "../../redux/reducers/unitReducer";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { nanoid } from "nanoid";
@@ -11,7 +20,8 @@ import {
   MEDIA_QUERY_TABLET,
 } from "../../constants/breakpoint";
 import CourseUnitsList from "../../components/CourseUnitsList";
-import { dummyData } from "../../components/CourseUnitsList/dummyData";
+// import { dummyData } from "../../components/CourseUnitsList/dummyData";
+import Loading from "../../components/Loading";
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -37,8 +47,19 @@ const reorder = (list, startIndex, endIndex) => {
 export default function SpecificCoursePage() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const course = useSelector(selectCourse);
+  const unitList = useSelector(selectUnitList);
+  const isLoading = useSelector(selectIsLoading);
+  // const [unitList, setUnitList] = useState([]);
 
-  const [courseContent, setCourseContent] = useState(dummyData);
+  useEffect(() => {
+    dispatch(getUnitListByCourse(id));
+    // console.log("course", course);
+    // setUnitList(unitListFromStore);
+    // if (unitListFromStore) setUnitList(unitListFromStore);
+
+    return () => {};
+  }, [dispatch, id]);
 
   function handleOnDragEnd(result) {
     if (!result) return;
@@ -48,57 +69,77 @@ export default function SpecificCoursePage() {
     }
 
     const units = reorder(
-      courseContent,
+      unitList,
       result.source.index,
       result.destination.index
     );
 
-    setCourseContent(units);
+    dispatch(updateLocalUnitList(units));
+    // setUnitList(units);
   }
 
-  const handleOnClick = (e) => {
+  const handleAddUnit = () => {
     const unitId = nanoid();
-    const unit = { id: unitId, unitTitle: "新課程" };
-    setCourseContent([...courseContent, unit]);
+    const unit = { id: unitId, title: "新課程" };
+
+    dispatch(updateLocalUnitList([...unitList, unit]));
+    // setUnitList([...unitList, unit]);
   };
 
   const handleDelete = (id) => {
-    const newCourseContent = courseContent.filter((item) => item.id !== id);
-    setCourseContent(newCourseContent);
+    const newUnitList = unitList.filter((item) => item.id !== id);
+    dispatch(updateLocalUnitList(newUnitList));
+    // setUnitList(newUnitList);
+  };
+
+  const handleSaveUnitList = () => {
+    dispatch(updateUnitList(id, unitList));
+    // const unitListToDb = { unit_list: unitList };
+    // console.log(unitListToDb);
   };
 
   return (
     <>
-      <InfoHeader>
-        <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>
-            <Link to="/console/courses">課程列表</Link>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>課程管理</Breadcrumb.Item>
-        </Breadcrumb>
-        <Space>
-          <Button type="primary">儲存變更</Button>
-          <Link to={`/console/courses/${id}/course-setting`}>
-            <Button type="primary">課程設定</Button>
-          </Link>
-        </Space>
-      </InfoHeader>
-      <CourseContent>
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="courseContent">
-            {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <CourseUnitsList
-                  content={courseContent}
-                  placeholder={provided.placeholder}
-                  handleOnClick={handleOnClick}
-                  handleDelete={handleDelete}
-                />
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </CourseContent>
+      {isLoading && <Loading />}
+      {!isLoading && course && (
+        <>
+          <InfoHeader>
+            <Breadcrumb style={{ margin: "16px 0" }}>
+              <Breadcrumb.Item>
+                <Link to="/console/courses">課程列表</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>課程管理({course.title})</Breadcrumb.Item>
+            </Breadcrumb>
+            <Space>
+              <Button type="primary" onClick={handleSaveUnitList}>
+                儲存變更
+              </Button>
+              <Link to={`/console/courses/${id}/course-setting`}>
+                <Button type="primary">課程設定</Button>
+              </Link>
+            </Space>
+          </InfoHeader>
+          <CourseContent>
+            <>
+              <Title>{course.title}</Title>
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="courseContent">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      <CourseUnitsList
+                        unitList={unitList}
+                        placeholder={provided.placeholder}
+                        handleAddUnit={handleAddUnit}
+                        handleDelete={handleDelete}
+                      />
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </>
+          </CourseContent>
+        </>
+      )}
     </>
   );
 }

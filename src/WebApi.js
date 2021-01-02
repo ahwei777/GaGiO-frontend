@@ -210,3 +210,19 @@ export const getUnitListAPI = (courseId) => {
     .then((res) => res.json())
     .catch((error) => error.json());
 };
+
+export const updateUnitListAPI = (courseId, unitList) => {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/unit/${courseId}`, {
+    method: "PATCH",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      unit_list: unitList,
+    }),
+  })
+    .then((res) => res.json())
+    .catch((error) => error.json());
+};
