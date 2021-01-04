@@ -20,3 +20,7 @@
 .ant-menu-horizontal > .ant-menu-item-selected a {
   color: #99d066;
 }
+
+.ant-table-placeholder {
+  display: none;
+}

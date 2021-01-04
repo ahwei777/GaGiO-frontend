@@ -199,6 +199,27 @@ export const getTeacherAPI = (id) =>
     },
   }).then((res) => res.json());
 
+// sendOrder
+export const sendOrderAPI = (data) => {
+  return fetch(`${BASE_URL}/orders/new`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((res) => res.json());
+};
+
+//  getMyCourseList
+export const getMyCourseListAPI = () => {
+  return fetch(`${BASE_URL}/myCourses`, {
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+    },
+  }).then((res) => res.json());
+};
+
 export const getUnitListAPI = (courseId) => {
   console.log("webapi");
   const token = localStorage.getItem("token");

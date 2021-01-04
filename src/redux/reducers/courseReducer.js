@@ -6,10 +6,11 @@ import {
   getCourseAPI,
   addCourseAPI,
   updateCourseAPI,
+  getMyCourseListAPI
 } from "../../WebApi";
 
 export const courseSlice = createSlice({
-  name: "course",
+  name: 'course',
   initialState: {
     courseList: [],
     isGettingCourseList: false,
@@ -17,6 +18,9 @@ export const courseSlice = createSlice({
     course: null,
     isGettingCourse: false,
     getCourseError: null,
+    myCourseList: [],
+    isGettingMyCourseList: false,
+    getMyCourseListError: null,
   },
   reducers: {
     setCourseList: (state, action) => {
@@ -39,6 +43,16 @@ export const courseSlice = createSlice({
     setGetCourseError: (state, action) => {
       state.getCourseError = action.payload;
     },
+    setMyCourseList: (state, action) => {
+      state.myCourseList = action.payload;
+      state.getMyCourseListError = null;
+    },
+    setIsGettingMyCourseList: (state, action) => {
+      state.isGettingMyCourseList = action.payload;
+    },
+    setGetMyCourseListError: (state, action) => {
+      state.getMyCourseListError = action.payload;
+    },
   },
 });
 
@@ -50,6 +64,9 @@ export const {
   setCourse,
   setIsGettingCourse,
   setGetCourseError,
+  setMyCourseList,
+  setIsGettingMyCourseList,
+  setGetMyCourseListError,
 } = courseSlice.actions;
 
 // redux thunk function
@@ -87,6 +104,23 @@ export const getCourse = (id) => (dispatch) => {
       console.log("err: ", err);
     });
 };
+export const getMyCourseList = () => (dispatch) => {
+  dispatch(setIsGettingMyCourseList(true));
+  getMyCourseListAPI().then((json) => {
+    if (json.ok === 0) {
+      dispatch(setGetMyCourseListError(json.errorMessage));
+      dispatch(setIsGettingMyCourseList(false));
+      return;
+    }
+    // success
+    dispatch(setMyCourseList(json.data.myCourseList));
+    dispatch(setIsGettingMyCourseList(false));
+  })
+  .catch((err) => {
+    console.log('err: ', err);
+  });
+}
+
 export const addCourse = ({ title, price, description }) => (dispatch) => {
   if (!title || price <= 0) return;
   addCourseAPI(title, price, description)
@@ -126,5 +160,8 @@ export const selectIsGettingCourseList = (store) =>
   store.course.isGettingCourseList;
 export const selectCourse = (store) => store.course.course;
 export const selectIsGettingCourse = (store) => store.course.isGettingCourse;
+export const selectMyCourseList = (store) => store.course.myCourseList;
+export const selectIsGettingMyCourseList = (store) => store.course.isGettingMyCourseList;
+
 
 export default courseSlice.reducer;
