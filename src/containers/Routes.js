@@ -6,7 +6,9 @@ import MePage from "../pages/MePage";
 import ConsolePage from "../pages/ConsolePage";
 //  引入各分頁
 import CartListPage from "../pages/CartListPage";
+import CheckoutPage from '../pages/CheckoutPage';
 import CourseListPage from "../pages/CourseListPage";
+import MyCoursePage from '../pages/MyCoursePage';
 import CourseInfoPage from "../pages/CourseInfoPage";
 import TeacherInfoPage from "../pages/TeacherInfoPage";
 import UnitPage from "../pages/UnitPage";
@@ -36,8 +38,13 @@ function Routes() {
         {/* 購物車 */}
         <CartListPage padding={padding} />
       </Route>
+      <Route exact path="/checkout/:id?">
+        {/* 結帳 */}
+        <CheckoutPage padding={padding} />
+      </Route>
       <Route exact path="/myCourse">
         {/* 我的課程 */}
+        <MyCoursePage padding={padding} />
       </Route>
       <Route path="/unit/:id">
         {/* 登入 */}

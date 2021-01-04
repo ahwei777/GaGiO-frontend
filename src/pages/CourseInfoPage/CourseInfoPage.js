@@ -35,6 +35,7 @@ export default function CourseInfoPage() {
   const cartList = useSelector(selectCartList);
   const isGettingCourse = useSelector(selectIsGettingCourse);
   const { id } = useParams();
+  console.log('course', course)
   const checkIsAlreadyInCart = () => {
     for (let i = 0; i < cartList.length; i += 1) {
       if (cartList[i].CourseId === Number(id)) {
@@ -44,10 +45,21 @@ export default function CourseInfoPage() {
     }
     return false;
   };
+  const checkCourseIsPaid = () => {
+    console.log(user)
+    if (!user) return false;
+    for (let i = 0; i < user.paidCourses.length; i += 1) {
+      if (user.paidCourses[i].CourseId === Number(course.id)) {
+        // 當前課程已在 paidCourses 內
+        return true;
+      }
+    }
+    return false;
+  };
 
   const handleClickAddToCart = () => {
     if (!user) {
-      history.push('/cartList')
+      history.push('/cartList');
     }
     if (!checkIsAlreadyInCart()) {
       dispatch(addCartItem(course.id));
@@ -76,25 +88,33 @@ export default function CourseInfoPage() {
             <strong>開課老師：</strong>
             {course.Teacher.name}
           </p>
-          <div align="right" >
-            <Button type="primary" size="large">
-              立即購買
-            </Button>
-            {'  '}
-            {checkIsAlreadyInCart() ? (
-              <Link to="/cartList">
-                <Button type="primary" size="large" danger>
-                  前進購物車
-                </Button>
-              </Link>
-            ) : (
-              <Button
-                type="primary"
-                size="large"
-                onClick={handleClickAddToCart}
-              >
-                加入購物車
+          <div align="right">
+            {course.isCourseBought ? (
+              <Button type="primary" size="large">
+                <Link to={`/learn/${course.id}`}>開始上課</Link>
               </Button>
+            ) : (
+              <>
+                <Button type="primary" size="large">
+                  <Link to={`/checkout/${course.id}`}>立即購買</Link>
+                </Button>
+                {'  '}
+                {checkIsAlreadyInCart() ? (
+                  <Link to="/cartList">
+                    <Button type="primary" size="large" danger>
+                      前進購物車
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={handleClickAddToCart}
+                  >
+                    加入購物車
+                  </Button>
+                )}
+              </>
             )}
           </div>
 
