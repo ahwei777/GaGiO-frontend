@@ -11,8 +11,9 @@ import { Table, Button } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { toCurrency } from '../../utils';
 import {
-  MEDIA_QUERY_MOBILE_M, MEDIA_QUERY_TABLET
-} from '../../constants/breakpoint'
+  MEDIA_QUERY_MOBILE_M,
+  MEDIA_QUERY_TABLET,
+} from '../../constants/breakpoint';
 
 const PageWrapper = styled.div`
   padding: ${(props) => props.padding}px;
@@ -106,38 +107,38 @@ export default function CartListPage({ padding }) {
 
   return (
     <PageWrapper padding={padding}>
-      {!user && (
-        <center>
-          <h1>請先註冊或登入後使用購物車</h1>
-          <h1>
-            <Link to="/login">登入</Link>
-            <br />
-            <Link to="/register">註冊</Link>
-          </h1>
-        </center>
-      )}
-      {user && (
-        <LeftContainer>
-          {cartList.length === 0 && (
-            <>
+      <LeftContainer>
+        {!user && (
+          <center>
+            <h1>請先註冊或登入後使用購物車</h1>
+            <h1>
+              <Link to="/login">登入</Link>
+              <br />
+              <Link to="/register">註冊</Link>
+            </h1>
+          </center>
+        )}
+        {user && (
+          <>
+            {cartList.length === 0 && (
               <center>
                 <h1>購物車是空的，看看課程？</h1>
                 <h1>
                   <Link to="/">探索課程</Link>
                 </h1>
               </center>
-            </>
-          )}
-          {cartList.length > 0 && (
-            <>
-              <h1>購物車清單</h1>
-              <h3>共有{cartList.length}堂課</h3>
-              <hr />
-              <Table columns={columns} dataSource={data} />
-            </>
-          )}
-        </LeftContainer>
-      )}
+            )}
+            {cartList.length > 0 && (
+              <>
+                <h1>購物車清單</h1>
+                <h3>共有{cartList.length}堂課</h3>
+                <hr />
+                <Table columns={columns} dataSource={data} />
+              </>
+            )}
+          </>
+        )}
+      </LeftContainer>
       <RightContainerOuter>
         <RightContainerInner>
           <h5>購物車明細</h5>

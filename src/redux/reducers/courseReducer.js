@@ -18,7 +18,7 @@ export const courseSlice = createSlice({
     course: null,
     isGettingCourse: false,
     getCourseError: null,
-    myCourseList: [],
+    myCourseList: null,
     isGettingMyCourseList: false,
     getMyCourseListError: null,
   },
