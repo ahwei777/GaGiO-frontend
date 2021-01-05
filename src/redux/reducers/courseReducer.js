@@ -5,12 +5,13 @@ import {
   getCourseListAPI,
   getCourseAPI,
   addCourseAPI,
+  addUnitListAPI,
   updateCourseAPI,
-  getMyCourseListAPI
+  getMyCourseListAPI,
 } from "../../WebApi";
 
 export const courseSlice = createSlice({
-  name: 'course',
+  name: "course",
   initialState: {
     courseList: [],
     isGettingCourseList: false,
@@ -106,23 +107,25 @@ export const getCourse = (id) => (dispatch) => {
 };
 export const getMyCourseList = () => (dispatch) => {
   dispatch(setIsGettingMyCourseList(true));
-  getMyCourseListAPI().then((json) => {
-    if (json.ok === 0) {
-      dispatch(setGetMyCourseListError(json.errorMessage));
+  getMyCourseListAPI()
+    .then((json) => {
+      if (json.ok === 0) {
+        dispatch(setGetMyCourseListError(json.errorMessage));
+        dispatch(setIsGettingMyCourseList(false));
+        return;
+      }
+      // success
+      dispatch(setMyCourseList(json.data.myCourseList));
       dispatch(setIsGettingMyCourseList(false));
-      return;
-    }
-    // success
-    dispatch(setMyCourseList(json.data.myCourseList));
-    dispatch(setIsGettingMyCourseList(false));
-  })
-  .catch((err) => {
-    console.log('err: ', err);
-  });
-}
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
 
 export const addCourse = ({ title, price, description }) => (dispatch) => {
   if (!title || price <= 0) return;
+
   addCourseAPI(title, price, description)
     .then((json) => {
       if (json.ok === 0) {
@@ -130,7 +133,22 @@ export const addCourse = ({ title, price, description }) => (dispatch) => {
         return;
       }
       // success
-      console.log("新增成功");
+      console.log(json);
+      console.log("新增課程成功");
+      return json.data.id;
+    })
+    .then((courseId) => {
+      console.log(courseId);
+      return addUnitListAPI(courseId);
+    })
+    .then((json) => {
+      if (json.ok === 0) {
+        console.log(json);
+        return;
+      }
+      // success
+      console.log(json);
+      console.log("新增單元列表成功");
     })
     .catch((err) => {
       console.log("err: ", err);
@@ -139,7 +157,7 @@ export const addCourse = ({ title, price, description }) => (dispatch) => {
 export const updateCourse = ({ id, title, price, description, isPublic }) => (
   dispatch
 ) => {
-  if (!title || price <= 0) return;
+  if (!title || price < 0) return;
   updateCourseAPI(id, title, price, description, isPublic)
     .then((json) => {
       if (json.ok === 0) {
@@ -147,7 +165,7 @@ export const updateCourse = ({ id, title, price, description, isPublic }) => (
         return;
       }
       // success
-      console.log("新增成功");
+      console.log("更改成功");
     })
     .catch((err) => {
       console.log("err: ", err);
@@ -161,7 +179,7 @@ export const selectIsGettingCourseList = (store) =>
 export const selectCourse = (store) => store.course.course;
 export const selectIsGettingCourse = (store) => store.course.isGettingCourse;
 export const selectMyCourseList = (store) => store.course.myCourseList;
-export const selectIsGettingMyCourseList = (store) => store.course.isGettingMyCourseList;
-
+export const selectIsGettingMyCourseList = (store) =>
+  store.course.isGettingMyCourseList;
 
 export default courseSlice.reducer;
