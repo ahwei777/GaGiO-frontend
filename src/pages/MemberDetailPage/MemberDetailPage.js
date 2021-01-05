@@ -83,7 +83,7 @@ export default function MemberDetailPage() {
   return (
     <>
       {isGettingMember && <Loading />}
-      {!isGettingMember && (
+      {!isGettingMember && member && (
         <>
           <InfoHeader>
             <Breadcrumb style={{ margin: "16px 0" }}>
