@@ -69,8 +69,6 @@ export const logout = () => (dispatch) => {
 };
 export const updateUserInfo = (id, email, nickname, authType) => (dispatch) => {
   dispatch(setErrorMessage(""));
-  const token = localStorage.getItem("token");
-  if (token !== id) return dispatch(setErrorMessage("Unauthorized"));
   updateUserInfoAPI(id, email, nickname, authType).then((res) => {
     if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
     dispatch(setUser(res.data.user));
@@ -78,8 +76,8 @@ export const updateUserInfo = (id, email, nickname, authType) => (dispatch) => {
 };
 export const updateUserPassword = (id, password, confirm) => (dispatch) => {
   dispatch(setErrorMessage(""));
-  const token = localStorage.getItem("token");
-  if (token !== id) return dispatch(setErrorMessage("Unauthorized"));
+  if (password !== confirm)
+    return dispatch(setErrorMessage("密碼和確認密碼不同"));
   updateUserPasswordAPI(id, password).then((res) => {
     if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
     dispatch(setUser(res.data.user));

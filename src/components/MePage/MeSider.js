@@ -38,7 +38,7 @@ export default function MeSider() {
       <SideDivider />
       <Anchor affix={false}>
         <Link href="#accountSetting" title="帳號設定" />
-        <Link href="#orderHistory" title="訂單記錄" />
+        <Link href="#orderHistroy" title="訂單記錄" />
       </Anchor>
     </MeSiderWrapper>
   );

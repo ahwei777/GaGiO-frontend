@@ -80,12 +80,14 @@ export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
       nickname,
       authTypeId,
     }),
-  });
+  })
+    .then((res) => res.json())
+    .catch((error) => console.log(error));
 };
 
 export const updateUserPasswordAPI = (id, password) => {
   const token = localStorage.getItem("token");
-  fetch(`${BASE_URL}/user/${id}`, {
+  return fetch(`${BASE_URL}/user/password/${id}`, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -95,7 +97,9 @@ export const updateUserPasswordAPI = (id, password) => {
     body: JSON.stringify({
       password,
     }),
-  });
+  })
+    .then((res) => res.json())
+    .catch((error) => console.log(error));
 };
 
 //  getCourseList

@@ -41,29 +41,29 @@ const UpdateButton = styled(Link)`
 `;
 
 export default function AccountSetting() {
-  const titles = [
-    { title: "email", label: "Email" },
-    { title: "nickname", label: "暱稱" },
-  ];
   const user = useSelector(selectUser);
   return (
     <AboutMeWrapper>
       <PageTitle>帳號設定</PageTitle>
       <Divider />
       <MeInfo>
-        {titles.map((info) => (
-          <Info gutter={16}>
-            <InfoTitle span={4} offset={5}>
-              {`${info.label}:`}
-            </InfoTitle>
-            <InfoDetail span={6}>{user[info.title]}</InfoDetail>
-            <Update span={4}>
-              <UpdateButton to={`/me/update/${info.title}/${user.id}`}>
-                {user[info.title] ? `變更${info.label}` : `新增${info.label}`}
-              </UpdateButton>
-            </Update>
-          </Info>
-        ))}
+        <Info gutter={16}>
+          <InfoTitle span={4} offset={5}>
+            Email：
+          </InfoTitle>
+          <InfoDetail span={6}>{user.email}</InfoDetail>
+        </Info>
+        <Info gutter={16}>
+          <InfoTitle span={4} offset={5}>
+            暱稱：
+          </InfoTitle>
+          <InfoDetail span={6}>{user.nickname}</InfoDetail>
+          <Update span={4}>
+            <UpdateButton to={`/me/update/nickname/${user.id}`}>
+              {user.nickname ? `變更暱稱` : `新增暱稱`}
+            </UpdateButton>
+          </Update>
+        </Info>
         <Info gutter={16}>
           <Update offset={15} span={4}>
             <UpdateButton to={`/me/update/password/${user.id}`}>

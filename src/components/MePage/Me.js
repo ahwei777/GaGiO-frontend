@@ -21,7 +21,7 @@ export default function Me() {
         <div id="accountSetting">
           <AccountSetting />
         </div>
-        <div id="orderHistory">
+        <div id="orderHistroy">
           <OrderHistory />
         </div>
       </Content>

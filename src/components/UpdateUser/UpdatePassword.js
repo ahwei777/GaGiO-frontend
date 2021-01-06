@@ -1,9 +1,12 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateUserPassword } from "../../redux/reducers/userReducer";
+import { useParams, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectErrorMessage,
+  updateUserPassword,
+} from "../../redux/reducers/userReducer";
 const PageWrapper = styled.div`
   justify-content: center;
   font-family: Noto Sans TC, Roboto, arial, sans-serif;
@@ -57,9 +60,13 @@ export default function UpdatePhone() {
   };
   const { id } = useParams();
   const dispatch = useDispatch();
-  const handleFinish = (value) => {
-    const { password, confirm } = value;
-    dispatch(id, password, confirm);
+  const errorMessage = useSelector(selectErrorMessage);
+  const history = useHistory();
+  const handleFinish = async (value) => {
+    const { newPassword, confirm } = value;
+    await dispatch(updateUserPassword(id, newPassword, confirm));
+    if (!errorMessage) return history.push("/me");
+    console.log(errorMessage);
   };
   return (
     <PageWrapper>
@@ -82,12 +89,15 @@ export default function UpdatePhone() {
           <Form.Item
             label="確認密碼"
             name="confirm"
-            dependencies={["password"]}
+            dependencies={["newPassword"]}
             rules={[
-              { required: true },
+              { required: true, message: "請再次輸入密碼！" },
               ({ getFieldValue }) => ({
                 validator(_, inputValue) {
-                  if (!inputValue || getFieldValue("password") === inputValue) {
+                  if (
+                    !inputValue ||
+                    getFieldValue("newPassword") === inputValue
+                  ) {
                     return Promise.resolve();
                   }
                   return Promise.reject("密碼和確認密碼不相同!");
