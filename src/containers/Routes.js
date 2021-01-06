@@ -46,8 +46,8 @@ function Routes() {
         {/* 我的課程 */}
         <MyCoursePage padding={padding} />
       </Route>
-      <Route path="/unit/:id">
-        {/* 登入 */}
+      <Route path="/learn/:id/">
+        {/* 上課頁面 */}
         <UnitPage />
       </Route>
       <Route path="/me">

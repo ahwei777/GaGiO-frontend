@@ -21,7 +21,6 @@ export default function MyCourseListPage({ padding }) {
   const user = useSelector(selectUser);
   const myCourseList = useSelector(selectMyCourseList);
   const isGettingMyCourseList = useSelector(selectIsGettingMyCourseList);
-  console.log('user', user);
   const dispatch = useDispatch();
   // component mount 時執行(初始化)
   useEffect(() => {
@@ -60,9 +59,9 @@ export default function MyCourseListPage({ padding }) {
                 )}
                 {myCourseList.length > 0 && (
                   <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
-                    {myCourseList.map((el) => (
-                      <Col key={el.Course.id} xs={12} md={8}>
-                        <CourseCard course={el.Course} />
+                    {myCourseList.map((course) => (
+                      <Col key={course.id} xs={12} md={8}>
+                        <CourseCard course={course} />
                       </Col>
                     ))}
                   </Row>

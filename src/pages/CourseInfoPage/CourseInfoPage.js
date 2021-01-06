@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Avatar } from 'antd';
+import { Button, Avatar, List, Typography } from 'antd';
 import { StarOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +35,6 @@ export default function CourseInfoPage() {
   const cartList = useSelector(selectCartList);
   const isGettingCourse = useSelector(selectIsGettingCourse);
   const { id } = useParams();
-  console.log('course', course)
   const checkIsAlreadyInCart = () => {
     for (let i = 0; i < cartList.length; i += 1) {
       if (cartList[i].CourseId === Number(id)) {
@@ -46,7 +45,7 @@ export default function CourseInfoPage() {
     return false;
   };
   const checkCourseIsPaid = () => {
-    console.log(user)
+    console.log(user);
     if (!user) return false;
     for (let i = 0; i < user.paidCourses.length; i += 1) {
       if (user.paidCourses[i].CourseId === Number(course.id)) {
@@ -123,16 +122,22 @@ export default function CourseInfoPage() {
           </div>
           <p>{course.description}</p>
           <div>
-            <strong>章節名稱：</strong>
+            <strong>單元列表：</strong>
           </div>
-          <div>課程名稱：</div>
-          <div>課程名稱：</div>
-          <div>課程名稱：</div>
-          <div>
-            <strong>章節名稱：</strong>
-          </div>
-          <div>課程名稱：</div>
-          <div>課程名稱：</div>
+          {course.unit_title && (
+            <List
+              size="large"
+              bordered
+              dataSource={course.unit_title.map((el, i) => {
+                return { number: i + 1, title: el };
+              })}
+              renderItem={(item) => (
+                <List.Item>
+                  <strong>{item.number}</strong>. {item.title}
+                </List.Item>
+              )}
+            />
+          )}
         </CourseWrapper>
       )}
     </>
