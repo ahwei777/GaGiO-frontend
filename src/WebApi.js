@@ -224,6 +224,19 @@ export const getMyCourseListAPI = () => {
   }).then((res) => res.json());
 };
 
+export const addUnitListAPI = (courseId) => {
+  return fetch(`${BASE_URL}/unit`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ courseId, unit_list: [] }),
+  })
+    .then((res) => res.json())
+    .catch((error) => error.json());
+};
+
 export const getUnitListAPI = (courseId) => {
   console.log("webapi");
   const token = localStorage.getItem("token");

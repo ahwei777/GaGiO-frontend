@@ -52,11 +52,10 @@ export default function CourseSettingPage() {
   }, [dispatch, id]);
 
   const onFinish = (values) => {
-    // console.log("values", values);
-    const input = { ...values, isPublic: course.isPublic };
-    console.log("input", input);
+    const input = { ...values, id, isPublic: course.isPublic };
+
     dispatch(updateCourse(input));
-    // history.push(`/console/courses/${id}`); // 把頁面導向課程列表
+    history.push(`/console/courses/${id}`); // 把頁面導向課程列表
   };
 
   return (
