@@ -66,6 +66,7 @@ export default function UnitPage() {
   const dispatch = useDispatch();
   const course = useSelector(selectCourse);
   const unit = useSelector(selectUnit);
+  console.log('unit', unit)
   const { id } = useParams();
   useEffect(() => {
     dispatch(getUnitListByCourse(id));

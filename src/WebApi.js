@@ -213,7 +213,7 @@ export const sendOrderAPI = (data) => {
 
 //  getMyCourseList
 export const getMyCourseListAPI = () => {
-  return fetch(`${BASE_URL}/myCourses`, {
+  return fetch(`${BASE_URL}/boughtCourses/me`, {
     headers: {
       Authorization: `Bearer ${getAuthToken()}`,
     },

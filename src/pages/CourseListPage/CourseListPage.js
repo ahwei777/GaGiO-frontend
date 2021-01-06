@@ -8,6 +8,7 @@ import {
   selectCourseList,
   selectIsGettingCourseList,
   getCourseList,
+  setCourseList
 } from '../../redux/reducers/courseReducer';
 
 const PageWrapper = styled.div`
@@ -23,7 +24,7 @@ export default function CourseListPage({ padding }) {
   useEffect(() => {
     dispatch(getCourseList());
     // unmount 時先 clean up 避免下次回來時因為仍有舊資料而短暫顯示
-    return () => {};
+    return () => {dispatch(setCourseList([]));};
   }, [dispatch]);
 
   return (
