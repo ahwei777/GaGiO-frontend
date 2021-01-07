@@ -264,3 +264,14 @@ export const updateUnitListAPI = (courseId, unitList) => {
     .then((res) => res.json())
     .catch((error) => error.json());
 };
+
+export const getMyOrderListAPI = () => {
+  const token = localStorage.getItem("token");
+  return fetch(`${BASE_URL}/orders/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .catch((error) => console.log(error));
+};

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/reducers/userReducer";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, getMe } from "../../redux/reducers/userReducer";
+import Loading from "../Loading/Loading";
 import { UserOutlined } from "@ant-design/icons";
 import { Layout, Anchor, Avatar, Divider } from "antd";
 const { Sider } = Layout;
@@ -29,17 +30,23 @@ export default function MeSider() {
   const user = useSelector(selectUser);
   return (
     <MeSiderWrapper theme="light" width="20%">
-      <UserInfoSide>
-        <AvatarDiv>
-          <Avatar size={100} icon={<UserOutlined />} />
-        </AvatarDiv>
-        <UserTitle>{user.nickname}</UserTitle>
-      </UserInfoSide>
-      <SideDivider />
-      <Anchor affix={false}>
-        <Link href="#accountSetting" title="帳號設定" />
-        <Link href="#orderHistroy" title="訂單記錄" />
-      </Anchor>
+      {user ? (
+        <>
+          <UserInfoSide>
+            <AvatarDiv>
+              <Avatar size={100} icon={<UserOutlined />} />
+            </AvatarDiv>
+            <UserTitle>{user.nickname}</UserTitle>
+          </UserInfoSide>
+          <SideDivider />
+          <Anchor affix={false}>
+            <Link href="#accountSetting" title="帳號設定" />
+            <Link href="#orderHistroy" title="訂單記錄" />
+          </Anchor>
+        </>
+      ) : (
+        <Loading />
+      )}
     </MeSiderWrapper>
   );
 }
