@@ -81,7 +81,7 @@ export const getCourseList = () => (dispatch) => {
         return;
       }
       // success
-      dispatch(setCourseList(json.data));
+      dispatch(setCourseList(json.data.courseList));
       dispatch(setIsGettingCourseList(false));
     })
     .catch((err) => {
@@ -98,7 +98,7 @@ export const getCourse = (id) => (dispatch) => {
         return;
       }
       // success
-      dispatch(setCourse(json.data));
+      dispatch(setCourse(json.data.course));
       dispatch(setIsGettingCourse(false));
     })
     .catch((err) => {
@@ -115,7 +115,7 @@ export const getMyCourseList = () => (dispatch) => {
         return;
       }
       // success
-      dispatch(setMyCourseList(json.data));
+      dispatch(setMyCourseList(json.data.myCourseList));
       dispatch(setIsGettingMyCourseList(false));
     })
     .catch((err) => {
@@ -124,7 +124,8 @@ export const getMyCourseList = () => (dispatch) => {
 };
 
 export const addCourse = ({ title, price, description }) => (dispatch) => {
-  if (!title || !description || price < 0) return;
+  if (!title || price <= 0) return;
+
   addCourseAPI(title, price, description)
     .then((json) => {
       if (json.ok === 0) {
@@ -132,7 +133,22 @@ export const addCourse = ({ title, price, description }) => (dispatch) => {
         return;
       }
       // success
-      console.log("新增成功");
+      console.log(json);
+      console.log("新增課程成功");
+      return json.data.id;
+    })
+    .then((courseId) => {
+      console.log(courseId);
+      return addUnitListAPI(courseId);
+    })
+    .then((json) => {
+      if (json.ok === 0) {
+        console.log(json);
+        return;
+      }
+      // success
+      console.log(json);
+      console.log("新增單元列表成功");
     })
     .catch((err) => {
       console.log("err: ", err);

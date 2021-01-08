@@ -28,6 +28,7 @@ const OrderDetailTitle = styled.div`
   width: 10%;
 `;
 const OrderDetailContent = styled.div`
+  text-align: left;
   width: 15%;
 `;
 const OrderIsPaid = styled.div`

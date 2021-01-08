@@ -3,7 +3,7 @@ import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { login, selectUser } from "../../redux/reducers/userReducer";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 const LoginPageWrapper = styled.div`
   justify-content: center;
@@ -20,7 +20,12 @@ const LoginBox = styled.div`
 `;
 const FormTitle = styled.div`
   font-size: 32px;
-  padding-bottom: 32px;
+  padding-bottom: 18px;
+`;
+const FormItem = styled(Form.Item)`
+  .ant-form-item-extra {
+    text-align: left;
+  }
 `;
 const SubmitButton = styled(Button)`
   background-color: ${(props) => props.theme.colors.primary.light};
@@ -34,6 +39,14 @@ const SubmitButton = styled(Button)`
     background-color: ${(props) => props.theme.colors.primary.light};
     border: 0;
     color: #000000;
+  }
+`;
+const NoAccount = styled(Link)`
+  color: ${(props) => props.theme.colors.primary.main};
+  padding: 12px;
+  &:hover {
+    color: ${(props) => props.theme.colors.primary.main};
+    font-weight: bold;
   }
 `;
 
@@ -70,10 +83,10 @@ export default function Login() {
 
   // 測試用
   const handleTestAdmin = (value) => {
-    dispatch(login('test@gmail.com', 'Aa123456'));
+    dispatch(login("test@gmail.com", "Aa123456"));
   };
   const handleTestUser = (value) => {
-    dispatch(login('user@gmail.com', 'Aa123456'));
+    dispatch(login("user@gmail.com", "Aa123456"));
   };
 
   useEffect(() => {
@@ -87,34 +100,41 @@ export default function Login() {
     <LoginPageWrapper>
       <LoginBox>
         <FormTitle>登入</FormTitle>
+        <NoAccount to="/register">還沒有帳號！點擊註冊</NoAccount>
         <Form
           {...layout}
           name="login"
           onFinish={handleFinish}
           validateMessages={validateMessages}
         >
-          <Form.Item
+          <FormItem
             label="Email"
             name="email"
             rules={[{ required: true, type: "email" }]}
           >
             <Input />
-          </Form.Item>
-          <Form.Item
+          </FormItem>
+          <FormItem
             label="Password"
             name="password"
             rules={[{ required: true }]}
           >
             <Input.Password />
-          </Form.Item>
-          <Form.Item {...tailLayout}>
+          </FormItem>
+          <FormItem {...tailLayout}>
             <SubmitButton htmlType="submit">Submit</SubmitButton>
-          </Form.Item>
+          </FormItem>
         </Form>
-        {/* 測試用 */}
-          <Button danger onClick={handleTestAdmin}>管理員快速通道(test@gmail.com)</Button>
-          <Button onClick={handleTestUser}>一般會員快速通道(user@gmail.com)</Button>
-        {/* 測試用 */}
+        <div>
+          {/* 測試用 */}
+          <Button danger onClick={handleTestAdmin}>
+            管理員快速通道(test@gmail.com)
+          </Button>
+          <Button onClick={handleTestUser}>
+            一般會員快速通道(user@gmail.com)
+          </Button>
+          {/* 測試用 */}
+        </div>
       </LoginBox>
     </LoginPageWrapper>
   );
