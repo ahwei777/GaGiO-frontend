@@ -14,6 +14,11 @@ const AboutMeWrapper = styled.div`
 const PageTitle = styled.div`
   padding-top: 32px;
   font-size: 34px;
+  &:before {
+    display: block;
+    content: "";
+    height: 45px;
+  }
 `;
 const MeInfo = styled.div`
   text-align: center;
@@ -47,7 +52,7 @@ export default function AccountSetting() {
     <AboutMeWrapper>
       {user ? (
         <>
-          <PageTitle>帳號設定</PageTitle>
+          <PageTitle id="accountSetting">帳號設定</PageTitle>
           <Divider />
           <MeInfo>
             <Info gutter={16}>

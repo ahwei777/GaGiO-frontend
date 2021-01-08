@@ -15,6 +15,11 @@ const AboutMeWrapper = styled.div`
 const PageTitle = styled.div`
   padding-top: 32px 0;
   font-size: 34px;
+  &:before {
+    content: "";
+    display: block;
+    height: 45px;
+  }
 `;
 const EmptyOrderList = styled.div`
   padding: 32px;
@@ -45,7 +50,7 @@ export default function AccountSetting() {
 
   return (
     <AboutMeWrapper>
-      <PageTitle>訂單記錄</PageTitle>
+      <PageTitle id="orderHistroy">訂單記錄</PageTitle>
       <Divider />
       {orderList ? (
         <HistoryList>

@@ -64,11 +64,10 @@ const HasAccount = styled(Link)`
 export default function Register() {
   const layout = {
     labelCol: {
-      span: 7,
-      offset: 4,
+      span: 8,
     },
     wrapperCol: {
-      span: 10,
+      span: 12,
     },
   };
   const tailLayout = {
@@ -78,9 +77,9 @@ export default function Register() {
     },
   };
   const validateMessages = {
-    required: "${label} is required",
+    required: "請輸入${name}",
     types: {
-      email: "Please enter an email",
+      email: "請輸入一個 email",
     },
   };
   const history = useHistory();
@@ -131,9 +130,8 @@ export default function Register() {
                 required: true,
               },
             ]}
-            extra="8～20個字，至少一個數字、一個大寫以及一個小寫字母"
           >
-            <Input.Password />
+            <Input.Password placeholder="8～20個字，包含大寫、小寫字母和數字" />
           </FormItem>
           <FormItem
             label="Confirm Password"
@@ -148,13 +146,12 @@ export default function Register() {
                   if (!inputValue || getFieldValue("password") === inputValue) {
                     return Promise.resolve();
                   }
-                  return Promise.reject("!");
+                  return Promise.reject("確認密碼不符!");
                 },
               }),
             ]}
-            extra="請再輸入一次密碼"
           >
-            <Input.Password />
+            <Input.Password placeholder="請再次輸入密碼" />
           </FormItem>
           <FormItem
             label="Nickname"

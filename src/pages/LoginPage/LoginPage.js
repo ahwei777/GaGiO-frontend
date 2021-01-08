@@ -54,7 +54,6 @@ export default function Login() {
   const layout = {
     labelCol: {
       span: 8,
-      offset: 2,
     },
     wrapperCol: {
       span: 12,
