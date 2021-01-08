@@ -1,6 +1,12 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
+import { useParams, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectErrorMessage,
+  updateUserInfo,
+} from "../../redux/reducers/userReducer";
 
 const PageWrapper = styled.div`
   justify-content: center;
@@ -53,7 +59,16 @@ export default function UpdateName() {
   const validateMessages = {
     required: "${label} is required",
   };
-  const handleFinish = (value) => {};
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const history = useHistory();
+  const errorMessage = useSelector(selectErrorMessage);
+  const handleFinish = async (value) => {
+    const { newNickname } = value;
+    await dispatch(updateUserInfo(id, null, newNickname, null));
+    if (!errorMessage) return history.push("/me");
+    console.log(errorMessage);
+  };
   return (
     <PageWrapper>
       <Box>

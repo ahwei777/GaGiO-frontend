@@ -5,7 +5,7 @@ import { Layout } from "antd";
 
 const MeLayout = styled(Layout)`
   max-width: 1000px;
-  margin: 20px auto;
+  margin: 0px auto;
   background-color: #ffffff;
 `;
 

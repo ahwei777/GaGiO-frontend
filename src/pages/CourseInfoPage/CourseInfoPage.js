@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import { Button, Avatar, List, Typography } from 'antd';
-import { StarOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { useHistory, useParams, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { Button, Avatar, List, Typography } from "antd";
+import { StarOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import { useHistory, useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getCourse,
   selectCourse,
   selectIsGettingCourse,
-} from '../../redux/reducers/courseReducer';
-import { toCurrency } from '../../utils';
-import Loading from '../../components/Loading';
-import { selectCartList, addCartItem } from '../../redux/reducers/cartReducer';
-import { selectUser } from '../../redux/reducers/userReducer';
+} from "../../redux/reducers/courseReducer";
+import { toCurrency } from "../../utils";
+import Loading from "../../components/Loading";
+import { selectCartList, addCartItem } from "../../redux/reducers/cartReducer";
+import { selectUser } from "../../redux/reducers/userReducer";
 
 const CourseWrapper = styled.div`
   max-width: 760px;
@@ -58,7 +58,7 @@ export default function CourseInfoPage() {
 
   const handleClickAddToCart = () => {
     if (!user) {
-      history.push('/cartList');
+      history.push("/cartList");
     }
     if (!checkIsAlreadyInCart()) {
       dispatch(addCartItem(course.id));
@@ -97,7 +97,7 @@ export default function CourseInfoPage() {
                 <Button type="primary" size="large">
                   <Link to={`/checkout/${course.id}`}>立即購買</Link>
                 </Button>
-                {'  '}
+                {"  "}
                 {checkIsAlreadyInCart() ? (
                   <Link to="/cartList">
                     <Button type="primary" size="large" danger>
