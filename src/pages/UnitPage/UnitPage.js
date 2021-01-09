@@ -50,7 +50,7 @@ const UnitTitle = styled.div`
   font-size: 34px;
   padding: 12px 0;
 `;
-const UnitDiscription = styled.div`
+const UnitDescriprion = styled.div`
   font-size: 16px;
   padding: 12px 0;
 `;
@@ -66,7 +66,7 @@ export default function UnitPage() {
   const dispatch = useDispatch();
   const course = useSelector(selectCourse);
   const unit = useSelector(selectUnit);
-  console.log('unit', unit)
+  console.log("unit", unit);
   const { id } = useParams();
   useEffect(() => {
     dispatch(getUnitListByCourse(id));
@@ -124,7 +124,7 @@ export default function UnitPage() {
               <Breadcrumb.Item>{unit.title}</Breadcrumb.Item>
             </Breadcrumb>
             <UnitTitle>{unit.title}</UnitTitle>
-            <UnitDiscription>{unit.discription}</UnitDiscription>
+            <UnitDescriprion>{unit.descriprion}</UnitDescriprion>
             {unit.videoUrl && (
               <UnitVideo videoId={getYoutubeId(unit.videoUrl)} opt={options} />
             )}
