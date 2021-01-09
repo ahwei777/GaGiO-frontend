@@ -16,20 +16,21 @@ const validateMessages = {
   },
 };
 
-export default function CourseSettingForm() {
-  const onFinish = (values) => {
-    console.log("完成表單", values);
-  };
-
+export default function CourseSettingForm({ unit, onFinish }) {
   return (
-    <Form {...layout} onFinish={onFinish} validateMessages={validateMessages}>
-      <Form.Item name="name" label="單元名稱" rules={[{ required: true }]}>
+    <Form
+      {...layout}
+      onFinish={onFinish}
+      validateMessages={validateMessages}
+      initialValues={unit}
+    >
+      <Form.Item name="title" label="單元名稱" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-      <Form.Item name="introduction" label="單元敘述">
+      <Form.Item name="description" label="單元敘述">
         <Input.TextArea rows={8} />
       </Form.Item>
-      <Form.Item name="vedio" label="影片連結">
+      <Form.Item name="videoUrl" label="影片連結">
         <Input placeholder="請輸入 Youtube 連結" />
       </Form.Item>
       <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 2 }}>
