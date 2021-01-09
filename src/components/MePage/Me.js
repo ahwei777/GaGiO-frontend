@@ -18,12 +18,8 @@ export default function Me() {
     <>
       <MeSider />
       <Content>
-        <div id="accountSetting">
-          <AccountSetting />
-        </div>
-        <div id="orderHistory">
-          <OrderHistory />
-        </div>
+        <AccountSetting />
+        <OrderHistory />
       </Content>
     </>
   );
