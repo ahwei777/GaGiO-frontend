@@ -88,32 +88,40 @@ export default function CourseInfoPage() {
             {course.Teacher.name}
           </p>
           <div align="right">
-            {course.isCourseBought ? (
-              <Button type="primary" size="large">
-                <Link to={`/learn/${course.id}`}>開始上課</Link>
-              </Button>
-            ) : (
+            {course.isPublic ? (
               <>
-                <Button type="primary" size="large">
-                  <Link to={`/checkout/${course.id}`}>立即購買</Link>
-                </Button>
-                {'  '}
-                {checkIsAlreadyInCart() ? (
-                  <Link to="/cartList">
-                    <Button type="primary" size="large" danger>
-                      前進購物車
-                    </Button>
-                  </Link>
-                ) : (
-                  <Button
-                    type="primary"
-                    size="large"
-                    onClick={handleClickAddToCart}
-                  >
-                    加入購物車
+                {course.isCourseBought ? (
+                  <Button type="primary" size="large">
+                    <Link to={`/learn/${course.id}`}>開始上課</Link>
                   </Button>
+                ) : (
+                  <>
+                    <Button type="primary" size="large">
+                      <Link to={`/checkout/${course.id}`}>立即購買</Link>
+                    </Button>
+                    {'  '}
+                    {checkIsAlreadyInCart() ? (
+                      <Link to="/cartList">
+                        <Button type="primary" size="large" danger>
+                          前進購物車
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button
+                        type="primary"
+                        size="large"
+                        onClick={handleClickAddToCart}
+                      >
+                        加入購物車
+                      </Button>
+                    )}
+                  </>
                 )}
               </>
+            ) : (
+              <Button size="large" disabled>
+                非公開課程
+              </Button>
             )}
           </div>
 

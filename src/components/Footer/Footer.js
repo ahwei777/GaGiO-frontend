@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Row, Col } from 'antd';
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
+import { useLocation } from 'react-router-dom';
 
 const FooterContainer = styled.div`
   text-align: center;
@@ -12,9 +13,12 @@ const FooterContainer = styled.div`
 `
 
 export default function Footer() {
-  const themeContext = useContext(ThemeContext);
-  
+  //const themeContext = useContext(ThemeContext);
+  const location = useLocation();
+
   return (
+    <>
+    {!location.pathname.includes('console') && (
     <FooterContainer>
       <Row gutter={[0, { sm: 24, md: 0}]}>
         <Col xs={12} md={6}>
@@ -42,5 +46,7 @@ export default function Footer() {
         </Col>
       </Row>
     </FooterContainer>
+    )}
+    </>
   );
 }

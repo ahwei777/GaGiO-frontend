@@ -22,8 +22,10 @@ const PageWrapper = styled.div`
     position: static;
   }
   ${MEDIA_QUERY_TABLET} {
-    display: flex;
-    position: relative;
+    ${(props) => props.isLogging && `
+        display: flex;
+        position: relative;
+    `}
   }
 `;
 const LeftContainer = styled.div`
@@ -106,8 +108,8 @@ export default function CartListPage({ padding }) {
   ];
 
   return (
-    <PageWrapper padding={padding}>
-      <LeftContainer>
+    <PageWrapper padding={padding} isLogging={user}>
+      <>
         {!user && (
           <center>
             <h1>請先註冊或登入後使用購物車</h1>
@@ -120,38 +122,40 @@ export default function CartListPage({ padding }) {
         )}
         {user && (
           <>
-            {cartList.length === 0 && (
-              <center>
-                <h1>購物車是空的，看看課程？</h1>
-                <h1>
-                  <Link to="/">探索課程</Link>
-                </h1>
-              </center>
-            )}
-            {cartList.length > 0 && (
-              <>
-                <h1>購物車清單</h1>
-                <h3>共有{cartList.length}堂課</h3>
+            <LeftContainer>
+              {cartList.length === 0 && (
+                <center>
+                  <h1>購物車是空的，看看課程？</h1>
+                  <h1>
+                    <Link to="/">探索課程</Link>
+                  </h1>
+                </center>
+              )}
+              {cartList.length > 0 && (
+                <>
+                  <h1>購物車清單</h1>
+                  <h3>共有{cartList.length}堂課</h3>
+                  <hr />
+                  <Table columns={columns} dataSource={data} />
+                </>
+              )}
+            </LeftContainer>
+            <RightContainerOuter>
+              <RightContainerInner>
+                <h5>購物車明細</h5>
                 <hr />
-                <Table columns={columns} dataSource={data} />
-              </>
-            )}
+                <div>小計 {toCurrency(sumPrice)}</div>
+                <br></br>
+                {cartList.length > 0 && (
+                  <Button size="lg" block>
+                    <Link to={`/checkout`}>結帳</Link>
+                  </Button>
+                )}
+              </RightContainerInner>
+            </RightContainerOuter>
           </>
         )}
-      </LeftContainer>
-      <RightContainerOuter>
-        <RightContainerInner>
-          <h5>購物車明細</h5>
-          <hr />
-          <div>小計 {toCurrency(sumPrice)}</div>
-          <br></br>
-          {cartList.length > 0 && (
-            <Button size="lg" block>
-              <Link to={`/checkout`}>結帳</Link>
-            </Button>
-          )}
-        </RightContainerInner>
-      </RightContainerOuter>
+      </>
     </PageWrapper>
   );
 }
