@@ -47,9 +47,9 @@ export default function MyCourseListPage({ padding }) {
         {user && (
           <>
             {isGettingMyCourseList && <Loading />}
-            {!isGettingMyCourseList && myCourseList && (
+            {!isGettingMyCourseList && (
               <>
-                {myCourseList.length === 0 && (
+                {!myCourseList && (
                   <center>
                     <h1>我的課程是空的，看看課程？</h1>
                     <h1>
@@ -57,7 +57,7 @@ export default function MyCourseListPage({ padding }) {
                     </h1>
                   </center>
                 )}
-                {myCourseList.length > 0 && (
+                {myCourseList && myCourseList.length > 0 && (
                   <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
                     {myCourseList.map((course) => (
                       <Col key={course.id} xs={12} md={8}>
