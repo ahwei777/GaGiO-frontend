@@ -79,7 +79,7 @@ export default function CourseSettingPage() {
               </Breadcrumb.Item>
               <Breadcrumb.Item>課程設定({course.title})</Breadcrumb.Item>
             </Breadcrumb>
-            <Space size="large">
+            <Space size="middle">
               <div>
                 <Text>目前課程狀態：</Text>
                 <Text mark>{course.isPublic ? "已公開" : "未公開"}</Text>
