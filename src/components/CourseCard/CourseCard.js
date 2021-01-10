@@ -6,6 +6,24 @@ import { toCurrency } from '../../utils';
 const { Meta } = Card;
 
 const CardWrapper = styled.div`
+  ${(props) =>
+    !props.isPublic &&
+    `
+    ::before {
+    position: absolute;
+    z-index: 1;
+    top: 25%;
+    left: 50%;
+    font-size: 20px;
+    padding: 10px;
+    transform: translate(-50%,-50%);
+    content: '未公開課程';
+    background-color: grey;
+    color: white;
+  }
+  border: red solid 3px;
+  `}
+
   :hover {
     opacity: 0.7;
     border: transparent 1px solid;
@@ -26,7 +44,7 @@ export default function CourseCard({ course }) {
   return (
     <>
       <Link to={`/courseInfo/${course.id}`}>
-        <CardWrapper>
+        <CardWrapper isPublic={course.isPublic}>
           <Card cover={<img alt="unavailable" src={course.imgUrl} />}>
             <Progress percent={20} />
             <Meta
