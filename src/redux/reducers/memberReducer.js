@@ -4,11 +4,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getMemberListAPI,
   getMemberAPI,
-
-  // updateUserInfoAPI,
-  // updateUserPasswordAPI,
+  updateUserInfoAPI,
 } from "../../WebApi";
-// import { getCartList, setCartList } from "./cartReducer";
+import { getCartList, setCartList } from "./cartReducer";
 
 export const memberSlice = createSlice({
   name: "member",
@@ -21,11 +19,9 @@ export const memberSlice = createSlice({
   },
   reducers: {
     setMemberList: (state, action) => {
-      // console.log("payload", action.payload);
       state.memberList = action.payload;
     },
     setMember: (state, action) => {
-      // console.log("payload", action.payload);
       state.member = action.payload;
     },
     setErrorMessage: (state, action) => {
@@ -93,24 +89,13 @@ export const getMember = (id) => (dispatch) => {
     });
 };
 
-// export const updateUserInfo = (id, email, nickname, authType) => (dispatch) => {
-//   dispatch(setErrorMessage(""));
-//   const token = localStorage.getItem("token");
-//   if (token !== id) return dispatch(setErrorMessage("Unauthorized"));
-//   updateUserInfoAPI(id, email, nickname, authType).then((res) => {
-//     if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
-//     dispatch(setMember(res.data.user));
-//   });
-// };
-// export const updateUserPassword = (id, password, confirm) => (dispatch) => {
-//   dispatch(setErrorMessage(""));
-//   const token = localStorage.getItem("token");
-//   if (token !== id) return dispatch(setErrorMessage("Unauthorized"));
-//   updateUserPasswordAPI(id, password).then((res) => {
-//     if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
-//     dispatch(setMember(res.data.user));
-//   });
-// };
+export const updateMemberAuth = (id, authType) => (dispatch) => {
+  dispatch(setErrorMessage(""));
+  updateUserInfoAPI(id, null, null, authType).then((res) => {
+    console.log(res);
+    if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
+  });
+};
 
 // selector
 export const selectMember = (store) => store.member.member;
