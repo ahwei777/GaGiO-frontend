@@ -10,7 +10,7 @@ import {
   selectCourse,
   selectIsLoading,
 } from "../../redux/reducers/unitReducer";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { nanoid } from "nanoid";
 import { Layout, Breadcrumb, Button, Typography, Divider, Space } from "antd";
@@ -20,7 +20,6 @@ import {
   MEDIA_QUERY_TABLET,
 } from "../../constants/breakpoint";
 import CourseUnitsList from "../../components/CourseUnitsList";
-// import { dummyData } from "../../components/CourseUnitsList/dummyData";
 import Loading from "../../components/Loading";
 const { Content } = Layout;
 const { Title } = Typography;
@@ -50,13 +49,9 @@ export default function SpecificCoursePage() {
   const course = useSelector(selectCourse);
   const unitList = useSelector(selectUnitList);
   const isLoading = useSelector(selectIsLoading);
-  // const [unitList, setUnitList] = useState([]);
 
   useEffect(() => {
     dispatch(getUnitListByCourse(id));
-    // console.log("course", course);
-    // setUnitList(unitListFromStore);
-    // if (unitListFromStore) setUnitList(unitListFromStore);
 
     return () => {};
   }, [dispatch, id]);
@@ -75,7 +70,6 @@ export default function SpecificCoursePage() {
     );
 
     dispatch(updateLocalUnitList(units));
-    // setUnitList(units);
   }
 
   const handleAddUnit = () => {
@@ -83,19 +77,15 @@ export default function SpecificCoursePage() {
     const unit = { id: unitId, title: "新課程" };
 
     dispatch(updateLocalUnitList([...unitList, unit]));
-    // setUnitList([...unitList, unit]);
   };
 
   const handleDelete = (id) => {
     const newUnitList = unitList.filter((item) => item.id !== id);
     dispatch(updateLocalUnitList(newUnitList));
-    // setUnitList(newUnitList);
   };
 
   const handleSaveUnitList = () => {
     dispatch(updateUnitList(id, unitList));
-    // const unitListToDb = { unit_list: unitList };
-    // console.log(unitListToDb);
   };
 
   return (

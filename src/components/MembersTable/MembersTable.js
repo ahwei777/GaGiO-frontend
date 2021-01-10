@@ -46,10 +46,10 @@ export default function MembersTable() {
   const dispatch = useDispatch();
   const members = useSelector(selectMemberList);
   const isGettingMemberList = useSelector(selectIsGettingMemberList);
-  // console.log(members);
 
   useEffect(() => {
     dispatch(getMemberList());
+    console.log(members);
 
     return () => {};
   }, [dispatch]);
@@ -65,7 +65,7 @@ export default function MembersTable() {
             members.map((item) => ({
               ...item,
               key: item.id,
-              // updatedAt: item.updatedAt.slice(0, 10),
+              updatedAt: item.updated_at.slice(0, 10),
               auth: translateAuth(item.auth_type),
             }))
           }

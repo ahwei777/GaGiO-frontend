@@ -239,10 +239,9 @@ export const addUnitListAPI = (courseId) => {
 
 export const getUnitListAPI = (courseId) => {
   console.log("webapi");
-  const token = localStorage.getItem("token");
   return fetch(`${BASE_URL}/unit?courseId=${courseId}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${getAuthToken()}`,
     },
   })
     .then((res) => res.json())

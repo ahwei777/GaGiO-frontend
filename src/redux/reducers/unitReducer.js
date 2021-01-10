@@ -77,13 +77,12 @@ export const updateUnitList = (courseId, unitList) => (dispatch) => {
   if (!courseId || !unitList) return console.log("no required info");
   updateUnitListAPI(courseId, unitList)
     .then((json) => {
-      console.log(json);
       if (json.ok === 0) {
         console.log(json);
         return;
       }
       // success
-      console.log("更新成功");
+      console.log("更新單元列表成功");
     })
     .catch((err) => {
       console.log("err: ", err);

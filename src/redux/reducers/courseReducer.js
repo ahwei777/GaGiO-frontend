@@ -132,12 +132,13 @@ export const addCourse = ({ title, price, description }) => (dispatch) => {
         return;
       }
       // success
-      console.log("新增成功");
+      console.log("新增課程成功");
     })
     .catch((err) => {
       console.log("err: ", err);
     });
 };
+
 export const updateCourse = ({ id, title, price, description, isPublic }) => (
   dispatch
 ) => {
@@ -149,7 +150,7 @@ export const updateCourse = ({ id, title, price, description, isPublic }) => (
         return;
       }
       // success
-      console.log("更改成功");
+      console.log("更改課程成功");
     })
     .catch((err) => {
       console.log("err: ", err);
