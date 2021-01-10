@@ -49,7 +49,6 @@ export default function MembersTable() {
 
   useEffect(() => {
     dispatch(getMemberList());
-    console.log(members);
 
     return () => {};
   }, [dispatch]);

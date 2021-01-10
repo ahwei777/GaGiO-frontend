@@ -28,7 +28,12 @@ const UnitText = styled.span`
   line-height: 24px;
 `;
 
-function Unit({ item, dragHandleProps, handleDelete }) {
+function Unit({
+  item,
+  dragHandleProps,
+  handleClickEditUnitButton,
+  handleDelete,
+}) {
   const { id } = useParams();
 
   return (
@@ -41,9 +46,10 @@ function Unit({ item, dragHandleProps, handleDelete }) {
       </Space>
       <Space>
         <Tooltip title="編輯">
-          <Link to={`/console/courses/${id}/unit/${item.id}`}>
-            <Button icon={<EditOutlined />}></Button>
-          </Link>
+          <Button
+            icon={<EditOutlined />}
+            onClick={() => handleClickEditUnitButton(item.id)}
+          ></Button>
         </Tooltip>
         <Tooltip title="刪除">
           <Button
@@ -61,6 +67,7 @@ export default function CourseUnitsList({
   placeholder,
   handleAddUnit,
   handleDelete,
+  handleClickEditUnitButton,
 }) {
   return (
     <ListContainer>
@@ -73,6 +80,7 @@ export default function CourseUnitsList({
                   item={item}
                   dragHandleProps={provided.dragHandleProps}
                   handleDelete={handleDelete}
+                  handleClickEditUnitButton={handleClickEditUnitButton}
                 />
               </div>
             )}

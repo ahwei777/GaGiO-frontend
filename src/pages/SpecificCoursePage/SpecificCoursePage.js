@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUnitListByCourse,
@@ -22,7 +22,7 @@ import {
 import CourseUnitsList from "../../components/CourseUnitsList";
 import Loading from "../../components/Loading";
 const { Content } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const InfoHeader = styled.div`
   display: flex;
@@ -46,12 +46,14 @@ const reorder = (list, startIndex, endIndex) => {
 export default function SpecificCoursePage() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const course = useSelector(selectCourse);
   const unitList = useSelector(selectUnitList);
   const isLoading = useSelector(selectIsLoading);
 
   useEffect(() => {
     dispatch(getUnitListByCourse(id));
+    console.log(course);
 
     return () => {};
   }, [dispatch, id]);
@@ -88,6 +90,16 @@ export default function SpecificCoursePage() {
     dispatch(updateUnitList(id, unitList));
   };
 
+  const handleClickEditCourseButton = () => {
+    dispatch(updateUnitList(id, unitList)); // 先 save 當前 unit list
+    history.push(`/console/courses/${id}/course-setting`); // 把頁面導向單元編輯頁
+  };
+
+  const handleClickEditUnitButton = (unitId) => {
+    dispatch(updateUnitList(id, unitList)); // 先 save 當前 unit list
+    history.push(`/console/courses/${id}/unit/${unitId}`); // 把頁面導向單元編輯頁
+  };
+
   return (
     <>
       {isLoading && <Loading />}
@@ -100,13 +112,17 @@ export default function SpecificCoursePage() {
               </Breadcrumb.Item>
               <Breadcrumb.Item>課程管理({course.title})</Breadcrumb.Item>
             </Breadcrumb>
-            <Space>
+            <Space size="middle">
+              <div>
+                <Text>目前課程狀態：</Text>
+                <Text mark>{course.isPublic ? "已公開" : "未公開"}</Text>
+              </div>
               <Button type="primary" onClick={handleSaveUnitList}>
                 儲存變更
               </Button>
-              <Link to={`/console/courses/${id}/course-setting`}>
-                <Button type="primary">課程設定</Button>
-              </Link>
+              <Button type="primary" onClick={handleClickEditCourseButton}>
+                課程設定
+              </Button>
             </Space>
           </InfoHeader>
           <CourseContent>
@@ -121,6 +137,7 @@ export default function SpecificCoursePage() {
                         placeholder={provided.placeholder}
                         handleAddUnit={handleAddUnit}
                         handleDelete={handleDelete}
+                        handleClickEditUnitButton={handleClickEditUnitButton}
                       />
                     </div>
                   )}
