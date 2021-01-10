@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -51,11 +51,17 @@ export default function CourseSettingPage() {
     return () => {};
   }, [dispatch, id]);
 
+  const handleChangeStatus = () => {
+    const input = { ...course, id, isPublic: !course.isPublic };
+    dispatch(updateCourse(input));
+    history.push(`/console/courses/${id}`); // 把頁面導向單元列表
+  };
+
   const onFinish = (values) => {
     const input = { ...values, id, isPublic: course.isPublic };
 
     dispatch(updateCourse(input));
-    history.push(`/console/courses/${id}`); // 把頁面導向課程列表
+    history.push(`/console/courses/${id}`); // 把頁面導向單元列表
   };
 
   return (
@@ -78,8 +84,8 @@ export default function CourseSettingPage() {
                 <Text>目前課程狀態：</Text>
                 <Text mark>{course.isPublic ? "已公開" : "未公開"}</Text>
               </div>
-              <Button type="primary">
-                <Link>{course.isPublic ? "隱藏課程" : "公開課程"}</Link>
+              <Button type="primary" onClick={handleChangeStatus}>
+                {course.isPublic ? "隱藏課程" : "公開課程"}
               </Button>
             </Space>
           </InfoHeader>

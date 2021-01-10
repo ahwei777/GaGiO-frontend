@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUnitListByCourse,
@@ -46,6 +46,7 @@ const reorder = (list, startIndex, endIndex) => {
 export default function SpecificCoursePage() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const course = useSelector(selectCourse);
   const unitList = useSelector(selectUnitList);
   const isLoading = useSelector(selectIsLoading);

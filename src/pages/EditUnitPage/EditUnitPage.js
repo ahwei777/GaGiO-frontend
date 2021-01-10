@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUnitListByCourse,
@@ -60,6 +60,7 @@ const validateMessages = {
 
 export default function EditUnitPage() {
   const { id, unitId } = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
   const course = useSelector(selectCourse);
   const unitList = useSelector(selectUnitList);
@@ -68,28 +69,24 @@ export default function EditUnitPage() {
 
   useEffect(() => {
     dispatch(getUnitListByCourse(id));
-    const unit = unitList.find((unit) => unit.id === Number(unitId));
+    const unit = unitList.find((unit) => unit.id == unitId);
     form.setFieldsValue({ ...unit });
 
     return () => {};
   }, [dispatch, id, unitId]);
 
-  // const handleSaveUnitList = () => {
-  //   dispatch(updateUnitList(id, unitList));
-  // };
-
   const onFinish = (values) => {
     console.log("完成表單", values);
 
-    // dispatch(updateLocalUnitList());
     const newUnitList = unitList.map((unit) => {
-      if (unit.id === Number(unitId)) {
+      if (unit.id == unitId) {
         return { ...unit, ...values };
       }
       return unit;
     });
     console.log(newUnitList);
-    // dispatch(updateUnitList(id, unitList));
+    dispatch(updateUnitList(id, newUnitList));
+    history.push(`/console/courses/${id}`); // 把頁面導向單元列表
   };
 
   return (
@@ -116,7 +113,6 @@ export default function EditUnitPage() {
               form={form}
               onFinish={onFinish}
               validateMessages={validateMessages}
-              // initialValues={unit}
             >
               <Form.Item
                 name="title"
