@@ -124,10 +124,10 @@ export default function MemberDetailPage() {
               <Descriptions.Item label="目前身份" span={2}>
                 {translateAuth(member.auth_type)}
               </Descriptions.Item>
-              <Descriptions.Item label="註冊時間">
+              <Descriptions.Item label="註冊日期">
                 {member.created_at.slice(0, 10)}
               </Descriptions.Item>
-              <Descriptions.Item label="最近更新時間" span={2}>
+              <Descriptions.Item label="更新日期" span={2}>
                 {member.updated_at.slice(0, 10)}
               </Descriptions.Item>
               <Descriptions.Item label="會員信箱">
