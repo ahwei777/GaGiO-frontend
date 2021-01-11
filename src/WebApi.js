@@ -66,7 +66,7 @@ export const getMemberAPI = (id) => {
   }).then((res) => res.json());
 };
 
-export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
+export const updateUserInfoAPI = (id, email, nickname, AuthTypeId) => {
   const token = localStorage.getItem("token");
   return fetch(`${BASE_URL}/user/${id}`, {
     headers: {
@@ -78,7 +78,7 @@ export const updateUserInfoAPI = (id, email, nickname, authTypeId) => {
     body: JSON.stringify({
       email,
       nickname,
-      authTypeId,
+      AuthTypeId,
     }),
   })
     .then((res) => res.json())
