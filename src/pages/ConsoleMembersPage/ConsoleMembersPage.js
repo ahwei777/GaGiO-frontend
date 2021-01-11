@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import { useDispatch, useSelector } from "react-redux";
 import { Layout, Breadcrumb, Button, Table, Tag, Space } from "antd";
 import {
   MEDIA_QUERY_MOBILE_M,
@@ -22,8 +21,6 @@ const TableContainer = styled(Content)`
 `;
 
 export default function ConsoleMembersPage() {
-  // const dispatch = useDispatch();
-
   return (
     <>
       <InfoHeader>

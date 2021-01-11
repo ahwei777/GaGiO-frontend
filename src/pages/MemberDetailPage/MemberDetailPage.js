@@ -68,7 +68,9 @@ const AuthSelection = ({ handleChange }) => {
         onChange={handleChange}
       >
         {authTypeIds.map((authId) => (
-          <Option value={authId}>{translateAuth(authId)}</Option>
+          <Option key={authId} value={authId}>
+            {translateAuth(authId)}
+          </Option>
         ))}
       </Select>
     </>
@@ -77,6 +79,7 @@ const AuthSelection = ({ handleChange }) => {
 
 export default function MemberDetailPage() {
   const { id } = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [localAuthTypeId, setLocalAuthTypeId] = useState(0);
   const member = useSelector(selectMember);
@@ -84,7 +87,6 @@ export default function MemberDetailPage() {
 
   useEffect(() => {
     dispatch(getMember(id));
-    console.log(member);
 
     return () => {};
   }, [dispatch]);
@@ -97,6 +99,7 @@ export default function MemberDetailPage() {
     if (localAuthTypeId === 0 || localAuthTypeId === member.auth_type) return;
     console.log(localAuthTypeId);
     dispatch(updateMemberAuth(id, localAuthTypeId));
+    history.push(`/console/members`); // 把頁面導向會員列表
   };
 
   return (
@@ -137,7 +140,16 @@ export default function MemberDetailPage() {
                 {member.updated_at.slice(0, 10)}
               </Descriptions.Item>
               <Descriptions.Item label="購買課程清單" span={3}>
-                <Table columns={columns} dataSource={member.courseList} />
+                <Table
+                  columns={columns}
+                  dataSource={
+                    member &&
+                    member.courseList.map((item) => ({
+                      ...item,
+                      key: item.CourseId,
+                    }))
+                  }
+                />
               </Descriptions.Item>
             </Descriptions>
           </MemberContent>
