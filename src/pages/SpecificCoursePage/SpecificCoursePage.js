@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUnitListByCourse,
@@ -10,7 +10,7 @@ import {
   selectCourse,
   selectIsLoading,
 } from "../../redux/reducers/unitReducer";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { nanoid } from "nanoid";
 import { Layout, Breadcrumb, Button, Typography, Divider, Space } from "antd";
@@ -20,10 +20,9 @@ import {
   MEDIA_QUERY_TABLET,
 } from "../../constants/breakpoint";
 import CourseUnitsList from "../../components/CourseUnitsList";
-// import { dummyData } from "../../components/CourseUnitsList/dummyData";
 import Loading from "../../components/Loading";
 const { Content } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const InfoHeader = styled.div`
   display: flex;
@@ -47,16 +46,14 @@ const reorder = (list, startIndex, endIndex) => {
 export default function SpecificCoursePage() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const course = useSelector(selectCourse);
   const unitList = useSelector(selectUnitList);
   const isLoading = useSelector(selectIsLoading);
-  // const [unitList, setUnitList] = useState([]);
 
   useEffect(() => {
     dispatch(getUnitListByCourse(id));
-    // console.log("course", course);
-    // setUnitList(unitListFromStore);
-    // if (unitListFromStore) setUnitList(unitListFromStore);
+    console.log(course);
 
     return () => {};
   }, [dispatch, id]);
@@ -75,7 +72,6 @@ export default function SpecificCoursePage() {
     );
 
     dispatch(updateLocalUnitList(units));
-    // setUnitList(units);
   }
 
   const handleAddUnit = () => {
@@ -84,19 +80,25 @@ export default function SpecificCoursePage() {
     const unit = { id: unitId, title: "新課程" };
 
     dispatch(updateLocalUnitList([...unitList, unit]));
-    // setUnitList([...unitList, unit]);
   };
 
   const handleDelete = (id) => {
     const newUnitList = unitList.filter((item) => item.id !== id);
     dispatch(updateLocalUnitList(newUnitList));
-    // setUnitList(newUnitList);
   };
 
   const handleSaveUnitList = () => {
     dispatch(updateUnitList(id, unitList));
-    // const unitListToDb = { unit_list: unitList };
-    // console.log(unitListToDb);
+  };
+
+  const handleClickEditCourseButton = () => {
+    dispatch(updateUnitList(id, unitList)); // 先 save 當前 unit list
+    history.push(`/console/courses/${id}/course-setting`); // 把頁面導向單元編輯頁
+  };
+
+  const handleClickEditUnitButton = (unitId) => {
+    dispatch(updateUnitList(id, unitList)); // 先 save 當前 unit list
+    history.push(`/console/courses/${id}/unit/${unitId}`); // 把頁面導向單元編輯頁
   };
 
   return (
@@ -111,13 +113,17 @@ export default function SpecificCoursePage() {
               </Breadcrumb.Item>
               <Breadcrumb.Item>課程管理({course.title})</Breadcrumb.Item>
             </Breadcrumb>
-            <Space>
+            <Space size="middle">
+              <div>
+                <Text>目前課程狀態：</Text>
+                <Text mark>{course.isPublic ? "已公開" : "未公開"}</Text>
+              </div>
               <Button type="primary" onClick={handleSaveUnitList}>
                 儲存變更
               </Button>
-              <Link to={`/console/courses/${id}/course-setting`}>
-                <Button type="primary">課程設定</Button>
-              </Link>
+              <Button type="primary" onClick={handleClickEditCourseButton}>
+                課程設定
+              </Button>
             </Space>
           </InfoHeader>
           <CourseContent>
@@ -132,6 +138,7 @@ export default function SpecificCoursePage() {
                         placeholder={provided.placeholder}
                         handleAddUnit={handleAddUnit}
                         handleDelete={handleDelete}
+                        handleClickEditUnitButton={handleClickEditUnitButton}
                       />
                     </div>
                   )}

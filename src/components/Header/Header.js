@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { Badge, Button, Menu as AntMenu, Drawer, Grid } from "antd";
-import { MEDIA_QUERY_TABLET } from "../../constants/breakpoint";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../redux/reducers/userReducer";
-import { selectCartList, getCartList } from "../../redux/reducers/cartReducer";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Link, useLocation } from 'react-router-dom';
+import { Badge, Button, Menu as AntMenu, Drawer, Grid } from 'antd';
+import { MEDIA_QUERY_TABLET } from '../../constants/breakpoint';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from '../../redux/reducers/userReducer';
+import { selectCartList, getCartList } from '../../redux/reducers/cartReducer';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 
 const { useBreakpoint } = Grid;
 
@@ -152,6 +152,8 @@ export default function Header() {
   const dispatch = useDispatch();
   const cartList = useSelector(selectCartList);
   const user = useSelector(selectUser);
+  const location = useLocation();
+  console.log('now location', location)
 
   // component mount 時執行(初始化)
   useEffect(() => {
@@ -182,7 +184,9 @@ export default function Header() {
   };
 
   return (
-    <HeaderContainer>
+    <>
+    {!location.pathname.includes('預覽課程') && (
+      <HeaderContainer>
       <Logo to="/courseList">Teach Table</Logo>
       <NavContainer>
         <NavToggleGroup>
@@ -222,5 +226,7 @@ export default function Header() {
         </Drawer>
       </NavContainer>
     </HeaderContainer>
+    )}
+    </>
   );
 }

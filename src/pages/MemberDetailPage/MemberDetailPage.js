@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getMember,
   selectMember,
+  updateMemberAuth,
   selectIsGettingMember,
 } from "../../redux/reducers/memberReducer";
 import styled from "styled-components";
@@ -13,6 +14,7 @@ import {
   Button,
   Typography,
   Divider,
+  Select,
   Space,
   Table,
   Tag,
@@ -27,7 +29,8 @@ import Loading from "../../components/Loading";
 import { translateAuth } from "../../utils";
 
 const { Content } = Layout;
-const { Title } = Typography;
+const { Option } = Select;
+const { Title, Text } = Typography;
 
 const InfoHeader = styled.div`
   display: flex;
@@ -43,33 +46,39 @@ const MemberContent = styled(Content)`
 const columns = [
   {
     title: "課程 ID",
-    dataIndex: "id",
-    key: "id",
-    render: (text) => <a>{text}</a>,
+    dataIndex: "CourseId",
+    key: "CourseId",
+    render: (text) => text,
   },
   {
     title: "課程名稱",
-    key: "name",
-    dataIndex: "name",
+    key: "Course",
+    dataIndex: "Course",
+    render: (Course) => Course.CourseTitle,
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    id: "a192rrc",
-    name: "一週上手 HTML/CSS",
-  },
-  {
-    key: "2",
-    id: "a192rrc",
-    name: "一週上手 HTML/CSS",
-  },
-];
+const AuthSelection = ({ handleChange }) => {
+  const authTypeIds = [1, 2, 3];
+  return (
+    <>
+      <Select
+        defaultValue="變更身份"
+        style={{ width: 120 }}
+        onChange={handleChange}
+      >
+        {authTypeIds.map((authId) => (
+          <Option value={authId}>{translateAuth(authId)}</Option>
+        ))}
+      </Select>
+    </>
+  );
+};
 
 export default function MemberDetailPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [localAuthTypeId, setLocalAuthTypeId] = useState(0);
   const member = useSelector(selectMember);
   const isGettingMember = useSelector(selectIsGettingMember);
 
@@ -79,6 +88,16 @@ export default function MemberDetailPage() {
 
     return () => {};
   }, [dispatch]);
+
+  function handleChange(value) {
+    setLocalAuthTypeId(value);
+  }
+
+  const handleSave = () => {
+    if (localAuthTypeId === 0 || localAuthTypeId === member.auth_type) return;
+    console.log(localAuthTypeId);
+    dispatch(updateMemberAuth(id, localAuthTypeId));
+  };
 
   return (
     <>
@@ -90,8 +109,14 @@ export default function MemberDetailPage() {
               <Breadcrumb.Item>
                 <Link to="/console/members">會員列表</Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item>會員資料</Breadcrumb.Item>
+              <Breadcrumb.Item>會員資料 (ID: {member.id})</Breadcrumb.Item>
             </Breadcrumb>
+            <Space size="large">
+              <AuthSelection handleChange={handleChange} />
+              <Button type="primary" onClick={handleSave}>
+                儲存變更
+              </Button>
+            </Space>
           </InfoHeader>
           <MemberContent>
             <Descriptions title="會員資料" bordered>
@@ -105,15 +130,14 @@ export default function MemberDetailPage() {
               <Descriptions.Item label="會員暱稱" span={2}>
                 {member.nickname}
               </Descriptions.Item>
-              <Descriptions.Item label="註冊時間">
-                2018-04-24 18:00:00
+              <Descriptions.Item label="註冊日期">
+                {member.created_at.slice(0, 10)}
               </Descriptions.Item>
-              <Descriptions.Item label="最近一次登入時間" span={2}>
-                2018-04-24 18:00:00
+              <Descriptions.Item label="更新日期" span={2}>
+                {member.updated_at.slice(0, 10)}
               </Descriptions.Item>
-
               <Descriptions.Item label="購買課程清單" span={3}>
-                <Table columns={columns} dataSource={data} />
+                <Table columns={columns} dataSource={member.courseList} />
               </Descriptions.Item>
             </Descriptions>
           </MemberContent>

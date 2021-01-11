@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useHistory } from 'react-router-dom';
@@ -9,8 +9,8 @@ import {
   getCourse,
   setCourse,
 } from '../../redux/reducers/courseReducer';
-import { sendOrder } from '../../redux/reducers/orderReducer'
-import { getMe } from "../../redux/reducers/userReducer";
+import { sendOrder } from '../../redux/reducers/orderReducer';
+import { getMe } from '../../redux/reducers/userReducer';
 
 import { Table, Button, Form, Input, Select } from 'antd';
 import { toCurrency } from '../../utils';
@@ -26,8 +26,10 @@ const PageWrapper = styled.div`
     position: static;
   }
   ${MEDIA_QUERY_TABLET} {
-    display: flex;
-    position: relative;
+    ${(props) => props.isLogging && `
+        display: flex;
+        position: relative;
+    `}
   }
 `;
 const FormWrapper = styled.div`
@@ -89,11 +91,9 @@ export default function CheckoutPage({ padding }) {
   let sumPrice = 0;
   let sumCourse = 0;
   let data = [];
-  console.log('id', id)
 
   useEffect(() => {
     if (id) {
-      console.log('id effect')
       dispatch(getCourse(id));
       // unmount 時先 clean up 避免下次回來時因為仍有舊資料而短暫顯示
       return () => {
@@ -106,7 +106,6 @@ export default function CheckoutPage({ padding }) {
 
   // params 有帶 id => 單堂結帳
   if (id && course) {
-    console.log('course', course)
     data.push({
       key: course.id,
       id: course.id,
@@ -131,7 +130,6 @@ export default function CheckoutPage({ padding }) {
       sumPrice += el.Course.price;
     });
   }
-  console.log(data)
 
   const columns = [
     { title: '課程ID', dataIndex: ['id'], key: 'id' },
@@ -155,25 +153,21 @@ export default function CheckoutPage({ padding }) {
         return {
           CourseId: el.id,
           amountPaid: el.price,
-        }
+        };
       }),
     };
-    console.log(orderData);
     dispatch(sendOrder(orderData)).then((res) => {
-      console.log('res', res);
       dispatch(getCartList());
       dispatch(getMe());
-      history.push('/myCourse')
-    })
+      history.push('/myCourse');
+    });
   };
   const onReset = () => {
     form.resetFields();
   };
 
-  console.log('sumPrice', sumPrice);
-  console.log(sumPrice.toString());
   return (
-    <PageWrapper padding={padding}>
+    <PageWrapper padding={padding} isLogging={user}>
       {!user && (
         <center>
           <h1>請先註冊或登入</h1>
@@ -184,63 +178,65 @@ export default function CheckoutPage({ padding }) {
           </h1>
         </center>
       )}
-      <Form
-        {...formItemLayout}
-        layout={formLayout}
-        form={form}
-        onFinish={onFinish}
-        style={{ width: '100%' }}
-      >
-        <FormWrapper>
-          <LeftContainer>
-            <h1>付款資訊</h1>
-            <hr />
-            <Form.Item
-              name="name"
-              label="姓名"
-              rules={[{ required: true, message: '此為必填項目' }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="paymentType"
-              label="付款方式"
-              rules={[{ required: true, message: '此為必填項目' }]}
-            >
-              <Select placeholder="請選擇付款方式" allowClear>
-                <Option value="信用卡">信用卡</Option>
-                <Option value="LINE Pay">LINE Pay</Option>
-              </Select>
-            </Form.Item>
-            <h1>購買清單</h1>
-            {user && ((!id && cartList.length > 0) || course) && (
-              <>
-                <h3>共有{sumCourse}堂課</h3>
-                <hr />
-                <Table columns={columns} dataSource={data} />
-              </>
-            )}
-          </LeftContainer>
-          <RightContainerOuter>
-            <RightContainerInner>
-              <h5>訂單明細</h5>
+      {user && (
+        <Form
+          {...formItemLayout}
+          layout={formLayout}
+          form={form}
+          onFinish={onFinish}
+          style={{ width: '100%' }}
+        >
+          <FormWrapper>
+            <LeftContainer>
+              <h1>付款資訊</h1>
               <hr />
-              <div>小計 {toCurrency(sumPrice)}</div>
-              <br></br>
-              <Form.Item {...buttonItemLayout}>
-                <Button type="primary" htmlType="submit" block>
-                  確認付款
-                </Button>
+              <Form.Item
+                name="name"
+                label="姓名"
+                rules={[{ required: true, message: '此為必填項目' }]}
+              >
+                <Input />
               </Form.Item>
-              <Form.Item {...buttonItemLayout}>
-                <Button htmlType="button" onClick={onReset} block>
-                  清除資料
-                </Button>
+              <Form.Item
+                name="paymentType"
+                label="付款方式"
+                rules={[{ required: true, message: '此為必填項目' }]}
+              >
+                <Select placeholder="請選擇付款方式" allowClear>
+                  <Option value="信用卡">信用卡</Option>
+                  <Option value="LINE Pay">LINE Pay</Option>
+                </Select>
               </Form.Item>
-            </RightContainerInner>
-          </RightContainerOuter>
-        </FormWrapper>
-      </Form>
+              <h1>購買清單</h1>
+              {((!id && cartList.length > 0) || course) && (
+                <>
+                  <h3>共有{sumCourse}堂課</h3>
+                  <hr />
+                  <Table columns={columns} dataSource={data} />
+                </>
+              )}
+            </LeftContainer>
+            <RightContainerOuter>
+              <RightContainerInner>
+                <h5>訂單明細</h5>
+                <hr />
+                <div>小計 {toCurrency(sumPrice)}</div>
+                <br></br>
+                <Form.Item {...buttonItemLayout}>
+                  <Button type="primary" htmlType="submit" block>
+                    確認付款
+                  </Button>
+                </Form.Item>
+                <Form.Item {...buttonItemLayout}>
+                  <Button htmlType="button" onClick={onReset} block>
+                    清除資料
+                  </Button>
+                </Form.Item>
+              </RightContainerInner>
+            </RightContainerOuter>
+          </FormWrapper>
+        </Form>
+      )}
     </PageWrapper>
   );
 }
