@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Badge, Button, Menu as AntMenu, Drawer, Grid } from 'antd';
-import { MEDIA_QUERY_TABLET } from '../../constants/breakpoint';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout, selectUser } from '../../redux/reducers/userReducer';
-import { selectCartList, getCartList } from '../../redux/reducers/cartReducer';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Badge, Button, Menu as AntMenu, Drawer, Grid } from "antd";
+import { MEDIA_QUERY_TABLET } from "../../constants/breakpoint";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../redux/reducers/userReducer";
+import { selectCartList, getCartList } from "../../redux/reducers/cartReducer";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 
 const { useBreakpoint } = Grid;
 
@@ -103,7 +103,7 @@ const CartIcon = styled(ShoppingCartOutlined)`
 const LeftMenu = () => {
   const { md } = useBreakpoint();
   return (
-    <Menu mode={md ? 'horizontal' : 'inline'}>
+    <Menu mode={md ? "horizontal" : "inline"}>
       <Menu.Item key="searchCourse">
         <Link to="/searchCourse">搜尋課程</Link>
       </Menu.Item>
@@ -112,9 +112,10 @@ const LeftMenu = () => {
 };
 
 const RightMenu = ({ user, handleLogout, handleClose }) => {
+  console.log(user);
   const { md } = useBreakpoint();
   return (
-    <Menu mode={md ? 'horizontal' : 'inline'} onClick={handleClose}>
+    <Menu mode={md ? "horizontal" : "inline"} onClick={handleClose}>
       {user && (
         <>
           <Menu.Item key="myCourse">
@@ -164,7 +165,7 @@ export default function Header() {
   const handleLogout = () => {
     dispatch(logout());
   };
-  console.log('render header');
+  console.log("render header");
   // component mount 時執行(初始化)
 
   const [state, setState] = useState({ visible: false });

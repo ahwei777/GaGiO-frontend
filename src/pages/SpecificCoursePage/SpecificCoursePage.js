@@ -80,6 +80,7 @@ export default function SpecificCoursePage() {
 
   const handleAddUnit = () => {
     const unitId = nanoid();
+    console.log(unitId);
     const unit = { id: unitId, title: "新課程" };
 
     dispatch(updateLocalUnitList([...unitList, unit]));
