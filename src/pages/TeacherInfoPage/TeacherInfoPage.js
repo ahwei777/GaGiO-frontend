@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Button, Avatar, Row, Col } from 'antd';
-import { useHistory, useParams } from 'react-router-dom';
+import { Avatar, Row, Col } from 'antd';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getTeacher,
   selectTeacher,
   selectIsGettingTeacher,
 } from '../../redux/reducers/teacherReducer';
-import { toCurrency } from '../../utils';
-import CourseCard from '../../components/CourseCard'
+import CourseCard from '../../components/CourseCard';
 import Loading from '../../components/Loading';
 
 const TeacherWrapper = styled.div`
-  max-width: 760px;
-  margin: 10px auto;
   padding: 16px;
-  background: ${(props) => props.theme.colors.secondary.light};
+  max-width: 760px;
+  margin: 24px auto;
+  background: ${(props) => props.theme.colors.white};
   color: ${(props) => props.theme.colors.primary.text};
 `;
 const TeacherTitle = styled.div`

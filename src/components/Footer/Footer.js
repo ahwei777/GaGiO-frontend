@@ -4,11 +4,12 @@ import { Row, Col } from 'antd';
 import { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { useLocation } from 'react-router-dom';
+import { FacebookFilled, TwitterSquareFilled, InstagramFilled } from '@ant-design/icons';
 
 const FooterContainer = styled.div`
   text-align: center;
   padding: 12px 24px;
-  background: ${(props) => props.theme.colors.primary.light};
+  background: ${(props) => props.theme.colors.grey};
   color: ${(props) => props.theme.colors.primary.text};
 `
 
@@ -29,9 +30,9 @@ export default function Footer() {
         </Col>
         <Col xs={12} md={6}>
           <h3><strong>追蹤動態</strong></h3>
-          <div>Facebook</div>
-          <div>Instagram</div>
-          <div>Youtube</div>
+          <FacebookFilled style={{fontSize: '24px'}}/>
+          <TwitterSquareFilled style={{fontSize: '24px'}}/>
+          <InstagramFilled  style={{fontSize: '24px'}}/>
         </Col>
         <Col
           xs={24} md={12}
@@ -42,7 +43,7 @@ export default function Footer() {
             justifyContent: 'center',
           }}
         >
-          <div>Teach Table © All Rights Reserved.</div>
+          <div>GaGiO © All Rights Reserved.</div>
         </Col>
       </Row>
     </FooterContainer>

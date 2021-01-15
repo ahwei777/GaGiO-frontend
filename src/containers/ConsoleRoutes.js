@@ -11,7 +11,7 @@ import EditUnitPage from "../pages//EditUnitPage";
 export default function ConsoleRoutes() {
   return (
     <Switch>
-      <Route exact path="/console/courses">
+      <Route path="/console/courses">
         <ConsoleCoursesPage />
       </Route>
       <Route exact path="/console/courses/new-course">

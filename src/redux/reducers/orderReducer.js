@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from "@reduxjs/toolkit";
-import { sendOrderAPI, getMyOrderListAPI } from "../../WebApi";
+import { sendOrderAPI, getMyOrderListAPI } from "../../webAPI/orderAPI";
 
 export const orderSlice = createSlice({
   name: "order",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Avatar, Progress } from 'antd';
+import { Card, Avatar } from 'antd';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { toCurrency } from '../../utils';
@@ -23,7 +23,8 @@ const CardWrapper = styled.div`
   }
   border: red solid 3px;
   `}
-
+  border: ${(props) => props.theme.colors.primary.main} 1px solid;
+  border-bottom: ${(props) => props.theme.colors.primary.main} 5px solid;
   :hover {
     opacity: 0.7;
     border: transparent 1px solid;
@@ -32,12 +33,23 @@ const CardWrapper = styled.div`
 
 const TeacherLink = styled(Link)`
   position: absolute;
-  left: 5%;
-  top: 5%;
+  left: 8%;
+  top: 8%;
   transition: all 0.5s;
   :hover {
     transform: scale(1.3);
   }
+`;
+
+const Student = styled.div`
+  margin-top: 12px;
+
+`;
+const Price = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  text-align: right;
+  color: ${(props) => props.theme.colors.primary.main};
 `;
 
 export default function CourseCard({ course }) {
@@ -46,15 +58,11 @@ export default function CourseCard({ course }) {
       <Link to={`/courseInfo/${course.id}`}>
         <CardWrapper isPublic={course.isPublic}>
           <Card cover={<img alt="unavailable" src={course.imgUrl} />}>
-            <Progress percent={20} />
             <Meta
               title={course.title}
-              description={course.description}
-              style={{ marginTop: 16 }}
             />
-            <h3 align="right">{toCurrency(course.price)}</h3>
-            <div>課程時間</div>
-            <div>學生人數</div>
+              <Student>同學</Student>
+              <Price>{toCurrency(course.price)}</Price>
           </Card>
         </CardWrapper>
       </Link>

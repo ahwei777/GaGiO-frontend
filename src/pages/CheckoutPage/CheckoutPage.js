@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { selectCartList, getCartList } from '../../redux/reducers/cartReducer';
-import { selectUser } from '../../redux/reducers/userReducer';
 import {
   selectCourse,
   getCourse,
@@ -26,10 +25,8 @@ const PageWrapper = styled.div`
     position: static;
   }
   ${MEDIA_QUERY_TABLET} {
-    ${(props) => props.isLogging && `
-        display: flex;
-        position: relative;
-    `}
+    display: flex;
+    position: relative;
   }
 `;
 const FormWrapper = styled.div`
@@ -49,15 +46,15 @@ const LeftContainer = styled.div`
 `;
 const RightContainerOuter = styled.div`
   ${MEDIA_QUERY_TABLET} {
-    flex: 0 1 250px;
+    flex: 0 1 350px;
     margin-left: 30px;
   }
 `;
 const RightContainerInner = styled.div`
   padding: 24px 12px;
-  background: ${(props) => props.theme.colors.secondary.main};
+  background: ${(props) => props.theme.colors.secondary.light};
   ${MEDIA_QUERY_TABLET} {
-    width: 250px;
+    width: 350px;
     position: fixed;
     right: 30px;
   }
@@ -83,7 +80,6 @@ const buttonItemLayout = {
 
 export default function CheckoutPage({ padding }) {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
   const cartList = useSelector(selectCartList);
   const { id } = useParams();
   const history = useHistory();
@@ -167,76 +163,71 @@ export default function CheckoutPage({ padding }) {
   };
 
   return (
-    <PageWrapper padding={padding} isLogging={user}>
-      {!user && (
-        <center>
-          <h1>請先註冊或登入</h1>
-          <h1>
-            <Link to="/login">登入</Link>
-            <br />
-            <Link to="/register">註冊</Link>
-          </h1>
-        </center>
-      )}
-      {user && (
-        <Form
-          {...formItemLayout}
-          layout={formLayout}
-          form={form}
-          onFinish={onFinish}
-          style={{ width: '100%' }}
-        >
-          <FormWrapper>
-            <LeftContainer>
-              <h1>付款資訊</h1>
-              <hr />
-              <Form.Item
-                name="name"
-                label="姓名"
-                rules={[{ required: true, message: '此為必填項目' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="paymentType"
-                label="付款方式"
-                rules={[{ required: true, message: '此為必填項目' }]}
-              >
-                <Select placeholder="請選擇付款方式" allowClear>
-                  <Option value="信用卡">信用卡</Option>
-                  <Option value="LINE Pay">LINE Pay</Option>
-                </Select>
-              </Form.Item>
-              <h1>購買清單</h1>
-              {((!id && cartList.length > 0) || course) && (
-                <>
-                  <h3>共有{sumCourse}堂課</h3>
-                  <hr />
-                  <Table columns={columns} dataSource={data} />
-                </>
-              )}
-            </LeftContainer>
-            <RightContainerOuter>
-              <RightContainerInner>
-                <h5>訂單明細</h5>
+    <PageWrapper padding={padding}>
+      <Form
+        {...formItemLayout}
+        layout={formLayout}
+        form={form}
+        onFinish={onFinish}
+        style={{ width: '100%' }}
+      >
+        <FormWrapper>
+          <LeftContainer>
+            <h1>付款資訊</h1>
+            <hr />
+            <Form.Item
+              name="name"
+              label="姓名"
+              rules={[{ required: true, message: '此為必填項目' }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="paymentType"
+              label="付款方式"
+              rules={[{ required: true, message: '此為必填項目' }]}
+            >
+              <Select placeholder="請選擇付款方式" allowClear>
+                <Option value="信用卡">信用卡</Option>
+                <Option value="LINE Pay">LINE Pay</Option>
+              </Select>
+            </Form.Item>
+            <h1>購買清單</h1>
+            {((!id && cartList.length > 0) || course) && (
+              <>
+                <h3>共有{sumCourse}堂課</h3>
                 <hr />
-                <div>小計 {toCurrency(sumPrice)}</div>
-                <br></br>
-                <Form.Item {...buttonItemLayout}>
-                  <Button type="primary" htmlType="submit" block>
-                    確認付款
-                  </Button>
-                </Form.Item>
-                <Form.Item {...buttonItemLayout}>
-                  <Button htmlType="button" onClick={onReset} block>
-                    清除資料
-                  </Button>
-                </Form.Item>
-              </RightContainerInner>
-            </RightContainerOuter>
-          </FormWrapper>
-        </Form>
-      )}
+                <Table
+                  columns={columns}
+                  dataSource={data}
+                  style={{ fontSize: '18px' }}
+                  pagination={{ pageSize: 5 }}
+                />
+              </>
+            )}
+          </LeftContainer>
+          <RightContainerOuter>
+            <RightContainerInner>
+              <h1>
+                <strong>訂單明細</strong>
+              </h1>
+              <hr />
+              <h2 align="right">小計 {toCurrency(sumPrice)}</h2>
+              <br></br>
+              <Form.Item {...buttonItemLayout}>
+                <Button type="primary" size="large" htmlType="submit" block>
+                  確認付款
+                </Button>
+              </Form.Item>
+              <Form.Item {...buttonItemLayout}>
+                <Button htmlType="button" size="large" onClick={onReset} block>
+                  清除資料
+                </Button>
+              </Form.Item>
+            </RightContainerInner>
+          </RightContainerOuter>
+        </FormWrapper>
+      </Form>
     </PageWrapper>
   );
 }

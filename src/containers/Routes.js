@@ -1,70 +1,101 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import MePage from "../pages/MePage";
-import ConsolePage from "../pages/ConsolePage";
+import React from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 //  引入各分頁
-import CartListPage from "../pages/CartListPage";
+import LoginPage from '../pages/LoginPage';
+import RegisterPage from '../pages/RegisterPage';
+import MePage from '../pages/MePage';
+import ConsolePage from '../pages/ConsolePage';
+import CartListPage from '../pages/CartListPage';
 import CheckoutPage from '../pages/CheckoutPage';
-import CourseListPage from "../pages/CourseListPage";
+import CourseListPage from '../pages/CourseListPage';
 import MyCoursePage from '../pages/MyCoursePage';
-import CourseInfoPage from "../pages/CourseInfoPage";
-import TeacherInfoPage from "../pages/TeacherInfoPage";
-import UnitPage from "../pages/UnitPage";
+import CourseInfoPage from '../pages/CourseInfoPage';
+import TeacherInfoPage from '../pages/TeacherInfoPage';
+import UnitPage from '../pages/UnitPage';
 
-const padding = 32;
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/reducers/userReducer';
+
+const padding = 36;
+
+const NoLoggingMessage = () => (
+  <center>
+    <br />
+    <h1>請先註冊或登入</h1>
+    <h1>
+      <Link to="/register">註冊</Link>
+      <br />
+      <Link to="/login">登入</Link>
+    </h1>
+  </center>
+);
+
+const UnauthorizedMessage = () => (
+  <center>
+    <br />
+    <h1>您未授權訪問此頁面</h1>
+  </center>
+);
 
 function Routes() {
+  const user = useSelector(selectUser);
   return (
     <Switch>
+      {/* ------------- 任何身分 ------------- */}
+      {/* 首頁(課程列表) */}
       <Route exact path="/">
-        {/* 首頁(課程列表) */}
         <CourseListPage padding={padding} />
       </Route>
-      <Route exact path="/courseList">
-        {/* 課程列表 */}
-        <CourseListPage padding={padding} />
-      </Route>
-      <Route exact path="/courseInfo/:id">
-        {/* 單一課程介紹 */}
-        <CourseInfoPage />
-      </Route>
-      <Route exact path="/teacherInfo/:id">
-        {/* 老師介紹 */}
-        <TeacherInfoPage />
-      </Route>
-      <Route exact path="/cartList">
-        {/* 購物車 */}
-        <CartListPage padding={padding} />
-      </Route>
-      <Route exact path="/checkout/:id?">
-        {/* 結帳 */}
-        <CheckoutPage padding={padding} />
-      </Route>
-      <Route exact path="/myCourse">
-        {/* 我的課程 */}
-        <MyCoursePage padding={padding} />
-      </Route>
-      <Route path="/learn/:id/">
-        {/* 上課頁面 */}
-        <UnitPage />
-      </Route>
-      <Route path="/me">
-        <MePage />
-        {/* 我的帳號 */}
-      </Route>
-      <Route path="/console">
-        {/* 管理後台 */}
-        <ConsolePage />
-      </Route>
+      {/* 註冊 */}
       <Route exact path="/register">
-        {/* 註冊 */}
         <RegisterPage />
       </Route>
+      {/* 登入 */}
       <Route path="/login">
-        {/* 登入 */}
         <LoginPage />
+      </Route>
+      {/* 課程列表 */}
+      <Route exact path="/courseList">
+        <CourseListPage padding={padding} />
+      </Route>
+      {/* 單一課程介紹 */}
+      <Route exact path="/courseInfo/:id">
+        <CourseInfoPage />
+      </Route>
+      {/* 老師介紹 */}
+      <Route exact path="/teacherInfo/:id">
+        <TeacherInfoPage padding={padding} />
+      </Route>
+
+      {/* ------------- 一般會員 ------------- */}
+      {/* 購物車 */}
+      <Route exact path="/cartList">
+        {user ? <CartListPage padding={padding} /> : <NoLoggingMessage />}
+      </Route>
+      {/* 結帳 */}
+      <Route exact path="/checkout/:id?">
+        {user ? <CheckoutPage padding={padding} /> : <NoLoggingMessage />}
+      </Route>
+      {/* 我的課程 */}
+      <Route exact path="/myCourse">
+        {user ? <MyCoursePage padding={padding} /> : <NoLoggingMessage />}
+      </Route>
+      {/* 上課頁面 */}
+      <Route path="/learn/:id/">
+        <UnitPage />
+      </Route>
+      {/* 我的帳號 */}
+      <Route path="/me">{user ? <MePage /> : <NoLoggingMessage />}</Route>
+
+      {/* ------------- 管理員 ------------- */}
+      {/* 管理後台 */}
+      <Route path="/console">
+        {user  ? <ConsolePage /> : <UnauthorizedMessage />}
+      </Route>
+
+      {/* 其餘網址一律導至首頁 */}
+      <Route path="/">
+        <CourseListPage padding={padding} />
       </Route>
     </Switch>
   );

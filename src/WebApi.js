@@ -165,6 +165,7 @@ export const updateCourseAPI = (id, title, price, description, isPublic) => {
 
 //  cart
 export const getCartListAPI = () => {
+  console.log("call getCartListAPI");
   return fetch(`${BASE_URL}/cartList`, {
     headers: {
       Authorization: `Bearer ${getAuthToken()}`,
@@ -217,7 +218,7 @@ export const sendOrderAPI = (data) => {
 
 //  getMyCourseList
 export const getMyCourseListAPI = () => {
-  return fetch(`${BASE_URL}/boughtCourses/me`, {
+  return fetch(`${BASE_URL}/users/me/bought-courses`, {
     headers: {
       Authorization: `Bearer ${getAuthToken()}`,
     },

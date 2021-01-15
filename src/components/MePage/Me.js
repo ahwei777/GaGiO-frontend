@@ -9,11 +9,16 @@ import { Layout } from "antd";
 const { Content } = Layout;
 
 export default function Me() {
-  const user = useSelector(selectUser);
   const history = useHistory();
+  const user = useSelector(selectUser);
+
   useEffect(() => {
-    if (!user) return history.push("/");
+    // 權限管理
+    if (!user || user.auth_type !== 3) {
+      history.push('/');
+    }
   }, [history, user]);
+
   return (
     <>
       <MeSider />

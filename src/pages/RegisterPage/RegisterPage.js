@@ -89,7 +89,6 @@ export default function Register() {
   const handleFinish = (value) => {
     const { email, password, confirm, nickname } = value;
     dispatch(register(email, password, confirm, nickname));
-    if (user) history.push("/");
   };
 
   useEffect(() => {

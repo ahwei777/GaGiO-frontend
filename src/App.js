@@ -24,7 +24,7 @@ function App() {
     <Router>
       <AntLayout>
         <Header />
-        <Content className="site-layout">
+        <Content>
           {/* Routes */}
           <Routes />
         </Content>

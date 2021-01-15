@@ -53,9 +53,7 @@ export default function SpecificCoursePage() {
 
   useEffect(() => {
     dispatch(getUnitListByCourse(id));
-    console.log(course);
-
-    return () => {};
+    //return () => {};
   }, [dispatch, id]);
 
   function handleOnDragEnd(result) {

@@ -32,9 +32,9 @@ export default function CourseListPage({ padding }) {
       <PageWrapper padding={padding}>
         {isGettingCourseList && <Loading />}
         {!isGettingCourseList && courseList.length > 0 && (
-          <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
-            {courseList.map((course) => (
-              <Col key={course.id} xs={12} md={8}>
+          <Row gutter={[{ xs: 16, sm: 20, md: 24, lg: 32 }, 36]}>
+            {courseList.map((course) => ( 
+              <Col key={course.id} xs={12} md={8} lg={6}>
                 <CourseCard course={course} />
               </Col>
             ))}

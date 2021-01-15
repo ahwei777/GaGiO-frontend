@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from "@reduxjs/toolkit";
-import { getUnitListAPI, updateUnitListAPI } from "../../WebApi";
+import { getUnitListAPI, updateUnitListAPI } from "../../webAPI/courseAPI";
 
 export const unitSlice = createSlice({
   name: "unit",

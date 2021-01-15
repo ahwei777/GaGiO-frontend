@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from '@reduxjs/toolkit';
-import { getTeacherListAPI, getTeacherAPI } from '../../WebApi' 
+import { getTeacherListAPI, getTeacherAPI } from '../../webAPI/teacherAPI' 
 
 export const teacherSlice = createSlice({
   name: 'teacher',

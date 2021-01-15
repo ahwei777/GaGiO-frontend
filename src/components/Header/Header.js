@@ -17,11 +17,10 @@ const Menu = styled(AntMenu)`
 `;
 
 const HeaderContainer = styled.div`
-  background: ${(props) => props.theme.colors.primary.main};
+  background: white;
   color: ${(props) => props.theme.colors.primary.text};
-  padding: 0 20px;
-  border-bottom: solid 1px #e8e8e8;
-  box-shadow: 0 0 30px #f3f1f1;
+  padding: 5px 20px;
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,6 +37,9 @@ const Logo = styled(Link)`
   font-size: 32px;
   width: 180px;
   text-align: center;
+  & > img {
+    height: 52px;
+  }
 `;
 
 const NavContainer = styled.div`
@@ -112,7 +114,7 @@ const LeftMenu = () => {
 };
 
 const RightMenu = ({ user, handleLogout, handleClose }) => {
-  console.log(user);
+  console.log('render RightMenu')
   const { md } = useBreakpoint();
   return (
     <Menu mode={md ? "horizontal" : "inline"} onClick={handleClose}>
@@ -155,15 +157,6 @@ export default function Header() {
   const location = useLocation();
   console.log('now location', location)
 
-  // component mount 時執行(初始化)
-  useEffect(() => {
-    if (user) {
-      dispatch(getCartList());
-    }
-    // unmount 時先 clean up 避免下次回來時因為仍有舊資料而短暫顯示
-    return () => {};
-  }, [user, dispatch]);
-
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -187,13 +180,13 @@ export default function Header() {
     <>
     {!location.pathname.includes('預覽課程') && (
       <HeaderContainer>
-      <Logo to="/courseList">Teach Table</Logo>
+      <Logo to="/courseList"><img src="/img/LOGO.png" alt="img not found"/></Logo>
       <NavContainer>
         <NavToggleGroup>
           <LeftMenu />
         </NavToggleGroup>
         <NavRightPart>
-          <Badge count={cartList.length} size="small" offset={[10]}>
+          <Badge count={cartList.length} offset={[10]}>
             <Link to="/cartList">
               <CartIcon />
             </Link>

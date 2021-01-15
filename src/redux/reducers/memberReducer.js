@@ -5,8 +5,7 @@ import {
   getMemberListAPI,
   getMemberAPI,
   updateUserInfoAPI,
-} from "../../WebApi";
-import { getCartList, setCartList } from "./cartReducer";
+} from "../../webAPI/userAPI";
 
 export const memberSlice = createSlice({
   name: "member",

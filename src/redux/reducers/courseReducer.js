@@ -8,7 +8,7 @@ import {
   addUnitListAPI,
   updateCourseAPI,
   getMyCourseListAPI,
-} from "../../WebApi";
+} from "../../webAPI/courseAPI";
 
 export const courseSlice = createSlice({
   name: "course",

@@ -8,19 +8,21 @@
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
   margin: 0;
 }
+
+/* header 按鈕底線 hover 
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected {
   border-bottom: 2px solid#99d066;
 }
-
+header 按鈕文字顏色 hover 
 .ant-menu-horizontal > .ant-menu-item a:hover,
 .ant-menu-submenu-title:hover,
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected,
 .ant-menu-horizontal > .ant-menu-item-selected a {
   color: #99d066;
 }
-
+*/
 .ant-table-placeholder {
   display: none;
 }
