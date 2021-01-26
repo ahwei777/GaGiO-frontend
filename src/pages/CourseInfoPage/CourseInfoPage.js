@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Avatar, List, Typography } from 'antd';
-import { StarOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -67,8 +66,9 @@ export default function CourseInfoPage() {
     }
     return false;
   };
+  // 改由後端直接回傳該堂課是否已購買資訊
   const checkCourseIsPaid = () => {
-    console.log(user);
+    //console.log(user);
     if (!user) return false;
     for (let i = 0; i < user.paidCourses.length; i += 1) {
       if (user.paidCourses[i].CourseId === Number(course.id)) {
@@ -81,7 +81,7 @@ export default function CourseInfoPage() {
 
   const handleClickAddToCart = () => {
     if (!user) {
-      history.push('/cartList');
+      history.push('/cart');
     }
     if (!checkIsAlreadyInCart()) {
       dispatch(addCartItem(course.id));
@@ -107,7 +107,7 @@ export default function CourseInfoPage() {
               <ButtonWrapper>
                 {course.isCourseBought ? (
                   <Button type="primary" size="large" block>
-                    <Link to={`/learn/${course.id}`}>開始上課</Link>
+                    <Link to={`/classroom/${course.id}`}>開始上課</Link>
                   </Button>
                 ) : (
                   <>
@@ -116,7 +116,7 @@ export default function CourseInfoPage() {
                     </Button>
                     {checkIsAlreadyInCart() ? (
                       <Button type="primary" size="large" block danger>
-                        <Link to="/cartList">前進購物車</Link>
+                        <Link to="/cart">前進購物車</Link>
                       </Button>
                     ) : (
                       <Button
@@ -138,22 +138,25 @@ export default function CourseInfoPage() {
           </ButtonPlacer>
 
           <div>
-            <Link to={`/teacherInfo/${course.TeacherId}`}>
+            <Link to={`/teacher-info/${course.Teacher.id}`}>
               <Avatar size={64} src={course.Teacher.avatarUrl} />
             </Link>
           </div>
+          <br/>
           <p>
             <strong>開課老師：</strong>
-            {course.Teacher.name}
+            <div>{course.Teacher.name}</div>
           </p>
 
           <div>
             <strong>課程介紹：</strong>
           </div>
+          <br/>
           <p>{course.description}</p>
           <div>
-            <strong>單元列表：</strong>
+            <strong>課程大綱：</strong>
           </div>
+          <br/>
           {course.unit_title && (
             <List
               size="large"

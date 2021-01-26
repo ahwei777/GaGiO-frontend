@@ -13,10 +13,9 @@ export const sendOrderAPI = (data) => {
 };
 
 export const getMyOrderListAPI = () => {
-  const token = localStorage.getItem('token');
-  return fetch(`${BASE_URL}/users/me/orders`, {
+  return fetch(`${BASE_URL}/orders/me`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${getAuthToken()}`,
     },
   })
     .then((res) => res.json())

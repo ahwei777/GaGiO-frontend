@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getMember,
   selectMember,
   updateMemberAuth,
   selectIsGettingMember,
-} from "../../redux/reducers/memberReducer";
-import styled from "styled-components";
+} from '../../redux/reducers/memberReducer';
+import styled from 'styled-components';
 import {
   Layout,
   Breadcrumb,
@@ -19,14 +19,9 @@ import {
   Table,
   Tag,
   Descriptions,
-} from "antd";
-import {
-  MEDIA_QUERY_MOBILE_M,
-  MEDIA_QUERY_MOBILE_L,
-  MEDIA_QUERY_TABLET,
-} from "../../constants/breakpoint";
-import Loading from "../../components/Loading";
-import { translateAuth } from "../../utils";
+} from 'antd';
+import Loading from '../../components/Loading';
+import { translateAuth } from '../../utils';
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -45,31 +40,31 @@ const MemberContent = styled(Content)`
 
 const columns = [
   {
-    title: "課程 ID",
-    dataIndex: "CourseId",
-    key: "CourseId",
+    title: '課程 ID',
+    dataIndex: 'CourseId',
+    key: 'CourseId',
     render: (text) => text,
   },
   {
-    title: "課程名稱",
-    key: "Course",
-    dataIndex: "Course",
+    title: '課程名稱',
+    key: 'Course',
+    dataIndex: 'Course',
     render: (Course) => Course.CourseTitle,
   },
 ];
 
-const AuthSelection = ({ handleChange }) => {
-  const authTypeIds = [1, 2, 3];
+const AuthSelection = ({ selectedUserId, handleChange }) => {
+  const authTypeIdList = [1, 2, 3];
   return (
     <>
       <Select
-        defaultValue="變更身份"
         style={{ width: 120 }}
         onChange={handleChange}
+        defaultValue={translateAuth(selectedUserId)}
       >
-        {authTypeIds.map((authId) => (
-          <Option key={authId} value={authId}>
-            {translateAuth(authId)}
+        {authTypeIdList.map((authTypeId) => (
+          <Option key={authTypeId} value={authTypeId}>
+            {translateAuth(authTypeId)}
           </Option>
         ))}
       </Select>
@@ -87,17 +82,14 @@ export default function MemberDetailPage() {
 
   useEffect(() => {
     dispatch(getMember(id));
-
-    return () => {};
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   function handleChange(value) {
     setLocalAuthTypeId(value);
   }
 
   const handleSave = () => {
-    if (localAuthTypeId === 0 || localAuthTypeId === member.auth_type) return;
-    console.log(localAuthTypeId);
+    if (localAuthTypeId === 0 || localAuthTypeId === member.authTypeId) return;
     dispatch(updateMemberAuth(id, localAuthTypeId));
     history.push(`/console/members`); // 把頁面導向會員列表
   };
@@ -108,16 +100,19 @@ export default function MemberDetailPage() {
       {!isGettingMember && member && (
         <>
           <InfoHeader>
-            <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>
                 <Link to="/console/members">會員列表</Link>
               </Breadcrumb.Item>
               <Breadcrumb.Item>會員資料 (ID: {member.id})</Breadcrumb.Item>
             </Breadcrumb>
             <Space size="large">
-              <AuthSelection handleChange={handleChange} />
+              <AuthSelection
+                handleChange={handleChange}
+                selectedUserId={member.authTypeId}
+              />
               <Button type="primary" onClick={handleSave}>
-                儲存變更
+                變更身分
               </Button>
             </Space>
           </InfoHeader>
@@ -125,7 +120,7 @@ export default function MemberDetailPage() {
             <Descriptions title="會員資料" bordered>
               <Descriptions.Item label="會員 ID">{member.id}</Descriptions.Item>
               <Descriptions.Item label="目前身份" span={2}>
-                {translateAuth(member.auth_type)}
+                {translateAuth(member.authTypeId)}
               </Descriptions.Item>
               <Descriptions.Item label="會員信箱">
                 {member.email}
@@ -134,22 +129,23 @@ export default function MemberDetailPage() {
                 {member.nickname}
               </Descriptions.Item>
               <Descriptions.Item label="註冊日期">
-                {member.created_at.slice(0, 10)}
+                {new Date(member.createdAt).toLocaleString()}
               </Descriptions.Item>
               <Descriptions.Item label="更新日期" span={2}>
-                {member.updated_at.slice(0, 10)}
+                {new Date(member.updatedAt).toLocaleString()}
               </Descriptions.Item>
               <Descriptions.Item label="購買課程清單" span={3}>
-                <Table
-                  columns={columns}
-                  dataSource={
-                    member &&
-                    member.courseList.map((item) => ({
+                {member.courseList.length > 0 ? (
+                  <Table
+                    columns={columns}
+                    dataSource={member.courseList.map((item) => ({
                       ...item,
                       key: item.CourseId,
-                    }))
-                  }
-                />
+                    }))}
+                  />
+                ): (
+                  <div>尚未購買任何課程</div>
+                )}
               </Descriptions.Item>
             </Descriptions>
           </MemberContent>

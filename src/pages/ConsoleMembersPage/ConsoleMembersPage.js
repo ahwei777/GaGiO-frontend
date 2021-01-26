@@ -1,22 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { Layout, Breadcrumb, Button, Table, Tag, Space } from "antd";
-import {
-  MEDIA_QUERY_MOBILE_M,
-  MEDIA_QUERY_MOBILE_L,
-  MEDIA_QUERY_TABLET,
-} from "../../constants/breakpoint";
-import MembersTable from "../../components/MembersTable";
-const { Content } = Layout;
+import { Layout, Breadcrumb } from "antd";
+import MembersTable from "./MembersTable.js";
 
+const { Content } = Layout;
 const InfoHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-
 const TableContainer = styled(Content)`
-  padding: 24px;
   background-color: ${(props) => props.theme.colors.white};
 `;
 

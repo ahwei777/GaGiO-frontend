@@ -1,12 +1,20 @@
 import { BASE_URL } from '../constants/api';
 import { getAuthToken } from '../utils';
 
-export const getCourseListAPI = () => {
-  return fetch(`${BASE_URL}/courses`, {
-    headers: {
-      Authorization: `Bearer ${getAuthToken()}`,
-    },
-  }).then((res) => res.json());
+export const getCourseListAPI = ({
+  keyword = '',
+  sort = 'id',
+  order = 'ASC',
+} = {}) => {
+  console.log('keyword', keyword);
+  return fetch(
+    `${BASE_URL}/courses?_keyword=${keyword}&_sort=${sort}&_order=${order}`,
+    {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    }
+  ).then((res) => res.json());
 };
 
 export const getCourseAPI = (id) =>
@@ -16,7 +24,7 @@ export const getCourseAPI = (id) =>
     },
   }).then((res) => res.json());
 
-export const addCourseAPI = (title, price, description) =>
+export const addCourseAPI = (title, price, description, imgUrl) =>
   fetch(`${BASE_URL}/courses`, {
     method: 'POST',
     headers: {
@@ -27,9 +35,11 @@ export const addCourseAPI = (title, price, description) =>
       title,
       price,
       description,
+      imgUrl,
     }),
   }).then((res) => res.json());
 
+// XX
 export const deleteCourseAPI = (id) =>
   fetch(`${BASE_URL}/courses/${id}`, {
     method: 'DELETE',
@@ -38,8 +48,11 @@ export const deleteCourseAPI = (id) =>
     },
   }).then((res) => res.json());
 
-export const updateCourseAPI = (id, title, price, description, isPublic) =>
-  fetch(`${BASE_URL}/courses/${id}`, {
+export const updateCourseAPI = (
+  courseId,
+  { title, price, description, isPublic, unit_list, imgUrl }
+) =>
+  fetch(`${BASE_URL}/courses/${courseId}`, {
     method: 'PATCH',
     headers: {
       'content-type': 'application/json',
@@ -50,9 +63,12 @@ export const updateCourseAPI = (id, title, price, description, isPublic) =>
       price,
       description,
       isPublic,
+      unit_list,
+      imgUrl,
     }),
   }).then((res) => res.json());
 
+//XX
 export const addUnitListAPI = (courseId) =>
   fetch(`${BASE_URL}/unit`, {
     method: 'POST',
@@ -63,15 +79,17 @@ export const addUnitListAPI = (courseId) =>
     body: JSON.stringify({ courseId, unit_list: [] }),
   }).then((res) => res.json());
 
+//XX
 export const getUnitListAPI = (courseId) =>
-  fetch(`${BASE_URL}/unit?courseId=${courseId}`, {
+  fetch(`${BASE_URL}/courses/${courseId}/units`, {
     headers: {
       Authorization: `Bearer ${getAuthToken()}`,
     },
   }).then((res) => res.json());
 
+//XX
 export const updateUnitListAPI = (courseId, unitList) =>
-  fetch(`${BASE_URL}/unit/${courseId}`, {
+  fetch(`${BASE_URL}/courses/${courseId}/units`, {
     method: 'PATCH',
     headers: {
       'content-type': 'application/json',
@@ -83,8 +101,41 @@ export const updateUnitListAPI = (courseId, unitList) =>
   }).then((res) => res.json());
 
 export const getMyCourseListAPI = () =>
-  fetch(`${BASE_URL}/users/me/bought-courses`, {
+  fetch(`${BASE_URL}/courses/bought-courses/me`, {
     headers: {
       Authorization: `Bearer ${getAuthToken()}`,
     },
+  }).then((res) => res.json());
+
+export const getMyTeachCourseListAPI = () =>
+  fetch(`${BASE_URL}/courses/teach-courses/me`, {
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+    },
+  }).then((res) => res.json());
+
+export const getDetailCourseAPI = (courseId) =>
+  fetch(`${BASE_URL}/courses/detail/${courseId}`, {
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+    },
+  }).then((res) => res.json());
+
+export const getUnitByUnitIdAPI = (courseId, unitId) =>
+  fetch(`${BASE_URL}/courses/${courseId}/units/${unitId}`, {
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+    },
+  }).then((res) => res.json());
+
+export const updateUnitByUnitIdAPI = (courseId, unitId, unit) =>
+  fetch(`${BASE_URL}/courses/${courseId}/units/${unitId}`, {
+    method: 'PATCH',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${getAuthToken()}`,
+    },
+    body: JSON.stringify({
+      unit,
+    }),
   }).then((res) => res.json());

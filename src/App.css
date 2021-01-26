@@ -26,3 +26,15 @@ header 按鈕文字顏色 hover
 .ant-table-placeholder {
   display: none;
 }
+
+/* upload 圖片樣式修正，將課程縮圖加大 */
+
+.upload-course .ant-upload.ant-upload-select-picture-card {
+  height: 200px;
+  width: 200px;
+}
+
+/* 全局訊息提示加大 */
+.ant-message {
+  font-size: 24px;
+}

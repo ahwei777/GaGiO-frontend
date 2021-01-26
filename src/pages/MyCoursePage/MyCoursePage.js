@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectUser } from '../../redux/reducers/userReducer';
 import {
-  selectIsGettingMyCourseList,
+  selectIsGettingCourse,
   selectMyCourseList,
   getMyCourseList,
   setMyCourseList,
@@ -19,7 +19,7 @@ const PageWrapper = styled.div`
 
 export default function MyCourseListPage({ padding }) {
   const myCourseList = useSelector(selectMyCourseList);
-  const isGettingMyCourseList = useSelector(selectIsGettingMyCourseList);
+  const isGettingCourse = useSelector(selectIsGettingCourse);
   const dispatch = useDispatch();
   // component mount 時執行(初始化)
   useEffect(() => {
@@ -32,8 +32,8 @@ export default function MyCourseListPage({ padding }) {
 
   return (
     <PageWrapper padding={padding}>
-      {isGettingMyCourseList && <Loading />}
-      {!isGettingMyCourseList && (
+      {isGettingCourse && <Loading />}
+      {!isGettingCourse && (
         <>
           {!myCourseList && (
             <center>
@@ -44,10 +44,10 @@ export default function MyCourseListPage({ padding }) {
             </center>
           )}
           {myCourseList && myCourseList.length > 0 && (
-            <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+            <Row gutter={[{ xs: 16, sm: 20, md: 24, lg: 32 }, 36]}>
               {myCourseList.map((course) => (
-                <Col key={course.id} xs={12} md={8}>
-                  <CourseCard course={course} />
+                <Col key={course.id} xs={12} md={8} lg={6}>
+                  <CourseCard course={course} isBought={true}/>
                 </Col>
               ))}
             </Row>
