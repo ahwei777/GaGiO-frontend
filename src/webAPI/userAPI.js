@@ -1,4 +1,4 @@
-import { BASE_URL } from '../constants/api';
+import { BASE_URL } from '../constants/API_BASE_URL';
 import { getAuthToken } from '../utils';
 
 export const registerAPI = (email, password, nickname) =>

@@ -1,5 +1,5 @@
-const BASE_URL = 'http://localhost:3001/v1';
-const getAuthToken = () => localStorage.getItem('token');
+import { BASE_URL } from '../constants/API_BASE_URL';
+import { getAuthToken } from '../utils';
 
 export const getMemberListAPI = () => {
   return fetch(`${BASE_URL}/users`, {
