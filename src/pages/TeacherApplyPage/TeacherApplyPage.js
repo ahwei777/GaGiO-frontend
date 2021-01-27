@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Form, Input, Button } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { applyTeacher } from '../../redux/reducers/teacherReducer';

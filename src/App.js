@@ -15,13 +15,13 @@ const AntLayout = styled(Layout)`
   height: ${(props) => props.fixedsider && `100vh`};
 `;
 
-const consolePage = ["console", "me", "classroom", "teacher"];
+const consolePage = ["console", "me", "classroom", "teacher/"];
 
 function App() {
-  console.log("render app");
+  //console.log("render app");
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  console.log(pathname);
+  //console.log(pathname);
   const checkIsConsolePage = consolePage.some((el) => pathname.includes(el));
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function App() {
       <Header />
       <Content>
         {/* Routes */}
-        <Routes />
+        <Routes basename="/" />
       </Content>
       {/* optional footer */}
       {!checkIsConsolePage && <Footer />}
