@@ -35,7 +35,7 @@
       "prettier --write"
     ]
   },
-  "homepage": "https://ahwei777.github.io/GaGiO-frontend",
+  "homepage": "https://gagio.ahwei777.tw",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
