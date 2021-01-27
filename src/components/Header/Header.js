@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectUser } from '../../redux/reducers/userReducer';
 import { selectCartList } from '../../redux/reducers/cartReducer';
 import { ShoppingCartOutlined } from '@ant-design/icons';
+import LOGO from '../../img/LOGO.png';
 
 const { useBreakpoint } = Grid;
 const { Search } = Input;
@@ -94,7 +95,13 @@ const CartIcon = styled(ShoppingCartOutlined)`
 const LeftMenu = ({ searchValue, setSearchValue, onSearch }) => {
   //const { md } = useBreakpoint();
   return (
-    <Search value={searchValue} onChange={(e)=> setSearchValue(e.value)} placeholder="搜尋課程" onSearch={onSearch} style={{ width: 160 }} />
+    <Search
+      value={searchValue}
+      onChange={(e) => setSearchValue(e.value)}
+      placeholder="搜尋課程"
+      onSearch={onSearch}
+      style={{ width: 160 }}
+    />
   );
 };
 
@@ -149,12 +156,12 @@ export default function Header() {
   const history = useHistory();
   const cartList = useSelector(selectCartList);
   const user = useSelector(selectUser);
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState('');
 
   const onSearch = (value) => {
     if (value) {
-      setSearchValue('')
-      history.push(`/courses?keyword=${value}`)
+      setSearchValue('');
+      history.push(`/courses?keyword=${value}`);
     }
   };
 
@@ -178,11 +185,15 @@ export default function Header() {
   return (
     <HeaderContainer>
       <Logo to="/courses">
-        <img src="/img/LOGO.png" alt="img not found" />
+        <img src={LOGO} alt="img not found" />
       </Logo>
       <NavContainer>
         <NavToggleGroup>
-          <LeftMenu searchValue={searchValue} onSearch={onSearch} setSearchValue={setSearchValue}/>
+          <LeftMenu
+            searchValue={searchValue}
+            onSearch={onSearch}
+            setSearchValue={setSearchValue}
+          />
         </NavToggleGroup>
         <NavRightPart>
           <Badge count={cartList.length} offset={[10]}>
@@ -208,7 +219,11 @@ export default function Header() {
           onClose={handleClose}
           visible={state.visible}
         >
-          <LeftMenu searchValue={searchValue} onSearch={onSearch} setSearchValue={setSearchValue}/>
+          <LeftMenu
+            searchValue={searchValue}
+            onSearch={onSearch}
+            setSearchValue={setSearchValue}
+          />
           <RightMenu
             user={user}
             cartList={cartList}
