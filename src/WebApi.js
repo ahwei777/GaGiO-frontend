@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3001/v1";
+const BASE_URL = "https://gagio-backend.ahwei777.tw/v1";
 const getAuthToken = () => localStorage.getItem("token");
 
 export const registerAPI = (email, password, confirm, nickname) => {
