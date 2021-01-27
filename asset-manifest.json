@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/GaGiO-frontend/static/css/main.9953ac96.chunk.css",
-    "main.js": "/GaGiO-frontend/static/js/main.d4f377bf.chunk.js",
-    "main.js.map": "/GaGiO-frontend/static/js/main.d4f377bf.chunk.js.map",
-    "runtime-main.js": "/GaGiO-frontend/static/js/runtime-main.0baf2ee3.js",
-    "runtime-main.js.map": "/GaGiO-frontend/static/js/runtime-main.0baf2ee3.js.map",
-    "static/css/2.63c3720a.chunk.css": "/GaGiO-frontend/static/css/2.63c3720a.chunk.css",
-    "static/js/2.3056a2c7.chunk.js": "/GaGiO-frontend/static/js/2.3056a2c7.chunk.js",
-    "static/js/2.3056a2c7.chunk.js.map": "/GaGiO-frontend/static/js/2.3056a2c7.chunk.js.map",
-    "static/js/3.f322ce5f.chunk.js": "/GaGiO-frontend/static/js/3.f322ce5f.chunk.js",
-    "static/js/3.f322ce5f.chunk.js.map": "/GaGiO-frontend/static/js/3.f322ce5f.chunk.js.map",
-    "index.html": "/GaGiO-frontend/index.html",
-    "static/css/2.63c3720a.chunk.css.map": "/GaGiO-frontend/static/css/2.63c3720a.chunk.css.map",
-    "static/css/main.9953ac96.chunk.css.map": "/GaGiO-frontend/static/css/main.9953ac96.chunk.css.map",
-    "static/js/2.3056a2c7.chunk.js.LICENSE.txt": "/GaGiO-frontend/static/js/2.3056a2c7.chunk.js.LICENSE.txt",
-    "static/media/LOGO.07bbf93b.png": "/GaGiO-frontend/static/media/LOGO.07bbf93b.png"
+    "main.css": "/static/css/main.9953ac96.chunk.css",
+    "main.js": "/static/js/main.d4f377bf.chunk.js",
+    "main.js.map": "/static/js/main.d4f377bf.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.bf27b57b.js",
+    "runtime-main.js.map": "/static/js/runtime-main.bf27b57b.js.map",
+    "static/css/2.63c3720a.chunk.css": "/static/css/2.63c3720a.chunk.css",
+    "static/js/2.5e91e052.chunk.js": "/static/js/2.5e91e052.chunk.js",
+    "static/js/2.5e91e052.chunk.js.map": "/static/js/2.5e91e052.chunk.js.map",
+    "static/js/3.f322ce5f.chunk.js": "/static/js/3.f322ce5f.chunk.js",
+    "static/js/3.f322ce5f.chunk.js.map": "/static/js/3.f322ce5f.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.63c3720a.chunk.css.map": "/static/css/2.63c3720a.chunk.css.map",
+    "static/css/main.9953ac96.chunk.css.map": "/static/css/main.9953ac96.chunk.css.map",
+    "static/js/2.5e91e052.chunk.js.LICENSE.txt": "/static/js/2.5e91e052.chunk.js.LICENSE.txt",
+    "static/media/LOGO.07bbf93b.png": "/static/media/LOGO.07bbf93b.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.0baf2ee3.js",
+    "static/js/runtime-main.bf27b57b.js",
     "static/css/2.63c3720a.chunk.css",
-    "static/js/2.3056a2c7.chunk.js",
+    "static/js/2.5e91e052.chunk.js",
     "static/css/main.9953ac96.chunk.css",
     "static/js/main.d4f377bf.chunk.js"
   ]
