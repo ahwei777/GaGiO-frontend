@@ -1,7 +1,12 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from '@reduxjs/toolkit';
-import { getTeacherListAPI, getTeacherAPI } from '../../WebApi' 
+import {
+  getTeacherListAPI,
+  getTeacherAPI,
+  applyTeacherAPI,
+  updateTeacherInfoAPI
+} from '../../webAPI/teacherAPI';
 
 export const teacherSlice = createSlice({
   name: 'teacher',
@@ -34,7 +39,6 @@ export const teacherSlice = createSlice({
     setGetTeacherError: (state, action) => {
       state.getTeacherError = action.payload;
     },
-
   },
 });
 
@@ -45,48 +49,70 @@ export const {
   setGetTeacherListError,
   setTeacher,
   setIsGettingTeacher,
-  setGetTeacherError
+  setGetTeacherError,
 } = teacherSlice.actions;
 
 // redux thunk function
 export const getTeacherList = () => (dispatch) => {
   dispatch(setIsGettingTeacherList(true));
-  getTeacherListAPI().then((json) => {
-    if (json.ok === 0) {
-      dispatch(setGetTeacherListError(json.errorMessage));
+  getTeacherListAPI()
+    .then((json) => {
+      if (json.ok === 0) {
+        dispatch(setGetTeacherListError(json.errorMessage));
+        dispatch(setIsGettingTeacherList(false));
+        return;
+      }
+      // success
+      dispatch(setTeacherList(json.data.teacherList));
       dispatch(setIsGettingTeacherList(false));
-      return;
-    }
-    // success
-    dispatch(setTeacherList(json.data.teacherList));
-    dispatch(setIsGettingTeacherList(false));
-  })
-  .catch((err) => {
-    console.log('err: ', err);
-  });
-}
+    })
+    .catch((err) => {
+      console.log('err: ', err);
+    });
+};
 export const getTeacher = (id) => (dispatch) => {
   dispatch(setIsGettingTeacher(true));
-  getTeacherAPI(id).then((json) => {
-    if (json.ok === 0) {
-      dispatch(setGetTeacherError(json.errorMessage));
+  getTeacherAPI(id)
+    .then((json) => {
+      if (json.ok === 0) {
+        dispatch(setGetTeacherError(json.errorMessage));
+        dispatch(setIsGettingTeacher(false));
+        return;
+      }
+      // success
+      dispatch(setTeacher(json.data.teacher));
       dispatch(setIsGettingTeacher(false));
-      return;
-    }
-    // success
-    dispatch(setTeacher(json.data.teacher));
-    dispatch(setIsGettingTeacher(false));
+    })
+    .catch((err) => {
+      console.log('err: ', err);
+    });
+};
+export const applyTeacher = ({name, description, avatarUrl}) => (dispatch) => {
+  console.log(name)
+  dispatch(setIsGettingTeacher(true));
+  return applyTeacherAPI({name, description, avatarUrl})
+    .then((json) => {
+      return json;
+    })
+    .catch((err) => {
+      console.log('err: ', err);
+    });
+};
+export const updateTeacherInfo = ({name, description, avatarUrl}) => (dispatch) => {
+  return updateTeacherInfoAPI({name, description, avatarUrl})
+  .then((json) => {
+    return json;
   })
   .catch((err) => {
     console.log('err: ', err);
   });
-}
+};
 
 // selector
 export const selectTeacherList = (store) => store.teacher.teacherList;
-export const selectIsGettingTeacherList = (store) => store.teacher.isGettingTeacherList;
+export const selectIsGettingTeacherList = (store) =>
+  store.teacher.isGettingTeacherList;
 export const selectTeacher = (store) => store.teacher.teacher;
 export const selectIsGettingTeacher = (store) => store.teacher.isGettingTeacher;
-
 
 export default teacherSlice.reducer;

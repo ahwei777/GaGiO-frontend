@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from '@reduxjs/toolkit';
-import { getCartListAPI, addCartItemAPI, deleteCartItemAPI } from '../../WebApi';
+import { getCartListAPI, addCartItemAPI, deleteCartItemAPI } from '../../webAPI/cartAPI';
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -16,6 +16,7 @@ export const cartSlice = createSlice({
   },
   reducers: {
     setCartList: (state, action) => {
+      console.log('setCartList')
       state.cartList = action.payload;
       state.getCartListError = null;
     },
@@ -53,6 +54,7 @@ export const {
 
 // redux thunk function
 export const getCartList = () => (dispatch) => {
+  console.log('thunk getCartList')
   dispatch(setIsGettingCartList(true));
   getCartListAPI().then((json) => {
     if (json.ok === 0) {

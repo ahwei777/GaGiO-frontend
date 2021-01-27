@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectUser } from '../../redux/reducers/userReducer';
 import {
-  selectIsGettingMyCourseList,
+  selectIsGettingCourse,
   selectMyCourseList,
   getMyCourseList,
   setMyCourseList,
@@ -18,9 +18,8 @@ const PageWrapper = styled.div`
 `;
 
 export default function MyCourseListPage({ padding }) {
-  const user = useSelector(selectUser);
   const myCourseList = useSelector(selectMyCourseList);
-  const isGettingMyCourseList = useSelector(selectIsGettingMyCourseList);
+  const isGettingCourse = useSelector(selectIsGettingCourse);
   const dispatch = useDispatch();
   // component mount 時執行(初始化)
   useEffect(() => {
@@ -32,45 +31,29 @@ export default function MyCourseListPage({ padding }) {
   }, [dispatch]);
 
   return (
-    <>
-      <PageWrapper padding={padding}>
-        {!user && (
-          <center>
-            <h1>請先註冊或登入</h1>
-            <h1>
-              <Link to="/login">登入</Link>
-              <br />
-              <Link to="/register">註冊</Link>
-            </h1>
-          </center>
-        )}
-        {user && (
-          <>
-            {isGettingMyCourseList && <Loading />}
-            {!isGettingMyCourseList && (
-              <>
-                {!myCourseList && (
-                  <center>
-                    <h1>我的課程是空的，看看課程？</h1>
-                    <h1>
-                      <Link to="/">探索課程</Link>
-                    </h1>
-                  </center>
-                )}
-                {myCourseList && myCourseList.length > 0 && (
-                  <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
-                    {myCourseList.map((course) => (
-                      <Col key={course.id} xs={12} md={8}>
-                        <CourseCard course={course} />
-                      </Col>
-                    ))}
-                  </Row>
-                )}
-              </>
-            )}
-          </>
-        )}
-      </PageWrapper>
-    </>
+    <PageWrapper padding={padding}>
+      {isGettingCourse && <Loading />}
+      {!isGettingCourse && (
+        <>
+          {!myCourseList && (
+            <center>
+              <h1>我的課程是空的，看看課程？</h1>
+              <h1>
+                <Link to="/">探索課程</Link>
+              </h1>
+            </center>
+          )}
+          {myCourseList && myCourseList.length > 0 && (
+            <Row gutter={[{ xs: 16, sm: 20, md: 24, lg: 32 }, 36]}>
+              {myCourseList.map((course) => (
+                <Col key={course.id} xs={12} md={8} lg={6}>
+                  <CourseCard course={course} isBought={true}/>
+                </Col>
+              ))}
+            </Row>
+          )}
+        </>
+      )}
+    </PageWrapper>
   );
 }

@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from "@reduxjs/toolkit";
-import { sendOrderAPI, getMyOrderListAPI } from "../../WebApi";
+import { sendOrderAPI, getMyOrderListAPI } from "../../webAPI/orderAPI";
 
 export const orderSlice = createSlice({
   name: "order",
@@ -37,30 +37,20 @@ export const {
 
 // redux thunk function
 export const sendOrder = (data) => (dispatch) => {
-  dispatch(setIsSendingOrder(true));
   return sendOrderAPI(data)
     .then((json) => {
-      if (json.ok === 0) {
-        dispatch(setOrderResponse(null));
-        dispatch(setSendingOrderError(json.errorMessage));
-        dispatch(setIsSendingOrder(false));
-        return;
-      }
-      console.log(json);
-      dispatch(setOrderResponse(json.data.orderNumber));
-      dispatch(setSendingOrderError(null));
-      dispatch(setIsSendingOrder(false));
+      return json
     })
     .catch((err) => {
       console.log("err: ", err);
     });
 };
+
 export const getMyOrderList = () => (dispatch) => {
   return getMyOrderListAPI().then((orderList) => {
-    console.log(orderList.data);
     if (orderList.ok === 0)
       return dispatch(setSendingOrderError(orderList.errorMessage));
-    dispatch(setOrderList(orderList.data.orderList));
+    dispatch(setOrderList(orderList.data));
   });
 };
 

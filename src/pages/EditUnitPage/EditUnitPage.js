@@ -1,34 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  getUnitListByCourse,
+  getUnitListByCourseId,
   updateLocalUnitList,
   updateUnitList,
-  selectUnit,
-  selectUnitList,
   selectCourse,
   selectIsLoading,
-} from "../../redux/reducers/unitReducer";
-import styled from "styled-components";
+} from '../../redux/reducers/unitReducer';
 import {
-  Layout,
-  Breadcrumb,
-  Button,
-  Form,
-  Input,
-  Table,
-  Tag,
-  Space,
-  Typography,
-} from "antd";
-import {
-  MEDIA_QUERY_MOBILE_M,
-  MEDIA_QUERY_MOBILE_L,
-  MEDIA_QUERY_TABLET,
-} from "../../constants/breakpoint";
-// import UnitForm from "./UnitForm";
-import Loading from "../../components/Loading";
+  selectDetailCourse,
+  getUnitByUnitId,
+  selectUnit,
+  updateUnitByUnitId,
+} from '../../redux/reducers/courseReducer';
+import styled from 'styled-components';
+import { Layout, Breadcrumb, Button, Form, Input, Typography } from 'antd';
+import Loading from '../../components/Loading';
 const { Content } = Layout;
 const { Text } = Typography;
 
@@ -44,17 +32,17 @@ const FormContainer = styled(Content)`
 `;
 
 const layout = {
-  labelCol: { span: 2 },
-  wrapperCol: { span: 12 },
+  labelCol: { span: 6 },
+  wrapperCol: { span: 14 },
 };
 
 const validateMessages = {
-  required: "${label}必填",
+  required: '${label}必填',
   types: {
-    number: "${label}格式錯誤",
+    number: '${label}格式錯誤',
   },
   number: {
-    min: "${label}不可小於 ${min}",
+    min: '${label}不可小於 ${min}',
   },
 };
 
@@ -62,49 +50,44 @@ export default function EditUnitPage() {
   const { id, unitId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const course = useSelector(selectCourse);
-  const unitList = useSelector(selectUnitList);
+  const unit = useSelector(selectUnit);
   const isLoading = useSelector(selectIsLoading);
   const [form] = Form.useForm();
-
   useEffect(() => {
-    dispatch(getUnitListByCourse(id));
-    const unit = unitList.find((unit) => unit.id == unitId);
-    form.setFieldsValue({ ...unit });
-
-    return () => {};
+    dispatch(getUnitByUnitId(id, unitId));
   }, [dispatch, id, unitId]);
 
-  const onFinish = (values) => {
-    console.log("完成表單", values);
+  if (unit) {
+    form.setFieldsValue(unit);
+  }
 
-    const newUnitList = unitList.map((unit) => {
-      if (unit.id == unitId) {
-        return { ...unit, ...values };
+  const onFinish = (values) => {
+    console.log('完成表單', values);
+
+    dispatch(updateUnitByUnitId(id, unitId, values)).then((res) => {
+      if (res.ok === 1) {
+        history.push(`/console/courses/${id}`); // 把頁面導向單元列表
       }
-      return unit;
     });
-    console.log(newUnitList);
-    dispatch(updateUnitList(id, newUnitList));
-    history.push(`/console/courses/${id}`); // 把頁面導向單元列表
+    //
   };
 
   return (
     <>
       {isLoading && <Loading />}
-      {!isLoading && (
+      {!isLoading && unit && (
         <>
           <InfoHeader>
-            <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>
                 <Link to="/console/courses">課程列表</Link>
               </Breadcrumb.Item>
               <Breadcrumb.Item>
                 <Link to={`/console/courses/${id}`}>
-                  課程管理({course.title})
+                  課程管理({unit.courseTitle})
                 </Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item>編輯單元</Breadcrumb.Item>
+              <Breadcrumb.Item>編輯單元(id:{unit.id})</Breadcrumb.Item>
             </Breadcrumb>
           </InfoHeader>
           <FormContainer>
@@ -122,16 +105,16 @@ export default function EditUnitPage() {
                 <Input />
               </Form.Item>
               <Form.Item name="description" label="單元敘述">
-                <Input.TextArea rows={8} />
+                <Input.TextArea rows={8} style={{ resize: 'none' }} />
               </Form.Item>
               <Form.Item name="videoUrl" label="影片連結">
                 <Input placeholder="請輸入 Youtube 連結" />
               </Form.Item>
-              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 2 }}>
-                <Button type="primary" htmlType="submit">
+              <center>
+                <Button type="primary" size="large" htmlType="submit">
                   儲存
                 </Button>
-              </Form.Item>
+              </center>
             </Form>
           </FormContainer>
         </>

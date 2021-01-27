@@ -5,37 +5,29 @@ import {
   getCourseListAPI,
   getCourseAPI,
   addCourseAPI,
-  addUnitListAPI,
   updateCourseAPI,
   getMyCourseListAPI,
-} from "../../WebApi";
+  getMyTeachCourseListAPI,
+  getDetailCourseAPI,
+  getUnitByUnitIdAPI,
+  updateUnitByUnitIdAPI
+} from "../../webAPI/courseAPI";
 
 export const courseSlice = createSlice({
   name: "course",
   initialState: {
-    courseList: [],
-    isGettingCourseList: false,
-    getCourseListError: null,
-    course: null,
     isGettingCourse: false,
     getCourseError: null,
+    courseList: [],
+    course: null,
     myCourseList: null,
-    isGettingMyCourseList: false,
-    getMyCourseListError: null,
+    myTeachCourseList: null,
+    detailCourse: null,
+    unit: null,
   },
   reducers: {
     setCourseList: (state, action) => {
       state.courseList = action.payload;
-      state.getCourseListError = null;
-    },
-    setIsGettingCourseList: (state, action) => {
-      state.isGettingCourseList = action.payload;
-    },
-    setGetCourseListError: (state, action) => {
-      state.getCourseListError = action.payload;
-    },
-    setCourse: (state, action) => {
-      state.course = action.payload;
       state.getCourseError = null;
     },
     setIsGettingCourse: (state, action) => {
@@ -44,45 +36,54 @@ export const courseSlice = createSlice({
     setGetCourseError: (state, action) => {
       state.getCourseError = action.payload;
     },
+    setCourse: (state, action) => {
+      state.course = action.payload;
+      state.getCourseError = null;
+    },
     setMyCourseList: (state, action) => {
       state.myCourseList = action.payload;
-      state.getMyCourseListError = null;
+      state.getCourseError = null;
     },
-    setIsGettingMyCourseList: (state, action) => {
-      state.isGettingMyCourseList = action.payload;
+    setMyTeachCourseList: (state, action) => {
+      state.myTeachCourseList = action.payload;
+      state.getCourseError = null;
     },
-    setGetMyCourseListError: (state, action) => {
-      state.getMyCourseListError = action.payload;
+    setDetailCourse: (state, action) => {
+      state.detailCourse = action.payload;
+      state.getCourseError = null;
+    },
+    setUnit: (state, action) => {
+      state.unit = action.payload;
+      state.getCourseError = null;
     },
   },
 });
 
 // action
 export const {
-  setCourseList,
-  setIsGettingCourseList,
-  setGetCourseListError,
-  setCourse,
   setIsGettingCourse,
   setGetCourseError,
+  setCourseList,
+  setCourse,
   setMyCourseList,
-  setIsGettingMyCourseList,
-  setGetMyCourseListError,
+  setMyTeachCourseList,
+  setDetailCourse,
+  setUnit
 } = courseSlice.actions;
 
 // redux thunk function
-export const getCourseList = () => (dispatch) => {
-  dispatch(setIsGettingCourseList(true));
-  getCourseListAPI()
+export const getCourseList = (params) => (dispatch) => {
+  dispatch(setIsGettingCourse(true));
+  getCourseListAPI(params)
     .then((json) => {
       if (json.ok === 0) {
-        dispatch(setGetCourseListError(json.errorMessage));
-        dispatch(setIsGettingCourseList(false));
+        dispatch(setGetCourseError(json.errorMessage));
+        dispatch(setIsGettingCourse(false));
         return;
       }
       // success
       dispatch(setCourseList(json.data));
-      dispatch(setIsGettingCourseList(false));
+      dispatch(setIsGettingCourse(false));
     })
     .catch((err) => {
       console.log("err: ", err);
@@ -106,51 +107,114 @@ export const getCourse = (id) => (dispatch) => {
     });
 };
 export const getMyCourseList = () => (dispatch) => {
-  dispatch(setIsGettingMyCourseList(true));
+  dispatch(setIsGettingCourse(true));
   getMyCourseListAPI()
     .then((json) => {
       if (json.ok === 0) {
-        dispatch(setGetMyCourseListError(json.errorMessage));
-        dispatch(setIsGettingMyCourseList(false));
+        dispatch(setGetCourseError(json.errorMessage));
+        dispatch(setIsGettingCourse(false));
         return;
       }
       // success
       dispatch(setMyCourseList(json.data));
-      dispatch(setIsGettingMyCourseList(false));
+      dispatch(setIsGettingCourse(false));
     })
     .catch((err) => {
       console.log("err: ", err);
     });
 };
-
-export const addCourse = ({ title, price, description }) => (dispatch) => {
-  if (!title || !description || price < 0) return;
-  addCourseAPI(title, price, description)
+export const getMyTeachCourseList = () => (dispatch) => {
+  dispatch(setIsGettingCourse(true));
+  getMyTeachCourseListAPI()
     .then((json) => {
       if (json.ok === 0) {
-        console.log(json);
+        dispatch(setGetCourseError(json.errorMessage));
+        dispatch(setIsGettingCourse(false));
         return;
       }
       // success
-      console.log("新增課程成功");
+      dispatch(setMyTeachCourseList(json.data));
+      dispatch(setIsGettingCourse(false));
     })
     .catch((err) => {
       console.log("err: ", err);
     });
 };
 
-export const updateCourse = ({ id, title, price, description, isPublic }) => (
+
+
+export const addCourse = ({ title, description, price, imgUrl }) => (dispatch) => {
+  return addCourseAPI(title, price, description, imgUrl)
+    .then((json) => {
+      return json
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
+
+export const updateCourse = (courseId, {title, price, description, isPublic, unit_list, imgUrl }) => (
   dispatch
 ) => {
-  if (!title || price < 0) return;
-  updateCourseAPI(id, title, price, description, isPublic)
+  if (!courseId || !title || price < 0 || !description || isPublic === undefined || !unit_list || !imgUrl) return;
+  return updateCourseAPI(courseId, {title, price, description, isPublic, unit_list, imgUrl})
+    .then((json) => {
+      return json;
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
+
+
+export const getDetailCourse = (courseId) => (dispatch) => {
+  dispatch(setIsGettingCourse(true));
+  getDetailCourseAPI(courseId)
     .then((json) => {
       if (json.ok === 0) {
-        console.log(json);
+        dispatch(setGetCourseError(json.errorMessage));
+        dispatch(setIsGettingCourse(false));
         return;
       }
       // success
-      console.log("更改課程成功");
+      dispatch(setDetailCourse({...json.data, unit_list: JSON.parse(json.data.unit_list)}));
+      dispatch(setIsGettingCourse(false));
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
+
+export const getUnitByUnitId = (courseId, unitId) => (dispatch) => {
+  dispatch(setIsGettingCourse(true));
+  getUnitByUnitIdAPI(courseId, unitId)
+    .then((json) => {
+      if (json.ok === 0) {
+        dispatch(setGetCourseError(json.errorMessage));
+        dispatch(setIsGettingCourse(false));
+        return;
+      }
+      // success
+      dispatch(setUnit(json.data));
+      dispatch(setIsGettingCourse(false));
+    })
+    .catch((err) => {
+      console.log("err: ", err);
+    });
+};
+
+export const updateUnitByUnitId = (courseId, unitId, unit) => (dispatch) => {
+  dispatch(setIsGettingCourse(true));
+  return updateUnitByUnitIdAPI(courseId, unitId, unit)
+    .then((json) => {
+      if (json.ok === 0) {
+        dispatch(setGetCourseError(json.errorMessage));
+        dispatch(setIsGettingCourse(false));
+        return json;
+      }
+      // success
+      dispatch(setIsGettingCourse(false));
+      return json;
     })
     .catch((err) => {
       console.log("err: ", err);
@@ -158,13 +222,12 @@ export const updateCourse = ({ id, title, price, description, isPublic }) => (
 };
 
 // selector
-export const selectCourseList = (store) => store.course.courseList;
-export const selectIsGettingCourseList = (store) =>
-  store.course.isGettingCourseList;
-export const selectCourse = (store) => store.course.course;
 export const selectIsGettingCourse = (store) => store.course.isGettingCourse;
+export const selectCourseList = (store) => store.course.courseList;
+export const selectCourse = (store) => store.course.course;
 export const selectMyCourseList = (store) => store.course.myCourseList;
-export const selectIsGettingMyCourseList = (store) =>
-  store.course.isGettingMyCourseList;
+export const selectMyTeachCourseList = (store) => store.course.myTeachCourseList;
+export const selectDetailCourse = (store) => store.course.detailCourse;
+export const selectUnit = (store) => store.course.unit;
 
 export default courseSlice.reducer;

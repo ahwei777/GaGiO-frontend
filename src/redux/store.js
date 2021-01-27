@@ -6,6 +6,7 @@ import userReducer from "./reducers/userReducer";
 import memberReducer from "./reducers/memberReducer";
 import unitReducer from "./reducers/unitReducer";
 import orderReducer from "./reducers/orderReducer";
+import errorMessageReducer from "./reducers/errorMessageReducer"
 
 export default configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export default configureStore({
     user: userReducer,
     member: memberReducer,
     unit: unitReducer,
+    errorMessage: errorMessageReducer,
   },
 });

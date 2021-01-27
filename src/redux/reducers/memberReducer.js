@@ -5,8 +5,7 @@ import {
   getMemberListAPI,
   getMemberAPI,
   updateUserInfoAPI,
-} from "../../WebApi";
-import { getCartList, setCartList } from "./cartReducer";
+} from "../../webAPI/adminAPI";
 
 export const memberSlice = createSlice({
   name: "member",
@@ -60,7 +59,7 @@ export const getMemberList = () => (dispatch) => {
         return;
       }
       // success
-      dispatch(setMemberList(res.data.users));
+      dispatch(setMemberList(res.data));
       dispatch(setIsGettingMemberList(false));
     })
     .catch((err) => {
@@ -81,7 +80,8 @@ export const getMember = (id) => (dispatch) => {
         return;
       }
       // success
-      dispatch(setMember(res.data.user));
+      console.log(res.data)
+      dispatch(setMember(res.data));
       dispatch(setIsGettingMember(false));
     })
     .catch((err) => {

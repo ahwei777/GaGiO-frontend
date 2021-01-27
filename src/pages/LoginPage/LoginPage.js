@@ -1,33 +1,25 @@
-import React, { useEffect } from "react";
-import { Form, Input, Button } from "antd";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { login, selectUser } from "../../redux/reducers/userReducer";
-import { useHistory, Link } from "react-router-dom";
+import React from 'react';
+import { Form, Input, Button, message } from 'antd';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { login, getMe } from '../../redux/reducers/userReducer';
+import { useHistory, Link } from 'react-router-dom';
 
-const LoginPageWrapper = styled.div`
-  justify-content: center;
-  font-family: Noto Sans TC, Roboto, arial, sans-serif;
-`;
 const LoginBox = styled.div`
-  padding-top: 24px;
-  margin: 100px auto;
+  padding-top: 10px;
+  margin: 16px auto;
   align-items: center;
-  border: 1px solid ${(props) => props.theme.colors.primary.light};
+  border: 1px solid ${(props) => props.theme.colors.primary.main};
   border-radius: 8px;
-  max-width: 600px;
+  max-width: 750px;
   text-align: center;
 `;
 const FormTitle = styled.div`
   font-size: 32px;
   padding-bottom: 18px;
 `;
-const FormItem = styled(Form.Item)`
-  .ant-form-item-extra {
-    text-align: left;
-  }
-`;
-const SubmitButton = styled(Button)`
+/*
+const StyledButton = styled(Button)`
   background-color: ${(props) => props.theme.colors.primary.light};
   transition: tranform 0.3s;
   &:hover {
@@ -41,100 +33,120 @@ const SubmitButton = styled(Button)`
     color: #000000;
   }
 `;
-const NoAccount = styled(Link)`
+*/
+const NoAccountMessage = styled(Link)`
+  font-size: 16px;
   color: ${(props) => props.theme.colors.primary.main};
-  padding: 12px;
   &:hover {
-    color: ${(props) => props.theme.colors.primary.main};
     font-weight: bold;
   }
 `;
+const StyledForm = styled(Form)`
+  margin: 10px auto;
+`;
+
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 12,
+  },
+};
+const tailLayout = {
+  wrapperCol: {
+    span: 24,
+  },
+};
+const validateMessages = {
+  required: '${label} is required',
+  types: {
+    email: '請輸入正確信箱格式',
+  },
+};
 
 export default function Login() {
-  const layout = {
-    labelCol: {
-      span: 8,
-    },
-    wrapperCol: {
-      span: 12,
-    },
-  };
-  const tailLayout = {
-    wrapperCol: {
-      offset: 4,
-      span: 16,
-    },
-  };
-  const validateMessages = {
-    required: "${label} is required",
-    types: {
-      email: "Please enter an email",
-    },
-  };
   const history = useHistory();
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
   const handleFinish = (value) => {
-    console.log("register");
     const { email, password } = value;
-    dispatch(login(email, password));
+    message.loading({
+      content: '登入中',
+      key: 'isLogging',
+      duration: 0,
+    });
+    dispatch(login(email, password)).then((json) => {
+      if (json.ok === 1) {
+        message.success({
+          content: '登入成功',
+          key: 'isLogging',
+          duration: 5,
+        });
+        dispatch(getMe());
+        return history.push('/');
+      }
+      return message.error({
+        content: json.errorMessage,
+        key: 'isLogging',
+        duration: 5,
+      });
+    });
   };
 
   // 測試用
-  const handleTestAdmin = (value) => {
-    dispatch(login("test@gmail.com", "Aa123456"));
+  const handleTestAdmin = () => {
+    dispatch(login('test@gmail.com', 'Aa123456')).then((json) => {
+      dispatch(getMe());
+      return history.push('/');
+    });
   };
-  const handleTestUser = (value) => {
-    dispatch(login("user@gmail.com", "Aa123456"));
+  const handleTestUser = () => {
+    dispatch(login('user@gmail.com', 'Aa123456')).then((json) => {
+      dispatch(getMe());
+      return history.push('/');
+    });
   };
-
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-      return history.push("/");
-    }
-  }, [user, history]);
 
   return (
-    <LoginPageWrapper>
-      <LoginBox>
-        <FormTitle>登入</FormTitle>
-        <NoAccount to="/register">還沒有帳號！點擊註冊</NoAccount>
-        <Form
-          {...layout}
-          name="login"
-          onFinish={handleFinish}
-          validateMessages={validateMessages}
+    <LoginBox>
+      <FormTitle>登入</FormTitle>
+      <NoAccountMessage to="/register">還沒有帳號?</NoAccountMessage>
+      <StyledForm
+        {...layout}
+        name="login"
+        onFinish={handleFinish}
+        validateMessages={validateMessages}
+      >
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, type: 'email' }]}
         >
-          <FormItem
-            label="Email"
-            name="email"
-            rules={[{ required: true, type: "email" }]}
-          >
-            <Input />
-          </FormItem>
-          <FormItem
-            label="Password"
-            name="password"
-            rules={[{ required: true }]}
-          >
-            <Input.Password />
-          </FormItem>
-          <FormItem {...tailLayout}>
-            <SubmitButton htmlType="submit">Submit</SubmitButton>
-          </FormItem>
-        </Form>
-        <div>
-          {/* 測試用 */}
-          <Button danger onClick={handleTestAdmin}>
-            管理員快速通道(test@gmail.com)
+          <Input placeholder="請輸入您註冊的電子信箱" />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true }]}
+        >
+          <Input.Password placeholder="請輸入您註冊的密碼" />
+        </Form.Item>
+        <Form.Item {...tailLayout}>
+          <Button htmlType="submit" type="primary">
+            Submit
           </Button>
-          <Button onClick={handleTestUser}>
-            一般會員快速通道(user@gmail.com)
-          </Button>
-          {/* 測試用 */}
-        </div>
-      </LoginBox>
-    </LoginPageWrapper>
+        </Form.Item>
+      </StyledForm>
+      <div>
+        {/* 測試用 */}
+        <Button danger onClick={handleTestAdmin}>
+          管理員快速通道(test@gmail.com)
+        </Button>
+        <Button onClick={handleTestUser}>
+          一般會員快速通道(user@gmail.com)
+        </Button>
+        {/* 測試用 */}
+      </div>
+    </LoginBox>
   );
 }

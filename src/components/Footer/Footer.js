@@ -1,40 +1,63 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'antd';
-import { useContext } from 'react';
-import { ThemeContext } from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import {
+  FacebookFilled,
+  TwitterSquareFilled,
+  InstagramFilled,
+} from '@ant-design/icons';
 
 const FooterContainer = styled.div`
   text-align: center;
   padding: 12px 24px;
-  background: ${(props) => props.theme.colors.primary.light};
+  background: ${(props) => props.theme.colors.grey};
   color: ${(props) => props.theme.colors.primary.text};
+`;
+const MediaCol = styled(Col)`
+  display: flex;
+  flex-direction: column;
 `
+const MediaWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & span {
+    font-size: 24px;
+    transition: all 0.5s;
+    :hover {
+      cursor: pointer;
+      font-size: 36px;
+    }
+  }
+`;
 
 export default function Footer() {
   //const themeContext = useContext(ThemeContext);
-  const location = useLocation();
 
   return (
-    <>
-    {!location.pathname.includes('console') && (
     <FooterContainer>
-      <Row gutter={[0, { sm: 24, md: 0}]}>
+      <Row gutter={[0, { sm: 24, md: 0 }]}>
         <Col xs={12} md={6}>
-          <h3><strong>關於</strong></h3>
-          <div>關於我們</div>
+          <h3>
+            <strong>關於我們</strong>
+          </h3>
           <div>加入我們</div>
           <div>服務條款</div>
         </Col>
-        <Col xs={12} md={6}>
-          <h3><strong>追蹤動態</strong></h3>
-          <div>Facebook</div>
-          <div>Instagram</div>
-          <div>Youtube</div>
-        </Col>
+        <MediaCol xs={12} md={6}>
+          <h3>
+            <strong>追蹤動態</strong>
+          </h3>
+          <MediaWrapper>
+            <FacebookFilled/>
+            <TwitterSquareFilled/>
+            <InstagramFilled/>
+          </MediaWrapper>
+        </MediaCol>
         <Col
-          xs={24} md={12}
+          xs={24}
+          md={12}
           style={{
             fontSize: 24,
             display: 'flex',
@@ -42,11 +65,9 @@ export default function Footer() {
             justifyContent: 'center',
           }}
         >
-          <div>Teach Table © All Rights Reserved.</div>
+          <div>GaGiO © All Rights Reserved.</div>
         </Col>
       </Row>
     </FooterContainer>
-    )}
-    </>
   );
 }

@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 
 const ListContainer = styled.div`
-  margin-bottom: 24px;
+
 `;
 
 const ListContent = styled(List.Item)`
@@ -20,7 +20,7 @@ const ListContent = styled(List.Item)`
 `;
 
 const ListFooter = styled(List.Item)`
-  background-color: ${(props) => props.theme.colors.secondary.dark};
+  background-color: ${(props) => props.theme.colors.secondary.light};
 `;
 
 const UnitText = styled.span`
@@ -29,32 +29,30 @@ const UnitText = styled.span`
 `;
 
 function Unit({
-  item,
+  unit,
   dragHandleProps,
   handleClickEditUnitButton,
-  handleDelete,
+  handleDeleteUnit,
 }) {
-  const { id } = useParams();
-
   return (
     <ListContent>
       <Space align="center" size={10}>
         <Tooltip title="拖拉">
           <MenuOutlined style={{ color: "#999" }} {...dragHandleProps} />
         </Tooltip>
-        <UnitText>{item.title}</UnitText>
+        <UnitText>{unit.title}</UnitText>
       </Space>
       <Space>
         <Tooltip title="編輯">
           <Button
             icon={<EditOutlined />}
-            onClick={() => handleClickEditUnitButton(item.id)}
+            onClick={() => handleClickEditUnitButton(unit.id)}
           ></Button>
         </Tooltip>
         <Tooltip title="刪除">
           <Button
             icon={<DeleteOutlined />}
-            onClick={() => handleDelete(item.id)}
+            onClick={() => handleDeleteUnit(unit.id)}
           />
         </Tooltip>
       </Space>
@@ -66,20 +64,20 @@ export default function CourseUnitsList({
   unitList,
   placeholder,
   handleAddUnit,
-  handleDelete,
+  handleDeleteUnit,
   handleClickEditUnitButton,
 }) {
   return (
     <ListContainer>
       <List size="large" bordered>
-        {unitList.map((item, index) => (
-          <Draggable key={item.id} draggableId={`id: ${item.id}`} index={index}>
+        {unitList.map((unit, index) => (
+          <Draggable key={unit.id} draggableId={`id: ${unit.id}`} index={index}>
             {(provided) => (
               <div ref={provided.innerRef} {...provided.draggableProps}>
                 <Unit
-                  item={item}
+                  unit={unit}
                   dragHandleProps={provided.dragHandleProps}
-                  handleDelete={handleDelete}
+                  handleDeleteUnit={handleDeleteUnit}
                   handleClickEditUnitButton={handleClickEditUnitButton}
                 />
               </div>

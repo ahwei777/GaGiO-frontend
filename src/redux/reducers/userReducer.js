@@ -1,90 +1,126 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 import {
   loginAPI,
   registerAPI,
   getMeAPI,
-  updateUserInfoAPI,
-  updateUserPasswordAPI,
-} from "../../WebApi";
-import { getCartList, setCartList } from "./cartReducer";
+  updateMyInfoAPI,
+  updateMyPasswordAPI,
+  updateUserAuthAPI,
+} from '../../webAPI/userAPI';
+import { getCartList, setCartList } from './cartReducer';
+import { setAuthToken } from '../../utils';
 
 export const userSlice = createSlice({
-  name: "user",
-  initialState: { user: null, errorMessage: "" },
+  name: 'user',
+  initialState: {
+    user: null,
+    // 初始值設為 null 避免 render header 時因為還在確認使用者身分而跳字
+    isGettingUser: null,
+    errorMessage: null,
+  },
   reducers: {
     setUser: (state, action) => {
-      console.log("payload", action.payload);
       state.user = action.payload;
     },
-    setErrorMessage: (state, action) => {
+    setIsGettingUser(state, action) {
+      state.isGettingUser = action.payload;
+    },
+    setUserErrorMessage: (state, action) => {
       state.errorMessage = action.payload;
     },
   },
 });
 
 // action
-export const { setUser, setErrorMessage } = userSlice.actions;
+export const {
+  setUser,
+  setIsGettingUser,
+  setUserErrorMessage,
+} = userSlice.actions;
 
 // redux thunk function
-export const getMe = () => (dispatch) => {
-  dispatch(setUser(null));
-  dispatch(setErrorMessage(""));
-  getMeAPI().then((res) => {
-    if (!res || res.ok === 0)
-      return dispatch(
-        setErrorMessage(res ? res.errorMessage : "something wrong")
-      );
-    dispatch(setUser(res.data.user));
+export const getMe = () => async (dispatch, getState) => {
+  const { isGettingUser } = getState();
+  if (!isGettingUser) {
+    // start
+    dispatch(setIsGettingUser(true));
+  }
+  await getMeAPI().then((json) => {
+    if (json.ok === 0) {
+      dispatch(setUser(null));
+      dispatch(setUserErrorMessage(json.errorMessage));
+      // finish
+      return dispatch(setIsGettingUser(false));
+    }
+    dispatch(getCartList());
+    dispatch(setUser(json.data));
   });
+  // finish
+  return dispatch(setIsGettingUser(false));
 };
 
 export const login = (email, password) => (dispatch) => {
-  dispatch(setErrorMessage(""));
-  if (!email || !password) return dispatch(setErrorMessage("missing field"));
-  loginAPI(email, password).then((res) => {
-    if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
-    const token = res.data.user.token;
-    localStorage.setItem("token", token);
-    dispatch(getCartList());
-    dispatch(setUser(res.data.user));
+  if (!email || !password) {
+    return dispatch(setUserErrorMessage('missing field'));
+  }
+  // start
+  dispatch(setIsGettingUser(true));
+  return loginAPI(email, password).then((json) => {
+    if (json.ok === 1) {
+      //dispatch(setUserErrorMessage(json.errorMessage));
+      // finish
+      //return dispatch(setIsGettingUser(false));
+      setAuthToken(json.token);
+    }
+    return json;
   });
 };
-export const register = (email, password, confirm, nickname) => (dispatch) => {
-  dispatch(setErrorMessage(""));
-  if (!email || !password || !confirm || !nickname)
-    return console.log("missing field");
-  registerAPI(email, password, confirm, nickname).then((res) => {
-    if (res.ok === 0) return console.log(res.errorMessage);
-    const token = res.data.user.token;
-    dispatch(setUser(res.data.user));
-    localStorage.setItem("token", token);
+export const register = (email, password, nickname) => (dispatch) => {
+  if (!email || !password || !nickname) {
+    return dispatch(setUserErrorMessage('missing field'));
+  }
+  return registerAPI(email, password, nickname).then((json) => {
+    if (json.ok === 1) {
+      // finish
+      setAuthToken(json.token);
+      //return dispatch(getMe());
+    }
+    //dispatch(setUserErrorMessage(json.errorMessage));
+    // return dispatch(setIsGettingUser(false));
+    return json;
   });
 };
 export const logout = () => (dispatch) => {
+  setAuthToken('');
   dispatch(setUser(null));
   dispatch(setCartList([]));
-  localStorage.setItem("token", null);
 };
-export const updateUserInfo = (id, email, nickname, authType) => (dispatch) => {
-  dispatch(setErrorMessage(""));
-  updateUserInfoAPI(id, email, nickname, authType).then((res) => {
-    if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
-    dispatch(setUser(res.data.user));
+
+export const updateMyInfo = (nickname) => (dispatch) => {
+  return updateMyInfoAPI(nickname).then((res) => {
+    return res;
   });
 };
-export const updateUserPassword = (id, password, confirm) => (dispatch) => {
-  dispatch(setErrorMessage(""));
-  if (password !== confirm)
-    return dispatch(setErrorMessage("密碼和確認密碼不同"));
-  updateUserPasswordAPI(id, password).then((res) => {
-    if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
-    dispatch(setUser(res.data.user));
+
+export const updateMyPassword = (oldPassword, newPassword) => (dispatch) => {
+  // 前端已完成確認密碼
+  return updateMyPasswordAPI(oldPassword, newPassword).then((res) => {
+    return res;
   });
 };
+
+export const updateUserAuth = (id, email, nickname, authType) => (dispatch) => {
+  updateUserAuthAPI(id, email, nickname, authType).then((res) => {
+    if (res.ok === 0) {
+      return dispatch(setUserErrorMessage(res.errorMessage));
+    }
+  });
+};
+
 // selector
 export const selectUser = (store) => store.user.user;
-export const selectErrorMessage = (store) => store.user.errorMessage;
+export const selectUserErrorMessage = (store) => store.user.errorMessage;
 
 export default userSlice.reducer;

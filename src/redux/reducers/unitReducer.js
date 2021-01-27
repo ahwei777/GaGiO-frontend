@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-unresolved */
 import { createSlice } from "@reduxjs/toolkit";
-import { getUnitListAPI, updateUnitListAPI } from "../../WebApi";
+import { getUnitListAPI, updateUnitListAPI } from "../../webAPI/courseAPI";
 
 export const unitSlice = createSlice({
   name: "unit",
@@ -41,7 +41,7 @@ export const {
 } = unitSlice.actions;
 
 // redux thunk function
-export const getUnitListByCourse = (courseId) => (dispatch) => {
+export const getUnitListByCourseId = (courseId) => (dispatch) => {
   dispatch(setIsLoading(true));
   dispatch(setCourse(null));
   dispatch(setUnit(null));
@@ -62,6 +62,7 @@ export const getUnitListByCourse = (courseId) => (dispatch) => {
       dispatch(setIsLoading(false));
     })
     .catch((err) => {
+      dispatch(setIsLoading(false));
       console.log("err: ", err);
     });
 };
