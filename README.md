@@ -206,13 +206,13 @@ $ npm run start
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+## 版本紀錄
+
+- 1.0 - 2021.01.28
+	- 完成基本功能
+
 ## 資料引用來源
 
 - LOGO 設計 - [Freelogodesign](https://www.freelogodesign.org), [Favicon.io](https://favicon.io/)
 - DEMO 圖片 - [Pixabay](https://pixabay.com/), [Pexels](https://www.pexels.com/), [Unsplash](https://unsplash.com/), [Freepik](https://www.freepik.com)
 - DEMO 課程內容 - [MDN web docs](https://developer.mozilla.org/zh-CN/), [Wikipedia](https://zh.wikipedia.org/), [YouTube](https://www.youtube.com/), [Lidemy 程式導師計畫](https://bootcamp.lidemy.com/)
-
-## 版本紀錄
-
-- 1.0 - 2021.01.28
-	- 完成基本功能
