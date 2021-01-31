@@ -136,7 +136,7 @@ function CourseSettingForm({ course }, ref) {
           },
         ]}
       >
-        <ImgCrop rotate>
+        <ImgCrop rotate grid aspect={4/3} modalTitle={'上傳圖片'}>
           <Upload
             name="image"
             listType="picture-card"

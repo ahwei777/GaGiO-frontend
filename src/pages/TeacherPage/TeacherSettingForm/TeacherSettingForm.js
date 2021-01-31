@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Row, Col, Form, Input, Button, Upload, message } from 'antd';
+import { Form, Input, Button, Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, getMe } from '../../../redux/reducers/userReducer';
@@ -12,13 +12,13 @@ const PageWrapper = styled.div`
   text-align: center;
   padding: 24px;
 `;
-const InfoTitle = styled(Col)`
-  text-align: right;
-`;
-const InfoDetail = styled(Col)`
-  text-align: left;
+
+const Info = styled.div`
+  font-size: 16px;
+  text-align: center;
 `;
 const FormContainer = styled.div`
+  margin-top: 12px;
   padding: 24px;
   background-color: ${(props) => props.theme.colors.white};
 `;
@@ -113,18 +113,8 @@ export default function TeacherSetting() {
 
   return (
     <PageWrapper>
-      <Row>
-        <InfoTitle span={10}>申請時間：</InfoTitle>
-        <InfoDetail span={12}>
-          {new Date(user.Teacher.createdAt).toLocaleString()}
-        </InfoDetail>
-      </Row>
-      <Row>
-        <InfoTitle span={10}>更新時間：</InfoTitle>
-        <InfoDetail span={12}>
-          {new Date(user.Teacher.updatedAt).toLocaleString()}
-        </InfoDetail>
-      </Row>
+      <Info>申請時間：{new Date(user.Teacher.createdAt).toLocaleString()}</Info>
+      <Info>更新時間：{new Date(user.Teacher.updatedAt).toLocaleString()}</Info>
       <FormContainer>
         <Form {...layout} form={form} onFinish={handleOnFinish}>
           <Form.Item

@@ -47,9 +47,9 @@ export default function TeacherInfoPage() {
             <Avatar size={120} src={teacher.avatarUrl} />
           </center>
           <h1><strong>關於我</strong></h1>
-          <h1>{teacher.description}</h1>
+          <h3>{teacher.description}</h3>
           <br/>
-          <div>{teacher.name} 開的課：</div>
+          <h1><strong>{teacher.name} 開的課：</strong></h1>
           <br/>
           <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
             {teacher.Courses.filter((course) => course.isPublic).map(

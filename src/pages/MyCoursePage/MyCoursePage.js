@@ -5,7 +5,6 @@ import CourseCard from '../../components/CourseCard';
 import Loading from '../../components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectUser } from '../../redux/reducers/userReducer';
 import {
   selectIsGettingCourse,
   selectMyCourseList,

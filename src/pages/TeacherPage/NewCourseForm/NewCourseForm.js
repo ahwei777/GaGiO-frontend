@@ -176,7 +176,7 @@ export default function NewCoursePage() {
               },
             ]}
           >
-            <ImgCrop rotate>
+            <ImgCrop rotate grid aspect={4/3} modalTitle={'上傳圖片'}>
               <Upload
                 name="image"
                 listType="picture-card"
@@ -195,9 +195,9 @@ export default function NewCoursePage() {
                 ) : (
                   <>
                     {isUploading ? (
-                      <LoadingOutlined style={{ fontSize: '50px' }} />
+                      <LoadingOutlined style={{ fontSize: '30px', padding: '60px' }} />
                     ) : (
-                      <PlusOutlined style={{ fontSize: '50px' }} />
+                      <PlusOutlined style={{ fontSize: '30px', padding: '60px' }} />
                     )}
                   </>
                 )}

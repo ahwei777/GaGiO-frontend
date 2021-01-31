@@ -42,7 +42,7 @@ export default function CourseListPage({ padding }) {
 
   // component mount 時執行(初始化)
   useEffect(() => {
-    dispatch(getCourseList({ keyword }));
+    dispatch(getCourseList({ keyword, order: 'DESC' }));
     // unmount 時先 clean up 避免下次回來時因為仍有舊資料而短暫顯示
     return () => {
       setSelected('latest')
@@ -85,8 +85,8 @@ export default function CourseListPage({ padding }) {
               onChange={handleSelectChange}
             >
               <Option value="latest">最新上架(預設)</Option>
-              <Option value="highPrice">最高價格</Option>
-              <Option value="lowPrice">最低價格</Option>
+              <Option value="highPrice">價格高 → 低</Option>
+              <Option value="lowPrice">價格低 → 高</Option>
             </Select>
           </div>
         </SearchWrapper>

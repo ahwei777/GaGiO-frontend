@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, Link, useParams } from 'react-router-dom';
 //  引入各分頁
+import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import MePage from '../pages/MePage';
@@ -47,9 +48,9 @@ function Routes() {
   return (
     <Switch>
       {/* ------------- 任何身分 ------------- */}
-      {/* 首頁(課程列表) */}
-      <Route exact path="/" component={CourseListPage}>
-        <CourseListPage padding={padding} />
+      {/* 首頁 */}
+      <Route exact path="/">
+        <HomePage />
       </Route>
       {/* 註冊 */}
       <Route exact path="/register">
@@ -98,7 +99,7 @@ function Routes() {
           user.authTypeId === 1 ? (
             <TeacherApplyPage />
           ) : (
-            <UnauthorizedMessage/>
+            <UnauthorizedMessage />
           )
         ) : (
           <NoLoggingMessage />
@@ -107,11 +108,7 @@ function Routes() {
 
       {/* ------------- 老師 ------------- */}
       <Route path="/teacher">
-        {user && user.authTypeId === 2 ? (
-          <TeacherPage />
-        ) : (
-          <NoLoggingMessage />
-        )}
+        {user && user.authTypeId === 2 ? <TeacherPage /> : <NoLoggingMessage />}
       </Route>
 
       {/* ------------- 管理員 ------------- */}

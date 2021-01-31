@@ -45,7 +45,7 @@ const columns = [
     key: "action",
     render: (text, record) => (
       <Space size="middle">
-        <Link to={`#`}>審核</Link>
+        <Link to={`/classroom/${record.id}`}>預覽上課頁</Link>
       </Space>
     ),
   },
@@ -57,7 +57,7 @@ export default function CoursesTable() {
   const isGettingCourseList = useSelector(selectIsGettingCourse);
 
   useEffect(() => {
-    dispatch(getCourseList());
+    dispatch(getCourseList({getPublic: 'all'}));
   }, [dispatch]);
 
   return (

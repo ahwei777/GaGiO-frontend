@@ -22,7 +22,7 @@ export const columns = [
     dataIndex: 'title',
     key: 'title',
     render: (text, record) => (
-      <Link to={`/courseInfo/${record.id}`}>{text}</Link>
+      <Link to={`/courses/${record.id}`}>{text}</Link>
     ),
   },
   {
@@ -46,6 +46,7 @@ export const columns = [
     render: (text, record) => (
       <Space size="middle">
         <Link to={`/teacher/courses/${record.id}`}>編輯</Link>
+        <Link to={`/classroom/${record.id}`}>預覽上課頁</Link>
       </Space>
     ),
   },

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Layout, Breadcrumb } from "antd";
-import CoursesTable from "../../components/CoursesTable";
+import CoursesTable from "./CoursesTable.js";
 
 const { Content } = Layout;
 const InfoHeader = styled.div`

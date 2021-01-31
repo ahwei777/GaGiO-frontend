@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
-import { Badge, Button, Menu as AntMenu, Drawer, Grid, Input } from 'antd';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Badge, Button, Menu, Drawer, Grid, Input } from 'antd';
 import { MEDIA_QUERY_TABLET } from '../../constants/breakpoint';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectUser } from '../../redux/reducers/userReducer';
@@ -11,25 +11,25 @@ import LOGO from '../../img/LOGO.png';
 
 const { useBreakpoint } = Grid;
 const { Search } = Input;
-const Menu = styled(AntMenu)`
-  font-size: 18px;
+const StyledMenu = styled(Menu)`
+  font-size: 16px;
   background: transparent;
   border: none;
 `;
 const HeaderContainer = styled.div`
   background: white;
   color: ${(props) => props.theme.colors.primary.text};
-  padding: 5px 20px;
+  padding: 5px 15px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
-  z-index: 1;
+  z-index: 9;
   top: 0;
 `;
 const Logo = styled(Link)`
-  width: 180px;
+  width: 150px;
   text-align: center;
   & > img {
     height: 52px;
@@ -43,6 +43,7 @@ const NavContainer = styled.div`
     flex: 1;
   }
 `;
+// RWD 隱藏切換
 const NavToggleGroup = styled.div`
   display: none;
   ${MEDIA_QUERY_TABLET} {
@@ -92,31 +93,54 @@ const CartIcon = styled(ShoppingCartOutlined)`
   }
 `;
 
-const LeftMenu = ({ searchValue, setSearchValue, onSearch }) => {
-  //const { md } = useBreakpoint();
+const LeftMenu = ({
+  searchValue,
+  setSearchValue,
+  onSearch,
+  handleClose,
+  currentKey,
+}) => {
+  const { md } = useBreakpoint();
   return (
-    <Search
-      value={searchValue}
-      onChange={(e) => setSearchValue(e.value)}
-      placeholder="搜尋課程"
-      onSearch={onSearch}
-      style={{ width: 160 }}
-    />
+    <StyledMenu
+      mode={md ? 'horizontal' : 'inline'}
+      onClick={handleClose}
+      selectedKeys={currentKey}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <Search
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.value)}
+        placeholder="搜尋課程"
+        onSearch={onSearch}
+        style={{ width: 150 }}
+      />
+      <Menu.Item key="courses">
+        <Link to="/courses">課程列表</Link>
+      </Menu.Item>
+    </StyledMenu>
   );
 };
 
-const RightMenu = ({ user, handleLogout, handleClose }) => {
+const RightMenu = ({ user, handleLogout, handleClose, currentKey }) => {
   const { md } = useBreakpoint();
   return (
-    <Menu mode={md ? 'horizontal' : 'inline'} onClick={handleClose}>
+    <StyledMenu
+      mode={md ? 'horizontal' : 'inline'}
+      onClick={handleClose}
+      selectedKeys={currentKey}
+    >
       {user && (
         <>
           {user.authTypeId === 1 && (
-            <Menu.Item key="applyTeacher">
+            <Menu.Item key="teacher-apply">
               <Link to="/teacher-apply">申請開課</Link>
             </Menu.Item>
           )}
-          <Menu.Item key="myCourse">
+          <Menu.Item key="my-course">
             <Link to="/my-course">我的課程</Link>
           </Menu.Item>
           <Menu.Item key="myAccount">
@@ -139,24 +163,44 @@ const RightMenu = ({ user, handleLogout, handleClose }) => {
       )}
       {!user && (
         <>
-          <Menu.Item key="mail">
+          <Menu.Item key="register">
             <Link to="/register">註冊</Link>
           </Menu.Item>
-          <Menu.Item key="app">
+          <Menu.Item key="login">
             <Link to="/login">登入</Link>
           </Menu.Item>
         </>
       )}
-    </Menu>
+    </StyledMenu>
   );
 };
+
+function getCurrentKey(pathname) {
+  if (pathname.indexOf('/courses') === 0) return 'courses';
+  if (pathname.indexOf('/teacher-apply') === 0) return 'teacher-apply';
+  if (pathname.indexOf('/my-course') === 0) return 'my-course';
+  if (pathname.indexOf('/me') === 0) return 'me';
+  if (pathname.indexOf('/teacher') === 0) return 'teacher';
+  if (pathname.indexOf('/console') === 0) return 'console';
+  if (pathname.indexOf('/register') === 0) return 'register';
+  if (pathname.indexOf('/login') === 0) return 'login';
+  return 'index';
+}
 
 export default function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const pathname = location.pathname;
   const cartList = useSelector(selectCartList);
   const user = useSelector(selectUser);
   const [searchValue, setSearchValue] = useState('');
+  const [currentKey, setCurrentKey] = useState('');
+
+  useEffect(() => {
+    console.log('getKey');
+    setCurrentKey(getCurrentKey(pathname))
+  }, [pathname]);
 
   const onSearch = (value) => {
     if (value) {
@@ -184,7 +228,7 @@ export default function Header() {
 
   return (
     <HeaderContainer>
-      <Logo to="/courses">
+      <Logo to="/">
         <img src={LOGO} alt="img not found" />
       </Logo>
       <NavContainer>
@@ -193,6 +237,7 @@ export default function Header() {
             searchValue={searchValue}
             onSearch={onSearch}
             setSearchValue={setSearchValue}
+            currentKey={currentKey}
           />
         </NavToggleGroup>
         <NavRightPart>
@@ -206,6 +251,7 @@ export default function Header() {
               user={user}
               cartList={cartList}
               handleLogout={handleLogout}
+              currentKey={currentKey}
             />
           </NavToggleGroup>
         </NavRightPart>
@@ -223,12 +269,15 @@ export default function Header() {
             searchValue={searchValue}
             onSearch={onSearch}
             setSearchValue={setSearchValue}
+            handleClose={handleClose}
+            currentKey={currentKey}
           />
           <RightMenu
             user={user}
             cartList={cartList}
             handleLogout={handleLogout}
             handleClose={handleClose}
+            currentKey={currentKey}
           />
         </Drawer>
       </NavContainer>

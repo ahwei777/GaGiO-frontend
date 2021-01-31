@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { login, getMe } from '../../redux/reducers/userReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, getMe, selectUser } from '../../redux/reducers/userReducer';
 import { useHistory, Link } from 'react-router-dom';
 
 const LoginBox = styled.div`
@@ -68,6 +68,14 @@ const validateMessages = {
 export default function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
+  React.useEffect(() => {
+    if (user) {
+      return history.push('/');
+    }
+  }, [user, history]);
+
   const handleFinish = (value) => {
     const { email, password } = value;
     message.loading({
@@ -90,20 +98,6 @@ export default function Login() {
         key: 'isLogging',
         duration: 5,
       });
-    });
-  };
-
-  // 測試用
-  const handleTestAdmin = () => {
-    dispatch(login('test@gmail.com', 'Aa123456')).then((json) => {
-      dispatch(getMe());
-      return history.push('/');
-    });
-  };
-  const handleTestUser = () => {
-    dispatch(login('user@gmail.com', 'Aa123456')).then((json) => {
-      dispatch(getMe());
-      return history.push('/');
     });
   };
 
@@ -137,16 +131,6 @@ export default function Login() {
           </Button>
         </Form.Item>
       </StyledForm>
-      <div>
-        {/* 測試用 */}
-        <Button danger onClick={handleTestAdmin}>
-          管理員快速通道(test@gmail.com)
-        </Button>
-        <Button onClick={handleTestUser}>
-          一般會員快速通道(user@gmail.com)
-        </Button>
-        {/* 測試用 */}
-      </div>
     </LoginBox>
   );
 }
