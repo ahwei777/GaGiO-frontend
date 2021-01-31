@@ -12,10 +12,11 @@ import { getMe } from "./redux/reducers/userReducer";
 const { Content } = Layout;
 const AntLayout = styled(Layout)`
   min-height: 100vh;
-  height: ${(props) => props.fixedsider && `100vh`};
+  height: ${(props) => props.$fixedsider && `100vh`};
 `;
 
 const consolePage = ["console", "me", "classroom", "teacher/"];
+const fixedSiderPage = ["classroom"];
 
 function App() {
   //console.log("render app");
@@ -23,18 +24,21 @@ function App() {
   const { pathname } = useLocation();
   //console.log(pathname);
   const checkIsConsolePage = consolePage.some((el) => pathname.includes(el));
+  const checkIsFixedSiderPage = fixedSiderPage.some((el) =>
+    pathname.includes(el)
+  );
 
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
 
   return (
-    <AntLayout fixedsider={checkIsConsolePage}>
+    <AntLayout $fixedsider={checkIsFixedSiderPage}>
       {/* optional header */}
       <Header />
       <Content>
         {/* Routes */}
-        <Routes basename="/" />
+        <Routes />
       </Content>
       {/* optional footer */}
       {!checkIsConsolePage && <Footer />}

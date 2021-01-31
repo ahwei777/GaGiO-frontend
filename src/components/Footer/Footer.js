@@ -5,6 +5,7 @@ import {
   FacebookFilled,
   TwitterSquareFilled,
   InstagramFilled,
+  GithubOutlined,
 } from '@ant-design/icons';
 
 const FooterContainer = styled.div`
@@ -16,7 +17,7 @@ const FooterContainer = styled.div`
 const MediaCol = styled(Col)`
   display: flex;
   flex-direction: column;
-`
+`;
 const MediaWrapper = styled.div`
   flex: 1;
   display: flex;
@@ -50,9 +51,15 @@ export default function Footer() {
             <strong>追蹤動態</strong>
           </h3>
           <MediaWrapper>
-            <FacebookFilled/>
-            <TwitterSquareFilled/>
-            <InstagramFilled/>
+            <FacebookFilled />
+            <TwitterSquareFilled />
+            <InstagramFilled />
+            <a
+              href="https://github.com/ahwei777/GaGiO-frontend"
+              style={{ color: 'black' }}
+            >
+              <GithubOutlined />
+            </a>
           </MediaWrapper>
         </MediaCol>
         <Col
@@ -60,12 +67,31 @@ export default function Footer() {
           md={12}
           style={{
             fontSize: 24,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
           }}
         >
           <div>GaGiO © All Rights Reserved.</div>
+          {/* credits */}
+          <div
+            style={{
+              fontSize: 12,
+            }}
+          >
+            <a href="https://www.freepik.com/vectors/technology">
+              Technology vector created by vectorjuice - www.freepik.com
+            </a>
+            <div>
+              Icons made by{' '}
+              <a href="https://www.freepik.com" title="Freepik">
+                Freepik
+              </a>{' '}
+              from{' '}
+              <a href="https://www.flaticon.com/" title="Flaticon">
+                www.flaticon.com
+              </a>
+            </div>
+          </div>
+
+          {/* credits */}
         </Col>
       </Row>
     </FooterContainer>

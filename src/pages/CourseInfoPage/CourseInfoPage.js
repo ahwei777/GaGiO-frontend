@@ -24,7 +24,6 @@ const CourseWrapper = styled.div`
     2px 2px 2px rgba(0,0,0,0.15), 
     4px 4px 4px rgba(0,0,0,0.15), 
     8px 8px 8px rgba(0,0,0,0.15);
-}
 `;
 const CourseTitle = styled.div`
   text-align: center;
@@ -66,18 +65,6 @@ export default function CourseInfoPage() {
     }
     return false;
   };
-  // 改由後端直接回傳該堂課是否已購買資訊
-  const checkCourseIsPaid = () => {
-    //console.log(user);
-    if (!user) return false;
-    for (let i = 0; i < user.paidCourses.length; i += 1) {
-      if (user.paidCourses[i].CourseId === Number(course.id)) {
-        // 當前課程已在 paidCourses 內
-        return true;
-      }
-    }
-    return false;
-  };
 
   const handleClickAddToCart = () => {
     if (!user) {
@@ -91,12 +78,19 @@ export default function CourseInfoPage() {
   useEffect(() => {
     dispatch(getCourse(id));
     // unmount 時先 clean up 避免下次回來時因為仍有舊資料而短暫顯示
-    return () => {};
+    //return () => {};
   }, [dispatch, id]);
 
   return (
     <>
       {isGettingCourse && <Loading />}
+      {!isGettingCourse && !course && (
+        <center>
+          <h1>
+            <strong>無此課程或此課程未公開</strong>
+          </h1>
+        </center>
+      )}
       {!isGettingCourse && course && (
         <CourseWrapper>
           <CourseTitle>{course.title}</CourseTitle>
@@ -105,7 +99,7 @@ export default function CourseInfoPage() {
           <ButtonPlacer>
             {course.isPublic ? (
               <ButtonWrapper>
-                {course.isCourseBought ? (
+                {user && user.boughtCourses.indexOf(Number(id)) >= 0 ? (
                   <Button type="primary" size="large" block>
                     <Link to={`/classroom/${course.id}`}>開始上課</Link>
                   </Button>
@@ -142,7 +136,7 @@ export default function CourseInfoPage() {
               <Avatar size={64} src={course.Teacher.avatarUrl} />
             </Link>
           </div>
-          <br/>
+          <br />
           <p>
             <strong>開課老師：</strong>
             <div>{course.Teacher.name}</div>
@@ -151,12 +145,12 @@ export default function CourseInfoPage() {
           <div>
             <strong>課程介紹：</strong>
           </div>
-          <br/>
+          <br />
           <p>{course.description}</p>
           <div>
             <strong>課程大綱：</strong>
           </div>
-          <br/>
+          <br />
           {course.unit_title && (
             <List
               size="large"

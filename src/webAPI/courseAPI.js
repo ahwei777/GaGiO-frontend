@@ -3,12 +3,15 @@ import { getAuthToken } from '../utils';
 
 export const getCourseListAPI = ({
   keyword = '',
+  page = '',
+  limit='',
   sort = 'id',
   order = 'ASC',
+  getPublic = '',
 } = {}) => {
   console.log('keyword', keyword);
   return fetch(
-    `${BASE_URL}/courses?_keyword=${keyword}&_sort=${sort}&_order=${order}`,
+    `${BASE_URL}/courses?_keyword=${keyword}&_sort=${sort}&_order=${order}&_page=${page}&_limit=${limit}&_public=${getPublic}`,
     {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`,

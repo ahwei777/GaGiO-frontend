@@ -1,13 +1,13 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { register, getMe } from '../../redux/reducers/userReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { register, getMe, selectUser } from '../../redux/reducers/userReducer';
 import { useHistory, Link } from 'react-router-dom';
 import { isStrongPassword } from '../../utils';
 
 const RegisterBox = styled.div`
-  padding-Top: 10px;
+  padding-top: 10px;
   margin: 16px auto;
   align-items: center;
   border: 1px solid ${(props) => props.theme.colors.primary.main};
@@ -51,7 +51,15 @@ const validateMessages = {
 
 export default function Register() {
   const history = useHistory();
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (user) {
+      history.push('/');
+    }
+  }, [user, history]);
+
   const handleFinish = (value) => {
     const { email, password, nickname } = value;
     message.loading({
@@ -138,7 +146,7 @@ export default function Register() {
             }),
           ]}
         >
-          <Input.Password/>
+          <Input.Password />
         </Form.Item>
         <Form.Item
           label="Nickname"
@@ -152,7 +160,7 @@ export default function Register() {
           <Input placeholder="請輸入暱稱" />
         </Form.Item>
         <Form.Item {...tailLayout}>
-          <Button htmlType="submit" type="primary" size='large'>
+          <Button htmlType="submit" type="primary" size="large">
             註冊
           </Button>
         </Form.Item>

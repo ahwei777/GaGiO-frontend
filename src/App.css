@@ -38,3 +38,10 @@ header 按鈕文字顏色 hover
 .ant-message {
   font-size: 24px;
 }
+
+/* 配合 4:3 修正圖片預覽框比例 */
+
+.upload-course .ant-upload.ant-upload-select-picture-card {
+  height: 100%;
+  min-height: 150px;
+}
