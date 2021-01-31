@@ -2,8 +2,15 @@
 
 ![](https://github.com/ahwei777/for-GaGiO-README/blob/main/wholePage.png?raw=true)
 
-> 網站連結 : https://gagio.ahwei777.tw  
+> 網站連結：https://gagio.ahwei777.tw  
 > 此為前端程式碼，後端部分請見 [GaGiO-backend](https://github.com/ahwei777/GaGiO-backend)。
+
+```
+管理員功能測試：
+  帳號：admin@mail.com
+  密碼：Admin123
+  PS:請勿隨意更動權限，避免影響他人使用體驗，謝謝
+```
 
 此專案接續開發自 [learning-platform-frontend](https://github.com/YSKuo/learning-platform-frontend) ，原團隊成員如下：  
 - [YSKuo](https://github.com/YSKuo) （前端 & UI/UX）
