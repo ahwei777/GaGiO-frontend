@@ -1,6 +1,6 @@
 # GaGiO Learning Platform - Frontend
 
-![]()
+![](https://github.com/ahwei777/for-GaGiO-README/blob/main/wholePage.png?raw=true)
 
 > 網站連結 : https://gagio.ahwei777.tw  
 > 此為前端程式碼，後端部分請見 [GaGiO-backend](https://github.com/ahwei777/GaGiO-backend)。
