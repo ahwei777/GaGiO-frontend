@@ -1,16 +1,15 @@
 # GaGiO Learning Platform - Frontend
 
-![](https://github.com/ahwei777/for-GaGiO-README/blob/main/wholePage.png?raw=true)
-
 > 網站連結：https://gagio.ahwei777.tw  
 > 此為前端程式碼，後端部分請見 [GaGiO-backend](https://github.com/ahwei777/GaGiO-backend)。
-
 ```
 管理員功能測試：
   帳號：admin@mail.com
   密碼：Admin123
   PS:請勿隨意更動權限，避免影響他人使用體驗，謝謝
 ```
+
+![](https://github.com/ahwei777/for-GaGiO-README/blob/main/wholePage.png?raw=true)
 
 此專案接續開發自 [learning-platform-frontend](https://github.com/YSKuo/learning-platform-frontend) ，原團隊成員如下：  
 - [YSKuo](https://github.com/YSKuo) （前端 & UI/UX）
@@ -31,6 +30,8 @@
 
 ## 簡介
 
+GaGiO 為一線上學習平台，使用者註冊後可購買有興趣的課程進行學習，教材內容包含影片或文字。亦可申請成為老師，於自行編訂教材後開設公開課程。
+
 此作品為 [Lidemy mentor-program-4th](https://github.com/Lidemy/mentor-program-4th) 的 Final Project ，主要為實作課程所學前後端相關技術。前端採用 React.js 開發，配合以 Express.js & Sequelize 建立的後端 API 實現前後端分離。 
 
 ## 功能介紹
@@ -44,13 +45,14 @@
 - 登入
 - 編輯會員資料
 - 加入課程至購物車
-- 購買課程並結帳
+- 購買課程並結帳（模擬付款流程）
 - 觀看已購買課程
 - 查看已完成訂單
 
 ### 老師
-- 新增/編輯課程（上傳課程縮圖）
 - 編輯老師介紹資訊（上傳大頭照）
+- 新增/編輯課程資訊（上傳課程縮圖）
+- 新增/編輯課程單元
 
 ### 管理員
 - 瀏覽所有課程
@@ -97,7 +99,7 @@
 ![](https://github.com/ahwei777/for-GaGiO-README/blob/main/03.%E8%B3%BC%E7%89%A9%E8%BB%8A%E5%8F%8A%E7%B5%90%E5%B8%B3.gif?raw=true)
 
 ### 影片學習
-已購買課程可於 "我的課程" 頁面中查看並進入上課，教材包含文字或影片（暫以 YouTube 影片做為 DEMO ）。
+已購買課程可於 "我的課程" 頁面中查看並進入上課，教材包含影片或文字（暫以 YouTube 影片做為 DEMO ）。
 
 ![](https://github.com/ahwei777/for-GaGiO-README/blob/main/04.%E5%BD%B1%E7%89%87%E5%AD%B8%E7%BF%92.gif?raw=true)
 
