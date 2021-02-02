@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Row, Col, Typography } from 'antd';
+import { Row, Col, Spin } from 'antd';
 import CourseCard from '../../components/CourseCard';
 import Loading from '../../components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +35,11 @@ const TitleLatestCourse = styled.div`
   font-weight: bold;
   text-align: left;
   padding: 12px;
-`
+`;
+const LoadingWrapper = styled.div`
+  padding: 100px 0;
+  text-align: center;
+`;
 
 export default function CourseListPage() {
   const dispatch = useDispatch();
@@ -81,12 +85,16 @@ export default function CourseListPage() {
             <img src={carousel_3} alt="img" />
           </div>
         </Carousel>
-        {isGettingCourseList && <Loading />}
-        {!isGettingCourseList && courseList.length === 0 ? (
-          <Intro>查無課程</Intro>
-        ) : (
-          <CoursesWrapper>
-            <TitleLatestCourse>最新上架課程</TitleLatestCourse>
+        <CoursesWrapper>
+          <TitleLatestCourse>最新上架課程</TitleLatestCourse>
+          {isGettingCourseList && (
+            <LoadingWrapper>
+              <Spin size="large"/>
+            </LoadingWrapper>
+          )}
+          {!isGettingCourseList && courseList.length === 0 ? (
+            <Intro>查無課程</Intro>
+          ) : (
             <Row gutter={[{ xs: 16, sm: 20, md: 24, lg: 32 }, 36]}>
               {courseList
                 .filter((course) => course.isPublic)
@@ -96,8 +104,8 @@ export default function CourseListPage() {
                   </Col>
                 ))}
             </Row>
-          </CoursesWrapper>
-        )}
+          )}
+        </CoursesWrapper>
       </PageWrapper>
     </>
   );

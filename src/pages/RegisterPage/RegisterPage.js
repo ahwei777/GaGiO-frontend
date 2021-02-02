@@ -108,6 +108,17 @@ export default function Register() {
           <Input placeholder="請輸入電子信箱" />
         </Form.Item>
         <Form.Item
+          label="Nickname"
+          name="nickname"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input placeholder="請輸入暱稱" />
+        </Form.Item>
+        <Form.Item
           label="Password"
           name="password"
           rules={[
@@ -147,17 +158,6 @@ export default function Register() {
           ]}
         >
           <Input.Password />
-        </Form.Item>
-        <Form.Item
-          label="Nickname"
-          name="nickname"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input placeholder="請輸入暱稱" />
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Button htmlType="submit" type="primary" size="large">
