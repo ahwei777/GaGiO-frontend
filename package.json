@@ -17,6 +17,7 @@
     "react": "^17.0.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^17.0.1",
+    "react-lazyload": "^3.1.0",
     "react-redux": "^7.2.2",
     "react-responsive-carousel": "^3.2.11",
     "react-router": "^5.2.0",
@@ -62,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-image-webp": "^0.7.0"
   }
 }

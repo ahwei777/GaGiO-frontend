@@ -11,10 +11,25 @@ import LOGO from '../../img/LOGO.png';
 
 const { useBreakpoint } = Grid;
 const { Search } = Input;
+
+const StyledSearch = styled(Search)`
+  width: 50%;
+  padding-left: 24px;
+  ${MEDIA_QUERY_TABLET} {
+    width: 150px;
+    padding: initial;
+  }
+`;
+
 const StyledMenu = styled(Menu)`
   font-size: 16px;
   background: transparent;
   border: none;
+  display: block;
+  ${MEDIA_QUERY_TABLET} {
+    display: flex;
+    align-items: center;
+  }
 `;
 const HeaderContainer = styled.div`
   background: white;
@@ -106,18 +121,14 @@ const LeftMenu = ({
       mode={md ? 'horizontal' : 'inline'}
       onClick={handleClose}
       selectedKeys={currentKey}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
     >
-      <Search
+      <StyledSearch
         value={searchValue}
         onChange={(e) => setSearchValue(e.value)}
         placeholder="搜尋課程"
         onSearch={onSearch}
-        style={{ width: 150 }}
       />
+
       <Menu.Item key="courses">
         <Link to="/courses">課程列表</Link>
       </Menu.Item>
@@ -179,7 +190,7 @@ function getCurrentKey(pathname) {
   if (pathname.indexOf('/courses') === 0) return 'courses';
   if (pathname.indexOf('/teacher-apply') === 0) return 'teacher-apply';
   if (pathname.indexOf('/my-course') === 0) return 'my-course';
-  if (pathname.indexOf('/me') === 0) return 'me';
+  if (pathname.indexOf('/me') === 0) return 'myAccount';
   if (pathname.indexOf('/teacher') === 0) return 'teacher';
   if (pathname.indexOf('/console') === 0) return 'console';
   if (pathname.indexOf('/register') === 0) return 'register';
@@ -199,7 +210,7 @@ export default function Header() {
 
   useEffect(() => {
     console.log('getKey');
-    setCurrentKey(getCurrentKey(pathname))
+    setCurrentKey(getCurrentKey(pathname));
   }, [pathname]);
 
   const onSearch = (value) => {

@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Row, Col, Spin } from 'antd';
 import CourseCard from '../../components/CourseCard';
-import Loading from '../../components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import {
   selectCourseList,
   selectIsGettingCourse,
@@ -13,9 +11,7 @@ import {
 } from '../../redux/reducers/courseReducer';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-import carousel_1 from '../../img/carousel_1.jpg';
-import carousel_2 from '../../img/carousel_2.jpg';
-import carousel_3 from '../../img/carousel_3.jpg';
+import Image from 'react-image-webp';
 
 const PageWrapper = styled.div``;
 const Intro = styled.div`
@@ -76,20 +72,32 @@ export default function CourseListPage() {
           infiniteLoop={true}
         >
           <div>
-            <img src={carousel_1} alt="img" />
+            <Image
+              alt="img"
+              src={require('../../img/no-webp/carousel_1.jpg')}
+              webp={require('../../img/webp/carousel_1.webp')}
+            />
           </div>
           <div>
-            <img src={carousel_2} alt="img" />
+            <Image
+              alt="img"
+              src={require('../../img/no-webp/carousel_2.jpg')}
+              webp={require('../../img/webp/carousel_2.webp')}
+            />
           </div>
           <div>
-            <img src={carousel_3} alt="img" />
+            <Image
+              alt="img"
+              src={require('../../img/no-webp/carousel_3.jpg')}
+              webp={require('../../img/webp/carousel_3.webp')}
+            />
           </div>
         </Carousel>
         <CoursesWrapper>
           <TitleLatestCourse>最新上架課程</TitleLatestCourse>
           {isGettingCourseList && (
             <LoadingWrapper>
-              <Spin size="large"/>
+              <Spin size="large" />
             </LoadingWrapper>
           )}
           {!isGettingCourseList && courseList.length === 0 ? (

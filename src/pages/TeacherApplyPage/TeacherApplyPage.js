@@ -89,13 +89,13 @@ export default function TeacherApplyPage() {
   const [form] = Form.useForm();
 
   const handleChange = (info) => {
-    console.log('info', info);
+    //console.log('info', info.file.status);
     if (info.file.status === 'uploading') {
       setIsUploading(true);
       return;
     }
     if (info.file.status === 'done') {
-      console.log('done');
+      //console.log('done');
       message.success({
         content: '圖片上傳完成',
         key: 'isUploading',
@@ -104,11 +104,18 @@ export default function TeacherApplyPage() {
       // Get this url from response in real world.
       const returnUrl = info.file.response.data.link;
       setImageUrl(returnUrl);
-      console.log('returnUrl', returnUrl)
+      //console.log('returnUrl', returnUrl)
       form.setFieldsValue({
         upload: returnUrl,
       });
       return
+    }
+    if (info.file.status === 'error') {
+      //console.log('error');
+      message.error({
+        content: '圖片上傳失敗',
+        key: 'isUploading',
+      });
     }
   };
 
@@ -186,8 +193,9 @@ export default function TeacherApplyPage() {
                 showUploadList={false}
                 action="https://api.imgur.com/3/image"
                 headers={{
-                  Authorization: 'Client-ID ef0e0fd605be920',
+                  'Authorization': 'Client-ID ef0e0fd605be920',
                   'X-Requested-With': null,
+                  'Cache-Control': null,
                 }}
                 beforeUpload={beforeUpload}
                 onChange={handleChange}

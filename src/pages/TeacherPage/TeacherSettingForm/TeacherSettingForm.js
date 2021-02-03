@@ -81,6 +81,13 @@ export default function TeacherSetting() {
         upload: returnUrl,
       });
     }
+    if (info.file.status === 'error') {
+      //console.log('error');
+      message.error({
+        content: '圖片上傳失敗',
+        key: 'isUploading',
+      });
+    }
   };
 
   const handleOnFinish = (value) => {

@@ -118,6 +118,13 @@ export default function NewCoursePage() {
       });
       return;
     }
+    if (info.file.status === 'error') {
+      //console.log('error');
+      message.error({
+        content: '圖片上傳失敗',
+        key: 'isUploading',
+      });
+    }
   };
 
   return (

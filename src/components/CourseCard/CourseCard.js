@@ -1,8 +1,9 @@
 import React from 'react';
-import { Card, Avatar } from 'antd';
+import { Card, Avatar, Spin } from 'antd';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { toCurrency } from '../../utils';
+import LazyLoad from 'react-lazyload';
 
 const { Meta } = Card;
 const CardWrapper = styled.div`
@@ -12,6 +13,18 @@ const CardWrapper = styled.div`
     opacity: 0.7;
   }
 `;
+const StyledImg = styled.img`
+  display: block;
+  width: 100%;
+`;
+const ImgPlaceholder = styled(Spin)`
+  height: 200px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+`;
 const TeacherLink = styled(Link)`
   position: absolute;
   left: 8%;
@@ -20,9 +33,6 @@ const TeacherLink = styled(Link)`
   :hover {
     transform: scale(1.3);
   }
-`;
-const Student = styled.div`
-  margin-top: 12px;
 `;
 const Price = styled.div`
   font-size: 24px;
@@ -36,11 +46,15 @@ export default function CourseCard({ course, isBought }) {
     <>
       <Link to={`/courses/${course.id}`}>
         <CardWrapper>
-          <Card cover={<img alt="unavailable" src={course.imgUrl} />}>
-            <Meta
-              title={course.title}
-            />
-              {!isBought && <Price>{toCurrency(course.price)}</Price>}
+          <Card
+            cover={
+              <LazyLoad placeholder={<ImgPlaceholder />} offset={100} once>
+                <StyledImg alt="unavailable" src={course.imgUrl} />
+              </LazyLoad>
+            }
+          >
+            <Meta title={course.title} />
+            {!isBought && <Price>{toCurrency(course.price)}</Price>}
           </Card>
         </CardWrapper>
       </Link>
