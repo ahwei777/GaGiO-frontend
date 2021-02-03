@@ -12,6 +12,12 @@ import {
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import Image from 'react-image-webp';
+import carousel_1_jpg from '../../img/no-webp/carousel_1.jpg'
+import carousel_1_webp from '../../img/webp/carousel_1.webp'
+import carousel_2_jpg from '../../img/no-webp/carousel_2.jpg'
+import carousel_2_webp from '../../img/webp/carousel_2.webp'
+import carousel_3_jpg from '../../img/no-webp/carousel_3.jpg'
+import carousel_3_webp from '../../img/webp/carousel_3.webp'
 
 const PageWrapper = styled.div``;
 const Intro = styled.div`
@@ -74,22 +80,22 @@ export default function CourseListPage() {
           <div>
             <Image
               alt="img"
-              src={require('../../img/no-webp/carousel_1.jpg')}
-              webp={require('../../img/webp/carousel_1.webp')}
+              src={carousel_1_jpg}
+              webp={carousel_1_webp}
             />
           </div>
           <div>
             <Image
               alt="img"
-              src={require('../../img/no-webp/carousel_2.jpg')}
-              webp={require('../../img/webp/carousel_2.webp')}
+              src={carousel_2_jpg}
+              webp={carousel_2_webp}
             />
           </div>
           <div>
             <Image
               alt="img"
-              src={require('../../img/no-webp/carousel_3.jpg')}
-              webp={require('../../img/webp/carousel_3.webp')}
+              src={carousel_3_jpg}
+              webp={carousel_3_webp}
             />
           </div>
         </Carousel>
