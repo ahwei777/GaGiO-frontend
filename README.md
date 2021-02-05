@@ -6,7 +6,7 @@
 管理員功能測試：
   帳號：admin@mail.com
   密碼：Admin123
-  PS:請勿隨意更動權限，避免影響他人使用體驗，謝謝
+  PS:請勿隨意更動權限，避免影響他人使用體驗
 ```
 
 ![](https://github.com/ahwei777/for-GaGiO-README/blob/main/wholePage.png?raw=true)
@@ -71,15 +71,19 @@ GaGiO 為一線上學習平台，使用者註冊後可購買有興趣的課程�
     - React-beautiful-dnd - 實現元素拖拉排序
     - React-responsive-carousel - 首頁橫幅圖片輪播
     - React-youtube - 內崁播放 Youtube 影片
-    - styled-components - 主題配置/動態變更樣式
-    - prettier - 統一程式碼格式
+    - React-lazyload - 延遲載入圖片，優化使用者體驗
+    - React-image-webp - 依據瀏覽器支援度顯示 next-gen 格式圖片
+    - Styled-components - 主題配置/動態變更樣式
+    - Prettier - 統一程式碼格式
 - 第三方 API
     - Imgur - 圖片雲端儲存
+- GitHub Action - commit 後自動化部署
 - RWD - 網頁排版自適應主要瀏覽器
 
 ## 部署平台
 
-前端部署於 GitHub Page 並配合自訂網域，同時將 404 page 改為 index.html ，避免子頁面重新整理後因無指定靜態資源而產生錯誤，實現完整 SPA。 
+- 前端部署於 GitHub Page 並配合自訂網域。
+- 將 404 page 改為 index.html ，避免子頁面重新整理後因無指定靜態資源而產生錯誤，實現完整 SPA。 
 
 ## DEMO
 
@@ -110,7 +114,7 @@ GaGiO 為一線上學習平台，使用者註冊後可購買有興趣的課程�
 
 ## 專案架構
 
-### 檔案結構
+### 頁面結構
 ```
 ├── Homepage                                     
 │  ├── RegisterPage             # 註冊
@@ -151,7 +155,6 @@ GaGiO 為一線上學習平台，使用者註冊後可購買有興趣的課程�
 │  ├── App.js                   # 設定主要 layout 及路由
 │  ├── index.js                 # 程式主要入口點
 │  ├── setupTests.js            # 測試相關設定
-│  ├── WebApi.js                # 串接後端 API
 │  └── utils.js                 # 放置跨元件使用函式
 ├── package-lock.json
 ├── package.json                # module 及 script 設定
