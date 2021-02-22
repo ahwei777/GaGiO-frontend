@@ -120,7 +120,7 @@ export default function TeacherApplyPage() {
   };
 
   const handleOnFinish = (value) => {
-    console.log(value);
+    //console.log(value);
     if (!value.upload) {
       return message.error('圖片上傳失敗，請稍後再試');
     }

@@ -80,7 +80,6 @@ export const getMember = (id) => (dispatch) => {
         return;
       }
       // success
-      console.log(res.data)
       dispatch(setMember(res.data));
       dispatch(setIsGettingMember(false));
     })
@@ -92,7 +91,6 @@ export const getMember = (id) => (dispatch) => {
 export const updateMemberAuth = (id, authType) => (dispatch) => {
   dispatch(setErrorMessage(""));
   updateUserInfoAPI(id, null, null, authType).then((res) => {
-    console.log(res);
     if (res.ok === 0) return dispatch(setErrorMessage(res.errorMessage));
   });
 };

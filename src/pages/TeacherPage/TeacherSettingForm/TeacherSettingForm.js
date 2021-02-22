@@ -62,13 +62,13 @@ export default function TeacherSetting() {
   }, [form, user]);
 
   const handleChange = (info) => {
-    console.log('info', info);
+    //console.log('info', info);
     if (info.file.status === 'uploading') {
       setIsUploading(true);
       return;
     }
     if (info.file.status === 'done') {
-      console.log('done');
+      //console.log('done');
       message.success({
         content: '圖片上傳完成',
         key: 'isUploading',
@@ -91,7 +91,7 @@ export default function TeacherSetting() {
   };
 
   const handleOnFinish = (value) => {
-    console.log(value);
+    //console.log(value);
     if (!value.upload) {
       return message.error('圖片上傳失敗，請稍後再試');
     }

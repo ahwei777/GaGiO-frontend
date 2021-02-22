@@ -16,7 +16,6 @@ export const cartSlice = createSlice({
   },
   reducers: {
     setCartList: (state, action) => {
-      console.log('setCartList')
       state.cartList = action.payload;
       state.getCartListError = null;
     },
@@ -73,7 +72,6 @@ export const addCartItem = (id) => async (dispatch) => {
   dispatch(setIsAddingCartItem(true));
   await addCartItemAPI(id).then((json) => {
     if (json.ok === 0) {
-      console.log(json.errorMessage)
       dispatch(setAddCartItemError(json.errorMessage));
       dispatch(setIsAddingCartItem(false));
       return;

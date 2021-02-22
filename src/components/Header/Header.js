@@ -209,7 +209,7 @@ export default function Header() {
   const [currentKey, setCurrentKey] = useState('');
 
   useEffect(() => {
-    console.log('getKey');
+    //console.log('getKey');
     setCurrentKey(getCurrentKey(pathname));
   }, [pathname]);
 

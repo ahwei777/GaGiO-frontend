@@ -44,7 +44,7 @@ const UnauthorizedMessage = () => (
 
 function Routes() {
   const user = useSelector(selectUser);
-  console.log('route user', user);
+  //console.log('route user', user);
   return (
     <Switch>
       {/* ------------- 任何身分 ------------- */}

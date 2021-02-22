@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getUnitListByCourseId,
-  updateLocalUnitList,
-  updateUnitList,
-  selectCourse,
   selectIsLoading,
 } from '../../redux/reducers/unitReducer';
 import {
-  selectDetailCourse,
   getUnitByUnitId,
   selectUnit,
   updateUnitByUnitId,
@@ -62,7 +57,7 @@ export default function EditUnitPage() {
   }
 
   const onFinish = (values) => {
-    console.log('完成表單', values);
+    //console.log('完成表單', values);
 
     dispatch(updateUnitByUnitId(id, unitId, values)).then((res) => {
       if (res.ok === 1) {

@@ -59,7 +59,7 @@ export default function MyTeachCourseTable() {
   useEffect(() => {
     dispatch(getMyTeachCourseList());
   }, [dispatch]);
-  console.log(courses);
+  //console.log(courses);
 
   return (
     <>

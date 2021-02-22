@@ -48,11 +48,11 @@ export default function EditUnitPage() {
   const unit = useSelector(selectUnit);
   const isGettingCourse = useSelector(selectIsGettingCourse);
   const [form] = Form.useForm();
-  console.log('original unit', unit);
-  console.log('isGettingCourse', isGettingCourse)
+  //console.log('original unit', unit);
+  //console.log('isGettingCourse', isGettingCourse)
 
   useEffect(() => {
-    console.log('useEffect');
+    //console.log('useEffect');
     dispatch(getUnitByUnitId(id, unitId));
   }, [dispatch, id, unitId]);
 

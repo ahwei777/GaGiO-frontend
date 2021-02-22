@@ -55,13 +55,13 @@ function CourseSettingForm({ course }, ref) {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleChange = (info) => {
-    console.log('info', info);
+    //console.log('info', info);
     if (info.file.status === 'uploading') {
       setIsUploading(true);
       return;
     }
     if (info.file.status === 'done') {
-      console.log('done');
+      //console.log('done');
       message.success({
         content: '圖片上傳完成',
         key: 'isUploading',

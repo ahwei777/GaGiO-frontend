@@ -88,7 +88,6 @@ export const getTeacher = (id) => (dispatch) => {
     });
 };
 export const applyTeacher = ({name, description, avatarUrl}) => (dispatch) => {
-  console.log(name)
   dispatch(setIsGettingTeacher(true));
   return applyTeacherAPI({name, description, avatarUrl})
     .then((json) => {

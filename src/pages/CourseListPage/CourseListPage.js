@@ -37,7 +37,7 @@ export default function CourseListPage({ padding }) {
   const query = useQuery();
   const keyword = query.get('keyword') || '';
   const courseList = useSelector(selectCourseList);
-  console.log('courseList', courseList)
+  //('courseList', courseList)
   const isGettingCourseList = useSelector(selectIsGettingCourse);
   const [selected, setSelected] = useState('latest')
 
