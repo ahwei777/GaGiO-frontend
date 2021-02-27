@@ -215,6 +215,8 @@ $ npm run start
 
 - 1.0 - 2021.01.28
 	- 完成基本功能
+- 1.1 - 2021.02.27
+	- 增加 lazyload 參數設定，增進瀏覽體驗（offset 提前載入，placeholder 正確定位，debounce 優化）
 
 ## 資料引用來源
 

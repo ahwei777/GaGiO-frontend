@@ -13,17 +13,18 @@ const CardWrapper = styled.div`
     opacity: 0.7;
   }
 `;
+const LoadingBackground = styled.div`
+  background-color: lightgray;
+  // padding-top percentage is based on the width of the element.
+  padding-top: 75%;
+  position: relative;
+`;
 const StyledImg = styled.img`
+  position: absolute;
+  top: 0px;
+  left: 0px;
   display: block;
   width: 100%;
-`;
-const ImgPlaceholder = styled(Spin)`
-  height: 200px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
 `;
 const TeacherLink = styled(Link)`
   position: absolute;
@@ -48,9 +49,18 @@ export default function CourseCard({ course, isBought }) {
         <CardWrapper>
           <Card
             cover={
-              <LazyLoad placeholder={<ImgPlaceholder />} offset={100} once>
-                <StyledImg alt="unavailable" src={course.imgUrl} />
-              </LazyLoad>
+              <LoadingBackground>
+                {/* 因上層 padding-top 排擠，須修正定位以讓 lazyload 正確偵測該元素是否進入 viewport */}
+                <LazyLoad
+                  style={{ position: 'absolute', top: '0px', width: '100%' }}
+                  debounce={500}
+                  offset={100}
+                  resize={true}
+                  once
+                >
+                  <StyledImg alt="unavailable" src={course.imgUrl} />
+                </LazyLoad>
+              </LoadingBackground>
             }
           >
             <Meta title={course.title} />

@@ -12,12 +12,12 @@ import {
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import Image from 'react-image-webp';
-import carousel_1_jpg from '../../img/no-webp/carousel_1.jpg'
-import carousel_1_webp from '../../img/webp/carousel_1.webp'
-import carousel_2_jpg from '../../img/no-webp/carousel_2.jpg'
-import carousel_2_webp from '../../img/webp/carousel_2.webp'
-import carousel_3_jpg from '../../img/no-webp/carousel_3.jpg'
-import carousel_3_webp from '../../img/webp/carousel_3.webp'
+import carousel_1_jpg from '../../img/no-webp/carousel_1.jpg';
+import carousel_1_webp from '../../img/webp/carousel_1.webp';
+import carousel_2_jpg from '../../img/no-webp/carousel_2.jpg';
+import carousel_2_webp from '../../img/webp/carousel_2.webp';
+import carousel_3_jpg from '../../img/no-webp/carousel_3.jpg';
+import carousel_3_webp from '../../img/webp/carousel_3.webp';
 
 const PageWrapper = styled.div``;
 const Intro = styled.div`
@@ -71,42 +71,24 @@ export default function CourseListPage() {
           <div>不受時間與空間限制，自由享受學習與教學</div>
         </Intro>
         {/* Carousel */}
-        <Carousel
-          showThumbs={false}
-          showStatus={false}
-          autoPlay={true}
-          infiniteLoop={true}
-        >
+        <Carousel showThumbs={false} showStatus={false} autoPlay={true} infiniteLoop={true}>
           <div>
-            <Image
-              alt="img"
-              src={carousel_1_jpg}
-              webp={carousel_1_webp}
-            />
+            <Image alt="img" src={carousel_1_jpg} webp={carousel_1_webp} />
           </div>
           <div>
-            <Image
-              alt="img"
-              src={carousel_2_jpg}
-              webp={carousel_2_webp}
-            />
+            <Image alt="img" src={carousel_2_jpg} webp={carousel_2_webp} />
           </div>
           <div>
-            <Image
-              alt="img"
-              src={carousel_3_jpg}
-              webp={carousel_3_webp}
-            />
+            <Image alt="img" src={carousel_3_jpg} webp={carousel_3_webp} />
           </div>
         </Carousel>
         <CoursesWrapper>
           <TitleLatestCourse>最新上架課程</TitleLatestCourse>
-          {isGettingCourseList && (
+          {isGettingCourseList ? (
             <LoadingWrapper>
               <Spin size="large" />
             </LoadingWrapper>
-          )}
-          {!isGettingCourseList && courseList.length === 0 ? (
+          ) : courseList.length === 0 ? (
             <Intro>查無課程</Intro>
           ) : (
             <Row gutter={[{ xs: 16, sm: 20, md: 24, lg: 32 }, 36]}>

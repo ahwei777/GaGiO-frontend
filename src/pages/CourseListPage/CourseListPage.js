@@ -39,32 +39,30 @@ export default function CourseListPage({ padding }) {
   const courseList = useSelector(selectCourseList);
   //('courseList', courseList)
   const isGettingCourseList = useSelector(selectIsGettingCourse);
-  const [selected, setSelected] = useState('latest')
+  const [selected, setSelected] = useState('latest');
+  console.log('render CourseListPage');
+  console.log('isGettingCourseList ', isGettingCourseList);
 
   // component mount 時執行(初始化)
   useEffect(() => {
     dispatch(getCourseList({ keyword, order: 'DESC' }));
     // unmount 時先 clean up 避免下次回來時因為仍有舊資料而短暫顯示
     return () => {
-      setSelected('latest')
+      //setSelected('latest');
       dispatch(setCourseList([]));
     };
   }, [dispatch, keyword]);
 
   const handleSelectChange = (value) => {
     if (isGettingCourseList) return;
-    setSelected(value)
+    setSelected(value);
     switch (value) {
       case 'latest':
         return dispatch(getCourseList({ keyword, sort: 'id', order: 'DESC' }));
       case 'highPrice':
-        return dispatch(
-          getCourseList({ keyword, sort: 'price', order: 'DESC' })
-        );
+        return dispatch(getCourseList({ keyword, sort: 'price', order: 'DESC' }));
       case 'lowPrice':
-        return dispatch(
-          getCourseList({ keyword, sort: 'price', order: 'ASC' })
-        );
+        return dispatch(getCourseList({ keyword, sort: 'price', order: 'ASC' }));
       default:
         return;
     }
@@ -75,24 +73,25 @@ export default function CourseListPage({ padding }) {
       <PageWrapper padding={padding}>
         <SearchWrapper>
           <SearchInfo>
-            {keyword && <span>關鍵字:<strong>「{keyword}」, </strong></span>}
+            {keyword && (
+              <span>
+                關鍵字:<strong>「{keyword}」, </strong>
+              </span>
+            )}
             <span>共有 {courseList.length} 堂課程</span>
           </SearchInfo>
           <div>
             排序方式：
-            <Select
-              value={selected}
-              style={{ width: 180 }}
-              onChange={handleSelectChange}
-            >
+            <Select value={selected} style={{ width: 180 }} onChange={handleSelectChange}>
               <Option value="latest">最新上架(預設)</Option>
               <Option value="highPrice">價格高 → 低</Option>
               <Option value="lowPrice">價格低 → 高</Option>
             </Select>
           </div>
         </SearchWrapper>
-        {isGettingCourseList && <Loading />}
-        {!isGettingCourseList && courseList.length === 0 ? (
+        {isGettingCourseList ? (
+          <Loading />
+        ) : courseList.length === 0 ? (
           <Title level={3}>
             <center>查無課程</center>
           </Title>
@@ -102,7 +101,7 @@ export default function CourseListPage({ padding }) {
               .filter((course) => course.isPublic)
               .map((course) => (
                 <Col key={course.id} xs={12} md={8} lg={6}>
-                  <CourseCard course={course} />
+                  <CourseCard course={course}/>
                 </Col>
               ))}
           </Row>
